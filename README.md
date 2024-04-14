@@ -1,4 +1,4 @@
-# **Adding the SFML directory in the System Environment Variables**
+# **Setting up SFML**
 ## *Step 1:*
 - Search for Environment in the Windows Search Bar
 
@@ -29,3 +29,7 @@
 
 ## *Step 5:*
 - Restart your device
+
+
+## *Step 6:*
+- After restarting follow this tutorial: [SFML Setup](https://www.youtube.com/watch?v=_VgRjlvGpPk)
