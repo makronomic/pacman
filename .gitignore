@@ -5,7 +5,6 @@
 /obj
 Makefile
 .vs
-*.sln
 *.vcxproj.user
 *.dll
 *.o
