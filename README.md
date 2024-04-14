@@ -1,4 +1,9 @@
 # **Setting up SFML**
+## *Step 0:*
+- Download SFML from this link: [SFML](https://www.sfml-dev.org/files/SFML-2.6.1-windows-vc17-64-bit.zip)
+
+- Extract it to a folder and mark its location down
+
 ## *Step 1:*
 - Search for Environment in the Windows Search Bar
 
@@ -29,7 +34,3 @@
 
 ## *Step 5:*
 - Restart your device
-
-
-## *Step 6:*
-- After restarting follow this tutorial: [SFML Setup](https://www.youtube.com/watch?v=_VgRjlvGpPk)
