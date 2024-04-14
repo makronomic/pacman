@@ -6,8 +6,6 @@
 Makefile
 .vs
 *.sln
-*.vcxproj
-*.vcxproj.filters
 *.vcxproj.user
 *.dll
 *.o
