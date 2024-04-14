@@ -1,6 +1,7 @@
 /source
 /.vscode
 /x64
+/pacman
 /obj
 Makefile
 .vs
