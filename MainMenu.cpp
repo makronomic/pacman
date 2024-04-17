@@ -5,7 +5,7 @@
 MainMenu::MainMenu(int width, int height)
 {
     //load font
-    if (!menuFont.loadFromFile("PAC-FONT.TTF"))
+    if (!menuFont.loadFromFile("fonts/PAC-FONT.TTF"))
     {
         std::cout << "UNABLE TO LOAD FONT!";
     }
