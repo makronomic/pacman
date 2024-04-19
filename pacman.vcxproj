@@ -147,13 +147,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\get_key.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\motion.cpp" />
+    <ClCompile Include="src\object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\image.png" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\header.h" />
+    <ClInclude Include="include\get_key.h" />
+    <ClInclude Include="include\motion.h" />
+    <ClInclude Include="include\object.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
