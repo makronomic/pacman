@@ -6,10 +6,13 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(800, 800), "Test Window");
 	window.setFramerateLimit(30);
 
-	sf::CircleShape shape(100.f);
-	Object shapeObject({ 0.f, 0.f }, 2.f, Object::Type::PLAYER);
+	sf::CircleShape player(100.f);
+	Object playerObject({ 0.f, 0.f }, 2.f, Object::Type::PLAYER);
+	player.setFillColor(sf::Color::Green);
 
-	shape.setFillColor(sf::Color::Green);
+	sf::RectangleShape enemy({ 100.f, 100.f });
+	Object enemyObject({ 200.f, 0.f }, 2.f, Object::Type::ENEMY);
+	enemy.setFillColor(sf::Color::Red);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -18,11 +21,27 @@ int main() {
 				window.close();
 		}
 
-		move(shapeObject);
-		shape.setPosition(shapeObject.getPos());
+		move(playerObject);
+		player.setPosition(playerObject.getPos());
+
+		move(enemyObject);
+		// temporarily keeping the enemy in bounds till collision handling
+		if (enemyObject.getPos().x > 700 ||
+			enemyObject.getPos().x < -700 ||
+			enemyObject.getPos().y > 700 ||
+			enemyObject.getPos().y < -700) {
+			do {
+				move(enemyObject);
+			} while (enemyObject.getPos().x > 700 ||
+					 enemyObject.getPos().x < -700 ||
+					 enemyObject.getPos().y > 700 ||
+					 enemyObject.getPos().y < -700);
+		}
+		enemy.setPosition(enemyObject.getPos());
 
 		window.clear();
-		window.draw(shape);
+		window.draw(enemy);
+		window.draw(player);
 		window.display();
 	}
 

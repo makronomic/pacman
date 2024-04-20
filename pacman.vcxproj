@@ -159,6 +159,7 @@
     <ClInclude Include="include\get_key.h" />
     <ClInclude Include="include\motion.h" />
     <ClInclude Include="include\object.h" />
+    <ClInclude Include="include\Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
