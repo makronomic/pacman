@@ -29,7 +29,13 @@ bool MainMenu::checkIfPressed(sf::RenderWindow& window, const sf::Text& button)
     bool isMouseInBounds = buttonBounds.contains(static_cast<sf::Vector2f> (mousePosition));
     bool isMouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
-    return isMouseInBounds && isMouseButtonPressed;
+    bool pressed = isMouseInBounds && isMouseButtonPressed;
+    //if (pressed) SOUND
+    //{
+    //    clickSound.play();
+    //}
+
+    return pressed;
 }
 
 int MainMenu::getChosenDifficulty()
@@ -51,6 +57,22 @@ MainMenu::MainMenu(int numOfButtons)
     {
         std::cout << "UNABLE TO LOAD FONT!";
     }
+
+    if (!menuBackgroundTexture.loadFromFile("background.png"))
+    {
+        std::cout << "UNABLE TO LOAD BACKGROUND";
+        
+    }
+
+    menuBackground.setTexture(menuBackgroundTexture);
+
+
+    //if (!clickBuffer.loadFromFile("audio/click.ogg")) SOUND
+    //{
+    //    std::cout << "UNABLE TO LOAD CLICK SOUND";
+    //}
+
+    //clickSound.setBuffer(clickBuffer);
 
     //set all buttons to same font
     for (int i = 0; i < numOfButtons; i++)
@@ -302,7 +324,7 @@ void MainMenu::handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf
 }
 
 
-//latest 3 high scores
+//high score section
 void MainMenu::showHighScores(sf::RenderWindow& window)
 {
     std::map<int, std::string> scores;
@@ -325,10 +347,10 @@ void MainMenu::showHighScores(sf::RenderWindow& window)
     //TITLE
     sf::Text highScoresText;
     highScoresText.setFont(menuFont);
-    highScoresText.setScale(2, 2);
+    highScoresText.setScale(1.8, 1.8);
     highScoresText.setString("TOP 3 SCORES:");
     highScoresText.setFillColor(sf::Color::White);
-    highScoresText.setPosition(425, 150);
+    highScoresText.setPosition(425, 170);
     window.draw(highScoresText);
 
     //RETURN TEXT
@@ -367,6 +389,19 @@ void MainMenu::showHighScores(sf::RenderWindow& window)
 
 }
 
+
+//settings section
+void MainMenu::showSettings()
+{
+
+}
+
+void MainMenu::stopMusic()
+{
+
+}
+
+
 //FUNCTION THAT HANDLES DRAWING OF MENUS ACCORDING TO WHAT THE USER PRESSED
 void MainMenu::drawMenu(sf::RenderWindow& window)
 {
@@ -374,6 +409,8 @@ void MainMenu::drawMenu(sf::RenderWindow& window)
     switch (currentMenuState)
     {
     case MainMenuState:
+        window.draw(menuBackground);
+
         for (int i = 0; i < NUM_OF_BUTTONS_MAINMENU; i++)
         {
             if (checkIfPressed(window, menuButton[i]))
@@ -384,15 +421,22 @@ void MainMenu::drawMenu(sf::RenderWindow& window)
         }
         break;
     case LevelSelectionMenuState:
+        window.draw(menuBackground);
         drawLevelSelectionMenu(window, window.getSize().x, window.getSize().y);
+
         break;
     case DifficultySelectionMenuState:
+        window.draw(menuBackground);
         drawDifficultySelectionMenu(window, window.getSize().x, window.getSize().y);
         break;
     case LeaderboardMenuState:
+        window.draw(menuBackground);
         showHighScores(window);
+
         break;
     case SettingsMenuState:
+        
+
         break;
     }
 }
@@ -400,6 +444,6 @@ void MainMenu::drawMenu(sf::RenderWindow& window)
 
 MainMenu::~MainMenu()
 {
-    std::cout << "MAIN MENU EXIT!";
-    currentMenuState = GameLogicState;
+    std::cout << "MAIN MENU DESTROYED!";
+
 }
