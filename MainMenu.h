@@ -43,6 +43,8 @@ private:
 
     void drawDifficultySelectionMenu(sf::RenderWindow& window, int width, int height);
     void handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf::Text difficultyOption);
+
+    void showHighScores(sf::RenderWindow& window);
     
 
 public:

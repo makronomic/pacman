@@ -1,6 +1,8 @@
 #include "MainMenu.h"
 #include <iostream>
 #include <vector>
+#include <map>
+#include <fstream>
 #include <thread>
 #include <chrono>
 
@@ -300,6 +302,71 @@ void MainMenu::handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf
 }
 
 
+//latest 3 high scores
+void MainMenu::showHighScores(sf::RenderWindow& window)
+{
+    std::map<int, std::string> scores;
+
+    std::ifstream scoresFile("scores.txt");
+    std::string name;
+    int scoreInFile; //our key
+
+    if (!scoresFile.is_open()) {
+        std::cout << "Error opening file!\n";
+        return;
+    }
+
+    while (scoresFile >> name >> scoreInFile) {
+        scores[scoreInFile] = name;
+    }
+
+    scoresFile.close();
+
+    //TITLE
+    sf::Text highScoresText;
+    highScoresText.setFont(menuFont);
+    highScoresText.setScale(2, 2);
+    highScoresText.setString("TOP 3 SCORES:");
+    highScoresText.setFillColor(sf::Color::White);
+    highScoresText.setPosition(425, 150);
+    window.draw(highScoresText);
+
+    //RETURN TEXT
+    sf::Text returnText;
+    returnText.setFont(menuFont);
+    returnText.setFillColor(sf::Color::White);
+    returnText.setScale(1.5, 1.5);
+    returnText.setString("Return");
+    returnText.setPosition(425, 480);
+    window.draw(returnText);
+
+    //SCORES (DESCENDING)
+    sf::Text scoreText;
+    scoreText.setFont(menuFont);
+    scoreText.setScale(1.5,1.5);
+    scoreText.setFillColor(sf::Color::Yellow);
+
+    int yPos = 250;
+    int count = 0; //only 3 highscores
+
+    for (auto it = scores.rbegin(); it != scores.rend() && count < 3; ++it) {
+        
+        scoreText.setString(std::to_string(count + 1) + ". " + it->second + " - " + std::to_string(it->first));
+        scoreText.setPosition(425, yPos);
+        window.draw(scoreText);
+        yPos += 70;
+        count++;
+    }
+
+
+    //return back to main menu
+    if (checkIfPressed(window, returnText))
+    {
+        currentMenuState = MainMenuState;
+    }
+
+}
+
 //FUNCTION THAT HANDLES DRAWING OF MENUS ACCORDING TO WHAT THE USER PRESSED
 void MainMenu::drawMenu(sf::RenderWindow& window)
 {
@@ -323,6 +390,7 @@ void MainMenu::drawMenu(sf::RenderWindow& window)
         drawDifficultySelectionMenu(window, window.getSize().x, window.getSize().y);
         break;
     case LeaderboardMenuState:
+        showHighScores(window);
         break;
     case SettingsMenuState:
         break;
