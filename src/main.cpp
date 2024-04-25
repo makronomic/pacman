@@ -15,23 +15,36 @@ void mousePos(sf::RenderWindow& window)
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(1280, 720), "Pac-Man!");
-	MainMenu mainMenu(1280, 720);
+	MainMenu mainMenu(window.getSize().x, window.getSize().y);
+
+	int chosenLevel = -1;
+	int chosenDifficulty = -1;
 
 	while (window.isOpen())
 	{
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
-
 			mousePos(window);
-			mainMenu.getSelectedButton(window);
 
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
 
 		window.clear();
-		mainMenu.drawMenu(window);
+		
+		if (mainMenu.getChosenDifficulty() != 0 && mainMenu.getChosenLevel() != 0)
+		{
+			std::cout << "LEVEL: " << mainMenu.getChosenLevel() << " DIFFICULTY: " << mainMenu.getChosenDifficulty() << std::endl;
+			//run game with parameters chosen level and chosen difficulty
+			//gamelogic(level,difficulty)
+			currentMenuState = GameLogicState;
+		}
+		else if(currentMenuState != GameLogicState)
+		{
+			mainMenu.drawMenu(window);
+		}
+
 		window.display();
 	}
 

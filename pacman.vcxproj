@@ -149,7 +149,6 @@
   <ItemGroup>
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="SubMenus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\image.png" />
@@ -157,7 +156,6 @@
   <ItemGroup>
     <ClInclude Include="include\header.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="SubMenus.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
