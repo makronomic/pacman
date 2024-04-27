@@ -21,6 +21,7 @@ int MainMenu::getSelectedButton(sf::RenderWindow& window, const sf::Text& button
 
 bool MainMenu::checkIfPressed(sf::RenderWindow& window, const sf::Text& button)
 {
+   static bool isSoundPlaying = false;
 
     sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
     sf::FloatRect buttonBounds = button.getGlobalBounds();
@@ -30,10 +31,15 @@ bool MainMenu::checkIfPressed(sf::RenderWindow& window, const sf::Text& button)
     bool isMouseButtonPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
     bool pressed = isMouseInBounds && isMouseButtonPressed;
-    //if (pressed) SOUND
-    //{
-    //    clickSound.play();
-    //}
+    if (pressed && !isSoundPlaying)
+    {
+        clickSound.play();
+        isSoundPlaying = true;
+    }
+    else if (!isMouseButtonPressed)
+    {
+        isSoundPlaying = false; // Reset isSoundPlaying only when the button is not pressed
+    }
 
     return pressed;
 }
@@ -48,6 +54,19 @@ int MainMenu::getChosenLevel()
     return chosenLevel;
 }
 
+void MainMenu::stopMusic()
+{
+    menuMusic.stop();
+    isMenuMusicPlaying = false;
+}
+
+void MainMenu::playMusic()
+{
+    menuMusic.setVolume(50);
+    menuMusic.play();
+    menuMusic.setLoop(true);
+    isMenuMusicPlaying = true;
+}
 
 //MAIN MENU SECTION
 MainMenu::MainMenu(int numOfButtons)
@@ -67,12 +86,14 @@ MainMenu::MainMenu(int numOfButtons)
     menuBackground.setTexture(menuBackgroundTexture);
 
 
-    //if (!clickBuffer.loadFromFile("audio/click.ogg")) SOUND
-    //{
-    //    std::cout << "UNABLE TO LOAD CLICK SOUND";
-    //}
+    if (!clickBuffer.loadFromFile("audio/select.ogg")) 
+    {
+        std::cout << "UNABLE TO LOAD CLICK SOUND";
+    }
+    clickSound.setBuffer(clickBuffer);
 
-    //clickSound.setBuffer(clickBuffer);
+    menuMusic.openFromFile("audio/theme.ogg");
+    playMusic();
 
     //set all buttons to same font
     for (int i = 0; i < numOfButtons; i++)
@@ -210,8 +231,6 @@ void MainMenu::drawLevelSelectionMenu(sf::RenderWindow& window,int width, int he
 
 void MainMenu::handleLevelMenuEvent(sf::RenderWindow& window, int index, std::vector<sf::Text> levelButton)
 {
-    // Introduce a delay (e.g., 100 milliseconds) while clicking to avoid errors
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     if (currentMenuState != LevelSelectionMenuState)
     {
@@ -226,6 +245,7 @@ void MainMenu::handleLevelMenuEvent(sf::RenderWindow& window, int index, std::ve
 
     if (chosenLevel != 0)
     {
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
         currentMenuState = DifficultySelectionMenuState;
     }
 
@@ -289,7 +309,7 @@ void MainMenu::drawDifficultySelectionMenu(sf::RenderWindow& window, int width, 
     //return back to level menu
     if (checkIfPressed(window, returnText))
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100)); //to avoid pressing return in level menu too
+        std::this_thread::sleep_for(std::chrono::milliseconds(300)); //to avoid pressing return in level menu too
 
         std::cout << "PRESSED ON DIFFICULTY RETURN OPTION";
         currentMenuState = LevelSelectionMenuState;
@@ -301,9 +321,6 @@ void MainMenu::drawDifficultySelectionMenu(sf::RenderWindow& window, int width, 
 
 void MainMenu::handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf::Text difficultyOption)
 {
-    // Introduce a delay (e.g., 100 milliseconds) while clicking to avoid errors
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
     if (currentMenuState != DifficultySelectionMenuState)
     {
         return; //menu not active anymore
@@ -319,6 +336,7 @@ void MainMenu::handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf
     {
         std::cout << "READY TO PLAY! LEVEL: " << chosenLevel << " DIFFICULTY: " <<
             chosenDifficulty<< std::endl;
+        currentMenuState = GameLogicState;
     }
 
 }
@@ -391,15 +409,65 @@ void MainMenu::showHighScores(sf::RenderWindow& window)
 
 
 //settings section
-void MainMenu::showSettings()
+void MainMenu::showSettings(sf::RenderWindow& window)
 {
+    currentMenuState = SettingsMenuState;
+    sf::Text settingsText;
+    settingsText.setFont(menuFont);
+    settingsText.setFillColor(sf::Color::White);
+    settingsText.setScale(1.5, 1.5);
+    settingsText.setString("SETTINGS:");
+    settingsText.setPosition(950, 360);
 
+    sf::Text musicText;
+    musicText.setFont(menuFont);
+    musicText.setFillColor(isMenuMusicPlaying ? sf::Color::Green : sf::Color::Red);
+    musicText.setScale(1.5, 1.5);
+    musicText.setString(isMenuMusicPlaying ? "MUSIC ON" : "MUSIC OFF");
+    musicText.setPosition(950, 430);
+
+    // Check if music text is pressed
+    if (checkIfPressed(window, musicText))
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
+
+        if (isMenuMusicPlaying) //disable music
+        {
+            stopMusic();
+            isMenuMusicPlaying = false;
+        }
+        else //enable music
+        {
+            playMusic();
+            isMenuMusicPlaying = true;
+        }
+    }
+
+
+    //RETURN TEXT
+    sf::Text returnText;
+    returnText.setFont(menuFont);
+    returnText.setFillColor(sf::Color::White);
+    returnText.setScale(1.5, 1.5);
+    returnText.setString("Return");
+    returnText.setPosition(950, 525);
+
+    //return to main menu button check
+    if (checkIfPressed(window, returnText))
+    {
+
+        std::cout << "PRESSED ON RETURN IN LEVEL SELECTION";
+        currentMenuState = MainMenuState;
+    }
+
+
+
+    window.draw(returnText);
+    window.draw(musicText);
+    window.draw(settingsText);
 }
 
-void MainMenu::stopMusic()
-{
 
-}
 
 
 //FUNCTION THAT HANDLES DRAWING OF MENUS ACCORDING TO WHAT THE USER PRESSED
@@ -435,9 +503,11 @@ void MainMenu::drawMenu(sf::RenderWindow& window)
 
         break;
     case SettingsMenuState:
-        
+        window.draw(menuBackground);
+        showSettings(window);
 
         break;
+
     }
 }
 

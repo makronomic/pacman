@@ -1,6 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp> SOUND
+#include <SFML/Audio.hpp> 
 
 /*
 * CHOOSE LEVEL
@@ -29,13 +29,17 @@ private:
     int chosenLevel;
     int chosenDifficulty;
     int selectedButton = 0;
+    bool isMenuMusicPlaying;
+
     sf::Texture menuBackgroundTexture;
     sf::Sprite menuBackground;
     sf::Text menuButton[NUM_OF_BUTTONS_MAINMENU];
     sf::Font menuFont;
 
-    //sf::SoundBuffer clickBuffer; SOUND
-    //sf::Sound clickSound;
+    sf::SoundBuffer clickBuffer; 
+    sf::Sound clickSound;
+
+    sf::Music menuMusic;
 
     int getSelectedButton(sf::RenderWindow& window, const sf::Text& button, int index);
     bool checkIfPressed(sf::RenderWindow& window, const sf::Text& menuButton);
@@ -50,8 +54,8 @@ private:
 
     void showHighScores(sf::RenderWindow& window);
 
-    void showSettings();
-    void stopMusic();
+    void showSettings(sf::RenderWindow& window);
+
     
 
 public:
@@ -59,6 +63,8 @@ public:
     int getChosenLevel();
     int getChosenDifficulty();
     void drawMenu(sf::RenderWindow& window);
+    void stopMusic();
+    void playMusic();
     MainMenu(int numOfButtons);
     MainMenu(int width, int height);
     ~MainMenu();

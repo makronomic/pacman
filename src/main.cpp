@@ -35,9 +35,11 @@ int main() {
 		
 		if (mainMenu.getChosenDifficulty() != 0 && mainMenu.getChosenLevel() != 0)
 		{
+			
 			std::cout << "LEVEL: " << mainMenu.getChosenLevel() << " DIFFICULTY: " << mainMenu.getChosenDifficulty() << std::endl;
 			//run game with parameters chosen level and chosen difficulty
 			//gamelogic(level,difficulty)
+			mainMenu.stopMusic();
 			currentMenuState = GameLogicState;
 		}
 		else if(currentMenuState != GameLogicState)
