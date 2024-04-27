@@ -1,4 +1,4 @@
-#include "../include/object.h"
+#include "Object.h"
 
 Object::Object(const sf::Vector2f& v, float s, const Type& t) : pos { v }, spd { s }, type { t } {
 
@@ -7,6 +7,10 @@ Object::Object(const sf::Vector2f& v, float s, const Type& t) : pos { v }, spd {
 void Object::setPos(float x, float y) {
 	pos.x = x;
 	pos.y = y;
+}
+
+void Object::setSpd(float s) {
+	spd = s;
 }
 
 float Object::getSpeed() const {

@@ -21,10 +21,7 @@
     <ClCompile Include="src\motion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\get_key.cpp">
+    <ClCompile Include="src\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -34,16 +31,16 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\get_key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\motion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\object.h">
+    <ClInclude Include="include\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

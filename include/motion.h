@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../include/get_key.h"
-#include "../include/object.h"
-#include "SFML/Graphics.hpp"
+#include "Object.h"
+#include "Random.h"
+#include <set>
+#include <SFML/Graphics.hpp>
 
-void move(Object&);
+void move(Object&, const std::set<sf::Keyboard::Key>& buf = std::set<sf::Keyboard::Key>());
