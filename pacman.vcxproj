@@ -152,13 +152,13 @@
     <ClCompile Include="src\Object.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\motion.h" />
     <ClInclude Include="include\Object.h" />
-    <ClInclude Include="include\Pair.h" />
     <ClInclude Include="include\Random.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\ghost.png" />
+    <Image Include="resources\pacman.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

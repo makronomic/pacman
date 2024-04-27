@@ -1,19 +1,32 @@
 #include "motion.h"
 #include "Object.h"
+#include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
 
 int main() {
 	sf::RenderWindow window(sf::VideoMode(800, 800), "Test Window");
-	window.setFramerateLimit(30);
+	window.setFramerateLimit(60);
 
-	sf::CircleShape player(100.f);
-	Object playerObject({ 0.f, 0.f }, 2.f, Object::Type::PLAYER);
-	player.setFillColor(sf::Color::Green);
+	Object player({ 0.f, 0.f }, 2.f, Object::Type::PLAYER);
+	player.setSpriteSheet("resources/pacman.png");
+	player.getSprite().setTexture(player.getSpriteSheet());
+	player.getSprite().setTextureRect(sf::IntRect(
+		0,
+		0,
+		32,
+		32
+	));
 
-	sf::RectangleShape enemy({ 100.f, 100.f });
-	Object enemyObject({ 200.f, 0.f }, 2.f, Object::Type::ENEMY);
-	enemy.setFillColor(sf::Color::Red);
+	Object enemy({ 200.f, 0.f }, 2.f, Object::Type::ENEMY);
+	enemy.setSpriteSheet("resources/ghost.png");
+	enemy.getSprite().setTexture(enemy.getSpriteSheet());
+	enemy.getSprite().setTextureRect(sf::IntRect(
+		0,
+		0,
+		32,
+		32
+	));
 
 
 	while (window.isOpen()) {
@@ -29,27 +42,31 @@ int main() {
 				keyBuf.erase(event.key.code);
 		}
 
-		move(playerObject, keyBuf);
-		player.setPosition(playerObject.getPos());
+		move(player, keyBuf);
 
-		// move(enemyObject);
-		// // temporarily keeping the enemy in bounds till collision handling
-		// if (enemyObject.getPos().x > 700 ||
-		// 	enemyObject.getPos().x < -700 ||
-		// 	enemyObject.getPos().y > 700 ||
-		// 	enemyObject.getPos().y < -700) {
-		// 	do {
-		// 		move(enemyObject);
-		// 	} while (enemyObject.getPos().x > 700 ||
-		// 			 enemyObject.getPos().x < -700 ||
-		// 			 enemyObject.getPos().y > 700 ||
-		// 			 enemyObject.getPos().y < -700);
-		// }
-		// enemy.setPosition(enemyObject.getPos());
+		move(enemy);
+		// temporarily keeping the enemy in bounds till collision handling
+		if (enemy.getPos().x > 700 ||
+			enemy.getPos().x < -700 ||
+			enemy.getPos().y > 700 ||
+			enemy.getPos().y < -700) {
+			do {
+				move(enemy);
+			} while (enemy.getPos().x > 700 ||
+					 enemy.getPos().x < -700 ||
+					 enemy.getPos().y > 700 ||
+					 enemy.getPos().y < -700);
+		}
+
+		if (checkCollision(player, enemy)) {
+			std::cout << "COLLISION\n";
+		} else {
+			std::cout << "NO COLLISION\n";
+		}
 
 		window.clear();
-		// window.draw(enemy);
-		window.draw(player);
+		window.draw(enemy.getSprite());
+		window.draw(player.getSprite());
 		window.display();
 	}
 

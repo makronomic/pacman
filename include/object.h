@@ -15,17 +15,25 @@ private:
 	sf::Vector2f pos;
 	float spd;
 	Type type;
+	sf::Sprite spr;
+	sf::Texture ss;
 
 public:
-	Object(const sf::Vector2f& v = { 0.f, 0.f }, float s = 1.f, const Type& t = Type::TYPE_MAX);
+	Object(const sf::Vector2f& pPos = { 0.f, 0.f }, float pSpd = 1.f, const Type& pType = Type::TYPE_MAX);
 
 	void setPos(float, float);
 
 	void setSpd(float);
 
+	void setSpriteSheet(std::string_view);
+
 	float getSpeed() const;
 
 	Type getType() const;
 
-	sf::Vector2f getPos() const;
+	sf::Vector2f& getPos();
+
+	sf::Sprite& getSprite();
+
+	sf::Texture& getSpriteSheet();
 };
