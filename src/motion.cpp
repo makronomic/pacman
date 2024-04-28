@@ -43,7 +43,7 @@ bool checkCollision(Object& x, Object& y) {
 				static_cast<unsigned>(xPx - rectX.left + xTx->getSize().x - overlap.width), xTx->getSize().x - 1
 			)),
 			static_cast<unsigned>(std::min(
-				static_cast<unsigned>(yPx - rectX.top + xTx->getSize().y - overlap.height), xTx->getSize().y - 1
+				static_cast<unsigned>(yPx - rectX.top), xTx->getSize().y - 1
 			)) };
 
 			sf::Vector2u posRelY = {
@@ -51,7 +51,7 @@ bool checkCollision(Object& x, Object& y) {
 				static_cast<unsigned>(xPx - rectY.left + yTx->getSize().x - overlap.width), yTx->getSize().x - 1
 			)),
 			static_cast<unsigned>(std::min(
-				static_cast<unsigned>(yPx - rectY.top + yTx->getSize().y - overlap.height), yTx->getSize().y - 1
+				static_cast<unsigned>(yPx - rectY.top), yTx->getSize().y - 1
 			)) };
 
 			/*std::cout << "X Relative Position: (" << posRelX.x << ", " << posRelX.y << ")\n";
@@ -67,6 +67,8 @@ bool checkCollision(Object& x, Object& y) {
 			}
 		}
 	}
+
+	return false;
 }
 
 void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
