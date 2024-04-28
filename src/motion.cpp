@@ -30,16 +30,32 @@ bool checkCollision(Object& x, Object& y) {
 	sf::IntRect overlap {
 		static_cast<int>(std::floor(std::max(rectX.left, rectY.left))), // left
 		static_cast<int>(std::floor(std::max(rectX.top, rectY.top))), // top
-		static_cast<int>(std::floor(std::max(rectX.left + rectX.width, rectY.left + rectY.width))), // width
-		static_cast<int>(std::floor(std::max(rectX.top + rectX.height, rectY.top + rectY.height))) // height
+		static_cast<int>(std::floor(std::min(rectX.left + rectX.width, rectY.left + rectY.width) - std::floor(std::max(rectX.left, rectY.left)))), // width
+		static_cast<int>(std::floor(std::min(rectX.top + rectX.height, rectY.top + rectY.height) - std::floor(std::max(rectX.top, rectY.top)))) // height
 	};
 
 	// loop through the pixels
 	for (int yPx = overlap.top; yPx < overlap.top + overlap.height; ++yPx) { // top to bottom
 		for (int xPx = overlap.left; xPx < overlap.left + overlap.width; ++xPx) { // left to right
-			// Calculate relative pixel positions
-			sf::Vector2u posRelX = { static_cast<unsigned int>(xPx - rectX.left + xTx->getSize().x - overlap.width), static_cast<unsigned int>(yPx - rectX.top + xTx->getSize().y - overlap.height) };
-			sf::Vector2u posRelY = { static_cast<unsigned int>(xPx - rectY.left + yTx->getSize().x - overlap.width), static_cast<unsigned int>(yPx - rectY.top + yTx->getSize().y - overlap.height) };
+			// Calculate relative pixel positions, limiting the relative positions to the texture size
+			sf::Vector2u posRelX = {
+			static_cast<unsigned>(std::min(
+				static_cast<unsigned>(xPx - rectX.left + xTx->getSize().x - overlap.width), xTx->getSize().x - 1
+			)),
+			static_cast<unsigned>(std::min(
+				static_cast<unsigned>(yPx - rectX.top + xTx->getSize().y - overlap.height), xTx->getSize().y - 1
+			)) };
+
+			sf::Vector2u posRelY = {
+			static_cast<unsigned>(std::min(
+				static_cast<unsigned>(xPx - rectY.left + yTx->getSize().x - overlap.width), yTx->getSize().x - 1
+			)),
+			static_cast<unsigned>(std::min(
+				static_cast<unsigned>(yPx - rectY.top + yTx->getSize().y - overlap.height), yTx->getSize().y - 1
+			)) };
+
+			/*std::cout << "X Relative Position: (" << posRelX.x << ", " << posRelX.y << ")\n";
+			std::cout << "Y Relative Position: (" << posRelY.x << ", " << posRelY.y << ")\n";*/
 
 			// Get current pixel color
 			sf::Color colorX = imgX.getPixel(posRelX.x, posRelX.y);
