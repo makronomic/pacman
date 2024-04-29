@@ -27,7 +27,7 @@
     <ClCompile Include="src\setup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\bound_check.cpp">
+    <ClCompile Include="src\check_bound.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="include\setup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\bound_check.h">
+    <ClInclude Include="include\check_bound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

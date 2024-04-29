@@ -72,7 +72,7 @@ bool checkCollision(Object& x, Object& y) {
 
 void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	// check if in game bounds
-	if (!bound_check(o)) {
+	if (!checkBound(o)) {
 		return;
 	}
 

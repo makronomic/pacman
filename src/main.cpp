@@ -1,7 +1,8 @@
 #include "assets.h"
-#include "bound_check.h"
+#include "check_bound.h"
 #include "motion.h"
 #include "setup.h"
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 int main() {

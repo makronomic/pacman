@@ -29,6 +29,7 @@ void setup() {
 		32,
 		32
 	));
+	Assets::player.getSprite().setPosition(Assets::player.getPos());
 
 	Assets::enemy.setSpriteSheet("resources/ghost.png");
 	Assets::enemy.getSprite().setTexture(Assets::enemy.getSpriteSheet());
@@ -38,6 +39,7 @@ void setup() {
 		32,
 		32
 	));
+	Assets::enemy.getSprite().setPosition(Assets::enemy.getPos());
 
 
 }

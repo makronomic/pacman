@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bound_check.h"
+#include "check_bound.h"
 #include "Object.h"
 #include "Random.h"
 #include <set>

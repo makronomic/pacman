@@ -1,6 +1,6 @@
-#include "bound_check.h"
+#include "check_bound.h"
 
-bool bound_check(Object& o, int up, int down, int left, int right, int tolerance) {
+bool checkBound(Object& o, int up, int down, int left, int right, int tolerance) {
 	// make sure the bounds are inside the game resolution with adjustable tolerance
 	left = std::max(left, tolerance);
 	right = std::min(right, Assets::res - tolerance);
