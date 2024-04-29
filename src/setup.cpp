@@ -1,7 +1,9 @@
 #include "setup.h"
 
 // definitions 
-sf::RenderWindow Assets::window(sf::VideoMode(800, 800), "Test Window");
+int Assets::res = 800;
+
+sf::RenderWindow Assets::window(sf::VideoMode(Assets::res, Assets::res), "Test Window");
 
 std::set<sf::Keyboard::Key> Assets::keyBuf;
 

@@ -1,5 +1,4 @@
 #include "motion.h"
-#include <iostream>
 
 bool checkCollision(Object& x, Object& y) {
 	// make sure both positions are synced
@@ -72,6 +71,11 @@ bool checkCollision(Object& x, Object& y) {
 }
 
 void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
+	// check if in game bounds
+	if (!bound_check(o)) {
+		return;
+	}
+
 	switch (o.getType()) {
 	case Object::Type::PLAYER:
 		// modify the speed if the a pellet was eaten in the last 10 frames

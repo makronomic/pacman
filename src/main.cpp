@@ -1,4 +1,5 @@
 #include "assets.h"
+#include "bound_check.h"
 #include "motion.h"
 #include "setup.h"
 #include <SFML/Graphics.hpp>
@@ -22,11 +23,6 @@ int main() {
 		move(Assets::player, Assets::keyBuf);
 
 		move(Assets::enemy);
-		if (checkCollision(Assets::player, Assets::enemy)) {
-			std::cout << "COLLISION\n";
-		} else {
-			std::cout << "NO COLLISION\n";
-		}
 
 		Assets::window.clear();
 		Assets::window.draw(Assets::enemy.getSprite());

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "motion.h"
+
 #include "Object.h"
-#include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
 
 namespace Assets {
+extern int res;
 extern sf::RenderWindow window;
 extern std::set<sf::Keyboard::Key> keyBuf;
 extern Object player;
