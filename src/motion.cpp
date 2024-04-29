@@ -1,4 +1,5 @@
 #include "motion.h"
+#include "Animation.h"
 
 bool checkCollision(Object& x, Object& y) {
 	// make sure both positions are synced
@@ -76,6 +77,8 @@ void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 		return;
 	}
 
+	
+
 	switch (o.getType()) {
 	case Object::Type::PLAYER:
 		// modify the speed if the a pellet was eaten in the last 10 frames
@@ -85,24 +88,28 @@ void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 				case sf::Keyboard::Up:
 					o.setPos(o.getPos().x, o.getPos().y - o.getSpeed());
 					o.getSprite().setPosition(o.getPos());
+					o.state = 'u';
 					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
 					break;
 
 				case sf::Keyboard::Down:
 					o.setPos(o.getPos().x, o.getPos().y + o.getSpeed());
 					o.getSprite().setPosition(o.getPos());
+					o.state = 'd';
 					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
 					break;
 
 				case sf::Keyboard::Left:
 					o.setPos(o.getPos().x - o.getSpeed(), o.getPos().y);
 					o.getSprite().setPosition(o.getPos());
+					o.state = 'l';
 					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
 					break;
 
 				case sf::Keyboard::Right:
 					o.setPos(o.getPos().x + o.getSpeed(), o.getPos().y);
 					o.getSprite().setPosition(o.getPos());
+					o.state = 'r';
 					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
 					break;
 				}
@@ -118,4 +125,5 @@ void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 		// o.setPos(o.getPos().x + xFactor * o.getSpeed(), o.getPos().y + yFactor * o.getSpeed());
 		break;
 	}
+
 }

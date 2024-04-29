@@ -147,15 +147,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\check_bound.cpp" />
+    <ClCompile Include="src\Frames.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\motion.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\setup.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Animation.h" />
     <ClInclude Include="include\assets.h" />
     <ClInclude Include="include\check_bound.h" />
+    <ClInclude Include="include\Frames.h" />
     <ClInclude Include="include\motion.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Random.h" />
@@ -163,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\ghost.png" />
+    <Image Include="resources\ghosts.jpg" />
     <Image Include="resources\pacman.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

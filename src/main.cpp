@@ -2,6 +2,7 @@
 #include "check_bound.h"
 #include "motion.h"
 #include "setup.h"
+#include "Animation.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -9,8 +10,7 @@ int main() {
 	setup();
 
 	while (Assets::window.isOpen()) {
-	// set of input keys in the last frame
-
+		// set of input keys in the last frame
 		sf::Event event;
 		while (Assets::window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
@@ -20,6 +20,8 @@ int main() {
 			else if (event.type == sf::Event::KeyReleased)
 				Assets::keyBuf.erase(event.key.code);
 		}
+
+		Animation::motionPicture(Assets::player);
 
 		move(Assets::player, Assets::keyBuf);
 

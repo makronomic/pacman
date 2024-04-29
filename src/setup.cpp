@@ -19,16 +19,19 @@ Object Assets::enemy(
 );
 
 void setup() {
+
+	
 	Assets::window.setFramerateLimit(60);
 
 	Assets::player.setSpriteSheet("resources/pacman.png");
 	Assets::player.getSprite().setTexture(Assets::player.getSpriteSheet());
 	Assets::player.getSprite().setTextureRect(sf::IntRect(
-		0,
-		0,
-		32,
+		0, 
+		0, 
+		32, 
 		32
 	));
+
 	Assets::player.getSprite().setPosition(Assets::player.getPos());
 
 	Assets::enemy.setSpriteSheet("resources/ghost.png");
@@ -39,7 +42,9 @@ void setup() {
 		32,
 		32
 	));
+
 	Assets::enemy.getSprite().setPosition(Assets::enemy.getPos());
+	
 
 
 }

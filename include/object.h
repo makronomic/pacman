@@ -21,6 +21,10 @@ private:
 public:
 	Object(const sf::Vector2f& pPos = { 0.f, 0.f }, float pSpd = 1.f, const Type& pType = Type::TYPE_MAX);
 
+	int currentframe;
+
+	char state;
+
 	void setPos(float, float);
 
 	void setSpd(float);
@@ -28,6 +32,10 @@ public:
 	void setSpriteSheet(std::string_view);
 
 	float getSpeed() const;
+
+	int maxframe();
+
+	int framechange();
 
 	Type getType() const;
 
