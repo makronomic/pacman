@@ -1,12 +1,10 @@
 /source
 /.vscode
-/x64
 /pacman
 /obj
 Makefile
 .vs
 *.vcxproj.user
-*.dll
 *.o
 *.code-workspace
 *.exe
