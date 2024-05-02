@@ -1,3 +1,4 @@
+
 #include "Animation.h"
 #include "assets.h"
 #include "check_bound.h"
@@ -5,15 +6,34 @@
 #include "motion.h"
 #include "setup.h"
 #include <iostream>
+#include "MainMenu.h"
+#include "Object.h"
+#include <set>
 #include <SFML/Graphics.hpp>
+
+
+//helper function during development, returns mouse position in the window when you click anywhere 
+void mousePos(sf::RenderWindow& window) {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+		std::cout << "X: " << mousePosition.x << " Y: " << mousePosition.y << std::endl;
+	}
+}
 
 int main() {
 	setup();
 
 	while (Assets::window.isOpen()) {
 		// set of input keys in the last frame
-		sf::Event event;
+    sf::Event event;
+    mousePos(window);
 		while (Assets::window.pollEvent(event)) {
+
+	MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
+
+	int chosenLevel = -1;
+	int chosenDifficulty = -1;
+			
 			if (event.type == sf::Event::Closed)
 				Assets::window.close();
 			else if (event.type == sf::Event::KeyPressed)
@@ -43,6 +63,7 @@ int main() {
 
 		// clear the input buffer for the next frame
 		Assets::keyBuf.clear();
+
 	}
 
 	return 0;
