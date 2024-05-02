@@ -153,15 +153,17 @@
     <ClCompile Include="src\MainMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\image.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="include\motion.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Pair.h" />
     <ClInclude Include="include\Random.h" />
-    <ClInclude Include="include\header.h" />
     <ClInclude Include="include\MainMenu.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\scores.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,8 @@
+#include "MainMenu.h"
 #include "motion.h"
 #include "Object.h"
-#include <set>
-#include "MainMenu.h"
 #include <iostream>
+#include <set>
 #include <SFML/Graphics.hpp>
 
 
@@ -15,8 +15,8 @@ void mousePos(sf::RenderWindow& window) {
 }
 
 int main() {
-  sf::RenderWindow window(sf::VideoMode(1280, 720), "Pac-Man!");
-  
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "Pac-Man!");
+
 	sf::CircleShape player(100.f);
 	Object playerObject({ 0.f, 0.f }, 2.f, Object::Type::PLAYER);
 	player.setFillColor(sf::Color::Green);
@@ -25,7 +25,7 @@ int main() {
 	Object enemyObject({ 200.f, 0.f }, 2.f, Object::Type::ENEMY);
 	enemy.setFillColor(sf::Color::Red);
 
-	
+
 	MainMenu mainMenu(window.getSize().x, window.getSize().y);
 
 	int chosenLevel = -1;
@@ -48,21 +48,6 @@ int main() {
 
 		move(playerObject, keyBuf);
 		player.setPosition(playerObject.getPos());
-
-		// move(enemyObject);
-		// // temporarily keeping the enemy in bounds till collision handling
-		// if (enemyObject.getPos().x > 700 ||
-		// 	enemyObject.getPos().x < -700 ||
-		// 	enemyObject.getPos().y > 700 ||
-		// 	enemyObject.getPos().y < -700) {
-		// 	do {
-		// 		move(enemyObject);
-		// 	} while (enemyObject.getPos().x > 700 ||
-		// 			 enemyObject.getPos().x < -700 ||
-		// 			 enemyObject.getPos().y > 700 ||
-		// 			 enemyObject.getPos().y < -700);
-		// }
-		// enemy.setPosition(enemyObject.getPos());
 
 		window.clear();
 		// window.draw(enemy);
