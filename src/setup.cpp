@@ -33,7 +33,7 @@ void setup() {
 	));
 
 	Assets::player.getSprite().setPosition(Assets::player.getPos());
-
+	Assets::player.framechange = 5;
 	Assets::enemy.setSpriteSheet("resources/ghosts.png");
 	Assets::enemy.getSprite().setTexture(Assets::enemy.getSpriteSheet());
 	Assets::enemy.getSprite().setTextureRect(sf::IntRect(
@@ -42,7 +42,7 @@ void setup() {
 		16,
 		16
 	));
-
+	Assets::enemy.framechange = 13;
 	Assets::enemy.getSprite().setPosition(Assets::enemy.getPos());
 	Assets::enemy.getSprite().setScale(5,5);
 	

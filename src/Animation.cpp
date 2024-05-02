@@ -13,7 +13,7 @@ using namespace std;
 
 void Animation::enemyState(Object& x, int enemyDirection, int ghostColor, int& counter)
 {
-	if (counter % x.Object::framechange() == 0)
+	if (counter % x.framechange == 0)
 	{
 		x.getSprite().setTextureRect(sf::IntRect(
 			16 * x.Object::currentframe,
@@ -37,7 +37,7 @@ void Animation::motionPicture(Object& x) {
 
 	if (x.getType() == Object::Type::PLAYER) {
 
-		if (counter % x.Object::framechange() == 0) {
+		if (counter % x.framechange == 0) {
 			x.getSprite().setTextureRect(sf::IntRect(
 				32 * x.Object::currentframe,
 				0,
@@ -84,27 +84,25 @@ void Animation::motionPicture(Object& x) {
 	else if (x.getType() == Object::Type::ENEMY)
 	{
 
-		enemyState(x, 4, 0, counter);
 
 		if (x.state == 'u')
 		{
-			//enemyState(x, 4, 0, counter);
+			enemyState(x, 4, 0, counter);
 		}
 		else if (x.state == 'l')
 		{
 
-			//enemyState(x, 2, 0, counter);
+			enemyState(x, 2, 0, counter);
 		}
 		else if (x.state == 'd')
 		{
 
-			//enemyState(x, 6, 0, counter);
+			enemyState(x, 6, 0, counter);
 
 		}
 		else if (x.state == 'r')
 		{
-
-
+			enemyState(x, 0, 0, counter);
 
 		}
 	}
