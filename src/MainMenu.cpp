@@ -469,7 +469,7 @@ void MainMenu::drawMenu(sf::RenderWindow& window) {
 }
 
 
-MainMenu::~MainMenu() {
-	std::cout << "MAIN MENU DESTROYED!";
-
+MainMenu::~MainMenu() 
+{
+	//std::cout << "MAIN MENU DESTROYED!";
 }

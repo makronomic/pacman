@@ -23,16 +23,16 @@ void mousePos(sf::RenderWindow& window) {
 int main() {
 	setup();
 
+	//MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
+	//int chosenLevel = -1;
+	//int chosenDifficulty = -1;
+
 	while (Assets::window.isOpen()) {
 		// set of input keys in the last frame
 		sf::Event event;
 		mousePos(Assets::window);
-		while (Assets::window.pollEvent(event)) {
-
-			MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
-
-			int chosenLevel = -1;
-			int chosenDifficulty = -1;
+		while (Assets::window.pollEvent(event)) 
+		{
 
 			if (event.type == sf::Event::Closed)
 				Assets::window.close();
