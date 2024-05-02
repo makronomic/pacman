@@ -12,23 +12,25 @@ Object Assets::player(
 	2.f,
 	Object::Type::PLAYER
 );
+
 Object Assets::enemy(
 	{ 400.f, 300.f },
 	2.f,
 	Object::Type::ENEMY
 );
 
-void setup() {
+std::vector<Object*> Assets::objects;
+std::map<Object*, sf::Vector2f> Assets::prevPos;
 
-	
+void setup() {
 	Assets::window.setFramerateLimit(60);
 
 	Assets::player.setSpriteSheet("resources/pacman.png");
 	Assets::player.getSprite().setTexture(Assets::player.getSpriteSheet());
 	Assets::player.getSprite().setTextureRect(sf::IntRect(
-		0, 
-		0, 
-		32, 
+		0,
+		0,
+		32,
 		32
 	));
 
@@ -44,7 +46,7 @@ void setup() {
 	));
 
 	Assets::enemy.getSprite().setPosition(Assets::enemy.getPos());
-	
 
-
+	Assets::objects.push_back(&Assets::player);
+	Assets::objects.push_back(&Assets::enemy);
 }

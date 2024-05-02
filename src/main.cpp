@@ -1,8 +1,9 @@
+#include "Animation.h"
 #include "assets.h"
 #include "check_bound.h"
+#include "Frames.h"
 #include "motion.h"
 #include "setup.h"
-#include "Animation.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -23,9 +24,17 @@ int main() {
 
 		Animation::motionPicture(Assets::player);
 
-		move(Assets::player, Assets::keyBuf);
+		for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
+			Motion::handleCollision(**it);
+		}
 
-		move(Assets::enemy);
+		if (Frames::framecounter() % 60 == 0) {
+			std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
+		}
+
+		Motion::move(Assets::player, Assets::keyBuf);
+
+		Motion::move(Assets::enemy);
 
 		Assets::window.clear();
 		Assets::window.draw(Assets::enemy.getSprite());

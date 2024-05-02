@@ -1,7 +1,7 @@
-#include "motion.h"
 #include "Animation.h"
+#include "motion.h"
 
-bool checkCollision(Object& x, Object& y) {
+bool Motion::checkCollision(Object& x, Object& y) {
 	// make sure both positions are synced
 	if (x.getPos() != x.getSprite().getPosition()) {
 		x.getSprite().setPosition(x.getPos());
@@ -71,52 +71,82 @@ bool checkCollision(Object& x, Object& y) {
 	return false;
 }
 
-void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
-	// check if in game bounds
-	if (!checkBound(o)) {
-		return;
+// check if colliding with any object
+bool Motion::checkCollision(Object& o) {
+	// make sure both positions are synced
+	if (o.getPos() != o.getSprite().getPosition()) {
+		o.getSprite().setPosition(o.getPos());
 	}
 
-	
+	for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
+		if (o.getType() != (*it)->getType()) {
+			if (checkCollision(o, **it)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+void Motion::handleCollision(Object& o) {
+	// make sure both positions are synced
+	if (o.getPos() != o.getSprite().getPosition()) {
+		o.getSprite().setPosition(o.getPos());
+	}
+
+	if (checkCollision(o)) {
+		o.setPos(Assets::prevPos[&o].x, Assets::prevPos[&o].y);
+	}
+}
+
+void Motion::changeState(Object& o, const std::set<sf::Keyboard::Key>& buf) {
+	// check if in game bounds or in collision
+	if (!checkBound(o) || checkCollision(o)) {
+		o.state = 'i';
+	}
+
+	// make sure both positions are synced
+	if (o.getPos() != o.getSprite().getPosition()) {
+		o.getSprite().setPosition(o.getPos());
+	}
 
 	switch (o.getType()) {
 	case Object::Type::PLAYER:
 		// modify the speed if the a pellet was eaten in the last 10 frames
-		if (!buf.empty())
+		if (!buf.empty()) {
 			for (auto it = buf.begin(); it != buf.end(); it++) {
 				switch (*it) {
 				case sf::Keyboard::Up:
-					o.setPos(o.getPos().x, o.getPos().y - o.getSpeed());
-					o.getSprite().setPosition(o.getPos());
 					o.state = 'u';
-					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
+
 					break;
 
 				case sf::Keyboard::Down:
-					o.setPos(o.getPos().x, o.getPos().y + o.getSpeed());
-					o.getSprite().setPosition(o.getPos());
 					o.state = 'd';
-					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
+
 					break;
 
 				case sf::Keyboard::Left:
-					o.setPos(o.getPos().x - o.getSpeed(), o.getPos().y);
-					o.getSprite().setPosition(o.getPos());
 					o.state = 'l';
-					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
+
 					break;
 
 				case sf::Keyboard::Right:
-					o.setPos(o.getPos().x + o.getSpeed(), o.getPos().y);
-					o.getSprite().setPosition(o.getPos());
 					o.state = 'r';
-					// std::cout << "Object's position: " << o.getPos().x << ", " << o.getPos().y << "\nSprite's Position: " << o.getSprite().getPosition().x << ", " << o.getSprite().getPosition().y << "\n";
+
+					break;
+
+				default:
+					o.state = 'i';
+
 					break;
 				}
 			}
-		break;
+		}
 
-	// to implement BFS when adding difficulties later
+		break;
+		// to implement BFS when adding difficulties later
 	case Object::Type::ENEMY:
 		// // difficulty 1
 		// int xFactor = Random::get(0, 1) ? -1 : (Random::get(0, 1) ? 0 : 1);
@@ -125,5 +155,54 @@ void move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 		// o.setPos(o.getPos().x + xFactor * o.getSpeed(), o.getPos().y + yFactor * o.getSpeed());
 		break;
 	}
+}
 
+void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
+	// make sure both positions are synced
+	if (o.getPos() != o.getSprite().getPosition()) {
+		o.getSprite().setPosition(o.getPos());
+	}
+
+	if (o.getType() == Object::Type::PLAYER) {
+		Motion::changeState(o, buf);
+	} else {
+		Motion::changeState(o);
+	}
+
+	switch (o.state) {
+	case 'u':
+		Assets::prevPos[&o] = o.getPos();
+
+		o.setPos(o.getPos().x, o.getPos().y - o.getSpeed());
+		o.getSprite().setPosition(o.getPos());
+
+		break;
+
+	case 'd':
+		Assets::prevPos[&o] = o.getPos();
+
+		o.setPos(o.getPos().x, o.getPos().y + o.getSpeed());
+		o.getSprite().setPosition(o.getPos());
+
+		break;
+
+	case 'l':
+		Assets::prevPos[&o] = o.getPos();
+
+		o.setPos(o.getPos().x - o.getSpeed(), o.getPos().y);
+		o.getSprite().setPosition(o.getPos());
+
+		break;
+
+	case 'r':
+		Assets::prevPos[&o] = o.getPos();
+
+		o.setPos(o.getPos().x + o.getSpeed(), o.getPos().y);
+		o.getSprite().setPosition(o.getPos());
+
+		break;
+
+	default:
+		Assets::prevPos[&o] = o.getPos();
+	}
 }
