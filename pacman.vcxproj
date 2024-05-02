@@ -148,12 +148,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\motion.cpp" />
+    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\image.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\motion.h" />
+    <ClInclude Include="include\Object.h" />
+    <ClInclude Include="include\Pair.h" />
+    <ClInclude Include="include\Random.h" />
     <ClInclude Include="include\header.h" />
     <ClInclude Include="include\MainMenu.h" />
   </ItemGroup>
