@@ -34,16 +34,17 @@ void setup() {
 
 	Assets::player.getSprite().setPosition(Assets::player.getPos());
 
-	Assets::enemy.setSpriteSheet("resources/ghost.png");
+	Assets::enemy.setSpriteSheet("resources/ghosts.png");
 	Assets::enemy.getSprite().setTexture(Assets::enemy.getSpriteSheet());
 	Assets::enemy.getSprite().setTextureRect(sf::IntRect(
 		0,
 		0,
-		32,
-		32
+		16,
+		16
 	));
 
 	Assets::enemy.getSprite().setPosition(Assets::enemy.getPos());
+	Assets::enemy.getSprite().setScale(5,5);
 	
 
 

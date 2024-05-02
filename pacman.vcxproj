@@ -167,7 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\ghost.png" />
-    <Image Include="resources\ghosts.jpg" />
+    <Image Include="resources\ghosts.png" />
     <Image Include="resources\pacman.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -22,6 +22,9 @@ int main() {
 		}
 
 		Animation::motionPicture(Assets::player);
+		
+		//next line is an enemy try
+		Animation::motionPicture(Assets::enemy);
 
 		move(Assets::player, Assets::keyBuf);
 
