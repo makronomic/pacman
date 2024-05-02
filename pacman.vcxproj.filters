@@ -25,11 +25,12 @@
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resources\image.png">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClCompile Include="src\setup.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\check_bound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\motion.h">
@@ -41,11 +42,25 @@
     <ClInclude Include="include\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Pair.h">
+    <ClInclude Include="include\assets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\setup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\check_bound.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\pacman.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\ghost.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

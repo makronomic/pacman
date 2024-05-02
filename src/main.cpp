@@ -1,7 +1,13 @@
-#include "MainMenu.h"
+
+#include "Animation.h"
+#include "assets.h"
+#include "check_bound.h"
+#include "Frames.h"
 #include "motion.h"
-#include "Object.h"
+#include "setup.h"
 #include <iostream>
+#include "MainMenu.h"
+#include "Object.h"
 #include <set>
 #include <SFML/Graphics.hpp>
 
@@ -15,45 +21,49 @@ void mousePos(sf::RenderWindow& window) {
 }
 
 int main() {
-	sf::RenderWindow window(sf::VideoMode(1280, 720), "Pac-Man!");
+	setup();
 
-	sf::CircleShape player(100.f);
-	Object playerObject({ 0.f, 0.f }, 2.f, Object::Type::PLAYER);
-	player.setFillColor(sf::Color::Green);
+	while (Assets::window.isOpen()) {
+		// set of input keys in the last frame
+    sf::Event event;
+    mousePos(window);
+		while (Assets::window.pollEvent(event)) {
 
-	sf::RectangleShape enemy({ 100.f, 100.f });
-	Object enemyObject({ 200.f, 0.f }, 2.f, Object::Type::ENEMY);
-	enemy.setFillColor(sf::Color::Red);
-
-
-	MainMenu mainMenu(window.getSize().x, window.getSize().y);
+	MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
 
 	int chosenLevel = -1;
 	int chosenDifficulty = -1;
-
-	while (window.isOpen()) {
-	// set of input keys in the last frame
-		std::set<sf::Keyboard::Key> keyBuf;
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			mousePos(window);
-
+			
 			if (event.type == sf::Event::Closed)
-				window.close();
+				Assets::window.close();
 			else if (event.type == sf::Event::KeyPressed)
-				keyBuf.insert(event.key.code);
+				Assets::keyBuf.insert(event.key.code);
 			else if (event.type == sf::Event::KeyReleased)
-				keyBuf.erase(event.key.code);
+				Assets::keyBuf.erase(event.key.code);
 		}
 
-		move(playerObject, keyBuf);
-		player.setPosition(playerObject.getPos());
+		Animation::motionPicture(Assets::player);
 
-		window.clear();
-		// window.draw(enemy);
-		window.draw(player);
+		for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
+			Motion::handleCollision(**it);
+		}
 
-		window.display();
+		if (Frames::framecounter() % 60 == 0) {
+			std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
+		}
+
+		Motion::move(Assets::player, Assets::keyBuf);
+
+		Motion::move(Assets::enemy);
+
+		Assets::window.clear();
+		Assets::window.draw(Assets::enemy.getSprite());
+		Assets::window.draw(Assets::player.getSprite());
+		Assets::window.display();
+
+		// clear the input buffer for the next frame
+		Assets::keyBuf.clear();
+
 	}
 
 	return 0;
