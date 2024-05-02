@@ -2,6 +2,7 @@
 
 // definitions 
 int Assets::res = 800;
+int Assets::resY = 720;
 
 sf::RenderWindow Assets::window(sf::VideoMode(Assets::res, Assets::res), "Test Window");
 

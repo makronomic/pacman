@@ -6,6 +6,7 @@
 
 namespace Assets {
 extern int res;
+extern int resY;
 extern sf::RenderWindow window;
 extern std::set<sf::Keyboard::Key> keyBuf;
 extern std::map<Object*, sf::Vector2f> prevPos;

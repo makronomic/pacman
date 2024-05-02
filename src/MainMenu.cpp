@@ -118,8 +118,6 @@ MainMenu::MainMenu(int width, int height) : MainMenu(NUM_OF_BUTTONS_MAINMENU) {
 }
 
 void MainMenu::handleMainMenuEvent(sf::RenderWindow& window, int index) {
-	// Introduce a delay (e.g., 100 milliseconds) while clicking to avoid errors
-	//std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 	if (currentMenuState != MainMenuState) {
 		return; //main menu not active anymore
@@ -151,6 +149,7 @@ void MainMenu::handleMainMenuEvent(sf::RenderWindow& window, int index) {
 
 //LEVEL MENU SECTION
 void MainMenu::drawLevelSelectionMenu(sf::RenderWindow& window, int width, int height) {
+	
 	currentMenuState = LevelSelectionMenuState;
 
 	//SELECT A LEVEL TEXT
