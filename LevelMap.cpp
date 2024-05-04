@@ -85,14 +85,14 @@ void LevelMap::createEdges(LevelMap& level, int width, int height)
     {
         for (int x = 0; x < width; ++x) 
         {
-            int currentId = y * width + x; //convert 2d index into 1d index
+            int currentId = y * width + x; //convert 2d index into 1d index for id
 
             MapNode currentNode = level.getNode(currentId);
 
             if (currentNode.type != CellType::WALL)  //check if not wall, create edges to other nodes
             {
                 // Connect to adjacent nodes (up, down, left, right)
-                if (x > 0) //check if node has left neighbour, then if itsn't a wall add edge between the 2 edges
+                if (x > 0) //check if node has left neighbour, then if itsn't a wall add edge between the 2 cells
                 {
                     int leftId = currentId - 1;
                     if (level.getNode(leftId).type != CellType::WALL) 

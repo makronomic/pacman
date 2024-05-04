@@ -24,7 +24,7 @@ public:
 class LevelMap
 {
     std::unordered_map<int, std::vector<int>> adjacencyList; //stores neighbours of connected nodes
-    std::unordered_map<int, MapNode> nodeMap; //stroes info about each node
+    std::unordered_map<int, MapNode> nodeMap; //stores info about each node
     int totalNumOfNodes;
 
 public:
