@@ -7,6 +7,7 @@
 #include "motion.h"
 #include "Object.h"
 #include "setup.h"
+#include "LevelMap.h"
 #include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
@@ -26,6 +27,9 @@ int main() {
 	//MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
 	//int chosenLevel = -1;
 	//int chosenDifficulty = -1;
+
+	LevelMap level = level.createMapFromFile("world1.txt");
+	
 
 	while (Assets::window.isOpen()) {
 		// set of input keys in the last frame
@@ -57,6 +61,7 @@ int main() {
 		Motion::move(Assets::enemy);
 
 		Assets::window.clear();
+		level.drawLevel(Assets::window, level);
 		Assets::window.draw(Assets::enemy.getSprite());
 		Assets::window.draw(Assets::player.getSprite());
 		Assets::window.display();

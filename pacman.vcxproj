@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LevelMap.cpp" />
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\check_bound.cpp" />
     <ClCompile Include="src\Frames.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="include\check_bound.h" />
     <ClInclude Include="include\Frames.h" />
     <ClCompile Include="src\MainMenu.cpp" />
+    <ClInclude Include="LevelMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\motion.h" />
