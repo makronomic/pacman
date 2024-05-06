@@ -7,6 +7,7 @@
 #include "motion.h"
 #include "Object.h"
 #include "setup.h"
+#include "Enemies_Movement.h"
 #include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
@@ -22,6 +23,9 @@ void mousePos(sf::RenderWindow& window) {
 
 int main() {
 	setup();
+	dummyGhostSpawn();
+
+	srand(static_cast<unsigned>(time(nullptr)));
 
 	//MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
 	//int chosenLevel = -1;
@@ -53,12 +57,14 @@ int main() {
 		}
 
 		Motion::move(Assets::player, Assets::keyBuf);
+		updateGhost(ghost);
 
 		Motion::move(Assets::enemy);
 
 		Assets::window.clear();
 		Assets::window.draw(Assets::enemy.getSprite());
 		Assets::window.draw(Assets::player.getSprite());
+		Assets::window.draw(ghost.getSprite());
 		Assets::window.display();
 
 		// clear the input buffer for the next frame

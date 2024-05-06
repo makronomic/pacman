@@ -206,3 +206,5 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 		Assets::prevPos[&o] = o.getPos();
 	}
 }
+
+

@@ -1,0 +1,18 @@
+﻿  Animation.cpp
+D:\Uni\Data Structures\Pacman Project\include\object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  check_bound.cpp
+D:\Uni\Data Structures\Pacman Project\include\Object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Enemies_Movement.cpp
+D:\Uni\Data Structures\Pacman Project\include\Object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Frames.cpp
+D:\Uni\Data Structures\Pacman Project\include\Object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  main.cpp
+D:\Uni\Data Structures\Pacman Project\include\object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  motion.cpp
+D:\Uni\Data Structures\Pacman Project\include\object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Object.cpp
+D:\Uni\Data Structures\Pacman Project\include\Object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  setup.cpp
+D:\Uni\Data Structures\Pacman Project\include\Object.h(3,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  MainMenu.cpp
+D:\Uni\Data Structures\Pacman Project\include\MainMenu.h(2,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory

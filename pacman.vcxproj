@@ -97,14 +97,14 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SFML)\include;;$(SFML)\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\SFML-2.6.1-windows-vc17-64-bit %281%29\SFML-2.6.1\include;D:\Uni\Data Structures\Pacman Project\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SFML)\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>F:\SFML-2.6.1-windows-vc17-64-bit %281%29\SFML-2.6.1\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;opengl32.lib;freetype.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -135,20 +135,21 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SFML)\include;%(AdditionalIncludeDirectories);$(SFML)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>F:\SFML-2.6.1-windows-vc17-64-bit %281%29\SFML-2.6.1\include;D:\Uni\Data Structures\Pacman Project\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SFML)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>F:\SFML-2.6.1-windows-vc17-64-bit %281%29\SFML-2.6.1\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>winmm.lib;opengl32.lib;freetype.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\check_bound.cpp" />
+    <ClCompile Include="src\Enemies_Movement.cpp" />
     <ClCompile Include="src\Frames.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\motion.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="include\assets.h" />
     <ClInclude Include="include\check_bound.h" />
+    <ClInclude Include="include\Enemies_Movement.h" />
     <ClInclude Include="include\Frames.h" />
     <ClCompile Include="src\MainMenu.cpp" />
   </ItemGroup>
@@ -170,7 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\ghost.png" />
-    <Image Include="resources\ghosts.jpg" />
+    <Image Include="resources\ghosts.png" />
     <Image Include="resources\pacman.png" />
     <ClInclude Include="include\MainMenu.h" />
   </ItemGroup>
