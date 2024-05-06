@@ -1,5 +1,9 @@
 #include "LevelMap.h"
 #include <iostream>
+#include <assets.h>
+
+const int TILE_WIDTH = 32;
+const int TILE_HEIGHT = 32;
 
 LevelMap::LevelMap()
 {
@@ -53,8 +57,8 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
         {
             MapNode cell;
 
-            cell.position.x = currentColumn * 20; // assuming each node has width 20
-            cell.position.y = currentRow * 20; // assuming each node has height 20
+            cell.position.x = currentColumn * TILE_WIDTH; 
+            cell.position.y = currentRow * TILE_HEIGHT; 
 
             switch (c) 
             {
@@ -63,6 +67,13 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
                 break;
             case '.':
                 cell.type = CellType::FOOD;
+                break;
+            case 'P':
+                cell.type = CellType::PLAYER;
+                playerNode = cell;
+                break;
+            case ' ':
+                cell.type = CellType::EMPTY;
                 break;
             }
             level.addNode(nodeID, cell);
@@ -132,13 +143,13 @@ void LevelMap::createEdges(LevelMap& level, int width, int height)
 
 void LevelMap::drawLevel(sf::RenderWindow& window, LevelMap& level) 
 {
-    //std::cout << "here";
+
 
     for (int i = 0; i < level.getTotalNumOfNodes(); ++i) 
     {
         MapNode node = level.getNode(i);
 
-        sf::RectangleShape shape(sf::Vector2f(20, 20));
+        sf::RectangleShape shape(sf::Vector2f(TILE_HEIGHT, TILE_HEIGHT));
         shape.setPosition(node.position);
 
         switch (node.type) 
@@ -149,8 +160,17 @@ void LevelMap::drawLevel(sf::RenderWindow& window, LevelMap& level)
         case CellType::FOOD:
             shape.setFillColor(sf::Color::Magenta);
             break;
+        case CellType::PLAYER:
+            playerNode.position = Assets::player.getPos();
+            Assets::window.draw(Assets::player.getSprite());
+            std::cout << playerNode.position.x << "  " << playerNode.position.y << std::endl;
+            break;
+        case CellType::EMPTY:
+            shape.setFillColor(sf::Color::Green); //green for now to test
             // Add more cases as needed
         }
         window.draw(shape);
     }
+
+
 }

@@ -18,6 +18,7 @@ class MapNode
 public:
     sf::Vector2f position;
     CellType type;
+    bool visited; //for BFS
 };
 
 
@@ -26,6 +27,7 @@ class LevelMap
     std::unordered_map<int, std::vector<int>> adjacencyList; //stores neighbours of connected nodes
     std::unordered_map<int, MapNode> nodeMap; //stores info about each node
     int totalNumOfNodes;
+    MapNode playerNode;
 
 public:
     LevelMap();
@@ -42,5 +44,8 @@ public:
 
     //draw map
     void drawLevel(sf::RenderWindow& window, LevelMap& level);
+
+
+
 };
 

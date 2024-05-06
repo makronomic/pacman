@@ -63,7 +63,6 @@ int main() {
 		Assets::window.clear();
 		level.drawLevel(Assets::window, level);
 		Assets::window.draw(Assets::enemy.getSprite());
-		Assets::window.draw(Assets::player.getSprite());
 		Assets::window.display();
 
 		// clear the input buffer for the next frame
