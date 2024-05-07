@@ -1,6 +1,7 @@
 #include "LevelMap.h"
 #include <iostream>
-#include <assets.h>
+#include "assets.h"
+
 
 const int TILE_WIDTH = 32;
 const int TILE_HEIGHT = 32;
@@ -57,6 +58,7 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
         {
             MapNode cell;
 
+            cell.id = nodeID;
             cell.position.x = currentColumn * TILE_WIDTH; 
             cell.position.y = currentRow * TILE_HEIGHT; 
 
@@ -70,7 +72,8 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
                 break;
             case 'P':
                 cell.type = CellType::PLAYER;
-                playerNode = cell;
+                level.playerNode = cell;
+                level.playerNode.id = nodeID;
                 break;
             case ' ':
                 cell.type = CellType::EMPTY;
@@ -141,18 +144,18 @@ void LevelMap::createEdges(LevelMap& level, int width, int height)
 }
 
 
-void LevelMap::drawLevel(sf::RenderWindow& window, LevelMap& level) 
+
+void LevelMap::drawLevel(sf::RenderWindow& window)
 {
-
-
-    for (int i = 0; i < level.getTotalNumOfNodes(); ++i) 
+    for (int i = 0; i < getTotalNumOfNodes(); ++i)
     {
-        MapNode node = level.getNode(i);
+        MapNode node = getNode(i);
 
         sf::RectangleShape shape(sf::Vector2f(TILE_HEIGHT, TILE_HEIGHT));
+        shape.setFillColor(sf::Color::Red);
         shape.setPosition(node.position);
 
-        switch (node.type) 
+        switch (node.type)
         {
         case CellType::WALL:
             shape.setFillColor(sf::Color::Blue);
@@ -161,16 +164,28 @@ void LevelMap::drawLevel(sf::RenderWindow& window, LevelMap& level)
             shape.setFillColor(sf::Color::Magenta);
             break;
         case CellType::PLAYER:
-            playerNode.position = Assets::player.getPos();
-            Assets::window.draw(Assets::player.getSprite());
-            std::cout << playerNode.position.x << "  " << playerNode.position.y << std::endl;
+            std::cout << nodeMap[playerNode.id].id <<  " " << playerNode.id << std::endl;
+            window.draw(Assets::player.getSprite());
             break;
         case CellType::EMPTY:
             shape.setFillColor(sf::Color::Green); //green for now to test
-            // Add more cases as needed
+            break;
         }
         window.draw(shape);
     }
+}
 
+void LevelMap::updatePlayerPosition(const sf::Vector2f& newPosition) {
+    playerNode.position = newPosition;
+    playerNode.id = getPlayerNodeID(newPosition); // Update player node ID
+    nodeMap[playerNode.id] = playerNode; // Update player node in the node map
+}
 
+int LevelMap::getPlayerNodeID(const sf::Vector2f& playerPosition) {
+    // Calculate the node ID based on the player's position
+    int column = static_cast<int>(playerPosition.x) / TILE_WIDTH;
+    int row = static_cast<int>(playerPosition.y) / TILE_HEIGHT;
+    int width = 25; //  map width in tiles, current 800(window width)/32(tile width) = 25
+
+    return row * width + column;
 }

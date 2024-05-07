@@ -165,6 +165,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 	if (o.getType() == Object::Type::PLAYER) {
 		Motion::changeState(o, buf);
+		Assets::level.updatePlayerPosition(o.getPos());
 	} else {
 		Motion::changeState(o);
 	}

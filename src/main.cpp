@@ -7,7 +7,6 @@
 #include "motion.h"
 #include "Object.h"
 #include "setup.h"
-#include "LevelMap.h"
 #include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
@@ -28,7 +27,7 @@ int main() {
 	//int chosenLevel = -1;
 	//int chosenDifficulty = -1;
 
-	LevelMap level = level.createMapFromFile("world1.txt");
+	Assets::level = Assets::level.createMapFromFile("world1.txt");
 	
 
 	while (Assets::window.isOpen()) {
@@ -61,7 +60,7 @@ int main() {
 		Motion::move(Assets::enemy);
 
 		Assets::window.clear();
-		level.drawLevel(Assets::window, level);
+		Assets::level.drawLevel(Assets::window);
 		Assets::window.draw(Assets::enemy.getSprite());
 		Assets::window.display();
 
@@ -71,3 +70,4 @@ int main() {
 
 	return 0;
 }
+
