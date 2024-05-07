@@ -29,6 +29,8 @@ class LevelMap
     std::unordered_map<int, MapNode> nodeMap; //stores info about each node
     int totalNumOfNodes;
     MapNode playerNode;
+    int height;
+    int width;
 
 public:
     LevelMap();
@@ -42,7 +44,7 @@ public:
 
     //map creation from file
     LevelMap createMapFromFile(const std::string& fileName);
-    void createEdges(LevelMap& level, int width, int height);
+    void createEdges(LevelMap& level);
 
     //draw map
      void drawLevel(sf::RenderWindow& window);

@@ -47,9 +47,9 @@ int main() {
 
 		Animation::motionPicture(Assets::player);
 
-		for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
+		/*for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
 			Motion::handleCollision(**it);
-		}
+		}*/
 
 		if (Frames::framecounter() % 60 == 0) {
 			std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";

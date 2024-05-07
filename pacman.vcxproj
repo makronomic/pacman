@@ -162,9 +162,9 @@
     <ClInclude Include="include\check_bound.h" />
     <ClInclude Include="include\Frames.h" />
     <ClCompile Include="src\MainMenu.cpp" />
-    <ClInclude Include="LevelMap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\LevelMap.h" />
     <ClInclude Include="include\motion.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Random.h" />

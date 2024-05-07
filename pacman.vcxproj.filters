@@ -57,7 +57,7 @@
     <ClInclude Include="include\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelMap.h">
+    <ClInclude Include="include\LevelMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -86,14 +86,15 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
 
         currentRow++;
     }
-
+    level.height = currentRow;
+    level.width = currentColumn;
     //connect the edges
-    createEdges(level, currentColumn, currentRow);
+    createEdges(level);
 
     return level;
 }
 
-void LevelMap::createEdges(LevelMap& level, int width, int height) 
+void LevelMap::createEdges(LevelMap& level) 
 {
     for (int y = 0; y < height; ++y) 
     {
@@ -147,12 +148,13 @@ void LevelMap::createEdges(LevelMap& level, int width, int height)
 
 void LevelMap::drawLevel(sf::RenderWindow& window)
 {
+    // Draw other tiles
     for (int i = 0; i < getTotalNumOfNodes(); ++i)
     {
         MapNode node = getNode(i);
 
         sf::RectangleShape shape(sf::Vector2f(TILE_HEIGHT, TILE_HEIGHT));
-        shape.setFillColor(sf::Color::Red);
+        shape.setFillColor(sf::Color::Black);
         shape.setPosition(node.position);
 
         switch (node.type)
@@ -163,23 +165,29 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
         case CellType::FOOD:
             shape.setFillColor(sf::Color::Magenta);
             break;
-        case CellType::PLAYER:
-            std::cout << nodeMap[playerNode.id].id <<  " " << playerNode.id << std::endl;
-            window.draw(Assets::player.getSprite());
-            break;
         case CellType::EMPTY:
-            shape.setFillColor(sf::Color::Green); //green for now to test
+            shape.setFillColor(sf::Color::Black); //green for now to test
             break;
         }
-        window.draw(shape);
+
+        window.draw(shape); // Draw the tile
     }
+
+    // Draw player sprite
+    Assets::player.getSprite().setPosition(playerNode.position);
+    window.draw(Assets::player.getSprite());
 }
+
+
+
 
 void LevelMap::updatePlayerPosition(const sf::Vector2f& newPosition) {
     playerNode.position = newPosition;
     playerNode.id = getPlayerNodeID(newPosition); // Update player node ID
     nodeMap[playerNode.id] = playerNode; // Update player node in the node map
 }
+
+
 
 int LevelMap::getPlayerNodeID(const sf::Vector2f& playerPosition) {
     // Calculate the node ID based on the player's position
