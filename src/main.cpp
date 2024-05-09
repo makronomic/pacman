@@ -23,9 +23,9 @@ void mousePos(sf::RenderWindow& window) {
 int main() {
 	setup();
 
-	//MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
-	//int chosenLevel = -1;
-	//int chosenDifficulty = -1;
+	MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
+	int chosenlevel = -1;
+	int chosendifficulty = -1;
 
 	Assets::level = Assets::level.createMapFromFile("world1.txt");
 
@@ -34,6 +34,7 @@ int main() {
 		// set of input keys in the last frame
 		sf::Event event;
 		mousePos(Assets::window);
+		bool stopMainMenu = mainMenu.getChosenDifficulty() != 0 && mainMenu.getChosenLevel() != 0;
 		while (Assets::window.pollEvent(event)) 
 		{
 
@@ -45,7 +46,7 @@ int main() {
 				Assets::keyBuf.erase(event.key.code);
 		}
 
-		Animation::motionPicture(Assets::player);
+
 
 		/*for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
 			Motion::handleCollision(**it);
@@ -55,13 +56,30 @@ int main() {
 		//	std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
 		//}
 
-		Motion::move(Assets::player, Assets::keyBuf);
 
-		Motion::move(Assets::enemy);
 
 		Assets::window.clear();
-		Assets::level.drawLevel(Assets::window);
-		Assets::window.draw(Assets::enemy.getSprite());
+		//player chose level and difficulty
+		if (!stopMainMenu)
+		{
+			mainMenu.drawMenu(Assets::window);
+
+		}
+		else
+		{
+			mainMenu.stopMusic();
+			currentMenuState = GameLogicState;
+
+			//Game Logic
+			Motion::move(Assets::player, Assets::keyBuf);
+			Animation::motionPicture(Assets::player);
+			Motion::move(Assets::enemy);
+			Assets::level.drawLevel(Assets::window);
+			Assets::window.draw(Assets::enemy.getSprite());
+		}
+
+
+
 		Assets::window.display();
 
 		// clear the input buffer for the next frame
