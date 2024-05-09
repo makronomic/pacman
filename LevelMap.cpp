@@ -211,7 +211,7 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
 
         case CellType::EMPTY:
         default:
-            shape.setFillColor(sf::Color::Black); //empty
+            shape.setFillColor(sf::Color::Transparent); //empty
             break;
         }
 
