@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <fstream>
 
-enum class CellType
+enum  CellType
 {
     EMPTY,
     WALL,
@@ -31,6 +31,7 @@ class LevelMap
     MapNode playerNode;
     int height;
     int width;
+    int foodCount;
 
 public:
     LevelMap();
@@ -51,12 +52,12 @@ public:
      void drawLevel(sf::RenderWindow& window);
 
     //tracking player
-     void updatePlayerPosition(const sf::Vector2f& newPosition);
+     void updatePlayerPosition();
      int getPlayerNodeID(const sf::Vector2f& playerPosition);  // Function to get the player node ID based on its position
-     bool isValidMove(const sf::Vector2f& newPosition);
+     bool isValidMove(int& newID);
 
 
      //debug
-     void printAdjList();
+     void printFoodCount();
 };
 

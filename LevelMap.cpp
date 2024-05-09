@@ -1,6 +1,7 @@
 #include "LevelMap.h"
 #include <iostream>
 #include "assets.h"
+#include <thread>
 
 
 const int TILE_WIDTH = 32;
@@ -9,6 +10,7 @@ const int TILE_HEIGHT = 32;
 LevelMap::LevelMap()
 {
     totalNumOfNodes = 0;
+    foodCount = 0;
 }
 
 void LevelMap::addNode(int id, MapNode node)
@@ -89,6 +91,7 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
                 break;
             case '.':
                 cell.type = CellType::FOOD;
+                level.foodCount++;
                 break;
             case 'P':
                 cell.type = CellType::PLAYER;
@@ -116,7 +119,6 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
 
 void LevelMap::createEdges(LevelMap& level) 
 {
-
     for (int y = 0; y < level.height; y++) 
     {
         for (int x = 0; x < level.width; x++) 
@@ -173,25 +175,26 @@ void LevelMap::createEdges(LevelMap& level)
 
 void LevelMap::drawLevel(sf::RenderWindow& window)
 {
+
     // Draw other tiles
-    for (int i = 0; i < getTotalNumOfNodes(); ++i)
+    for (int i = 0; i < nodeMap.size(); ++i)
     {
-        MapNode node = getNode(i);
 
         sf::RectangleShape shape(sf::Vector2f(TILE_HEIGHT, TILE_HEIGHT));
-        shape.setFillColor(sf::Color::Black);
-        shape.setPosition(node.position);
+        shape.setPosition(nodeMap[i].position);
 
-        switch (node.type)
+        switch (nodeMap[i].type)
         {
         case CellType::WALL:
+            //std::cout << "DRAWING A WALL\n";
             shape.setFillColor(sf::Color::Blue);
             break;
         case CellType::FOOD:
             shape.setFillColor(sf::Color::Magenta);
             break;
         case CellType::EMPTY:
-            shape.setFillColor(sf::Color::Black); //green for now to test
+        default:
+            shape.setFillColor(sf::Color::Black); //empty
             break;
         }
 
@@ -201,34 +204,43 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
     // Draw player sprite
     Assets::player.getSprite().setPosition(playerNode.position);
     window.draw(Assets::player.getSprite());
-    //std::cout << "\nPlayer Position: " << playerNode.position.x << " " << playerNode.position.y
-    //    << "\nPlayer ID: " << playerNode.id << " NodeMap ID: " << nodeMap[playerNode.id].id;
+    std::cout << "Remaining Food: " << this->foodCount << std::endl;
+
 
 }
 
 
 
 
-void LevelMap::updatePlayerPosition(const sf::Vector2f& newPosition) 
+void LevelMap::updatePlayerPosition()
 {
-    if (!isValidMove(newPosition))
+    int newID;
+    if (!isValidMove(newID))
     {
         return;
     }
-    playerNode.position = newPosition;
+
+    std::cout << newID << std::endl;
 
 
-    MapNode previousPlayerNode = playerNode;
-    if (previousPlayerNode.type == CellType::FOOD) //lw el ableya food, a5le el cell de tb2a empty now
+
+    // Update player position
+    playerNode.position = nodeMap[newID].position;
+    int prevID = playerNode.id;
+    // Update player node ID
+    playerNode.id = newID;
+
+    // If the  cell contained food, update it to EMPTY
+    if (nodeMap[newID].type == CellType::FOOD)
     {
-        previousPlayerNode.type = CellType::WALL;
-        nodeMap[previousPlayerNode.id] = previousPlayerNode;
+        foodCount--;
+        nodeMap[prevID].type = CellType::EMPTY;
     }
+    // Update player node in the node map
+    nodeMap[playerNode.id] = playerNode;
 
-
-    playerNode.id = getPlayerNodeID(newPosition); // Update player node ID
-    nodeMap[playerNode.id] = playerNode; // Update player node in the node map
 }
+
 
 
 
@@ -241,44 +253,34 @@ int LevelMap::getPlayerNodeID(const sf::Vector2f& playerPosition)
     return row * width + column;
 }
 
-bool LevelMap::isValidMove(const sf::Vector2f& newPosition)
+bool LevelMap::isValidMove(int& newID)
 {
-    int newID = 0;
 
-    // Get the node ID of the new position
+    // Get the possible node IDs of the new position based on the player state
     switch (Assets::player.state)
     {
-    case 'u': newID = playerNode.id - height; break;
-    case 'd': newID = playerNode.id + height; break;
-    case 'l': newID = playerNode.id - 1; break;
-    case 'r': newID = playerNode.id + 1; break;
-   // default: newID = 0; break;
+    case 'u': newID = playerNode.id - width; break;  // Subtract width for moving up
+    case 'd': newID = playerNode.id + width; break;  // Add width for moving down
+    case 'l': newID = playerNode.id - 1; break;      // Subtract 1 for moving left
+    case 'r': newID = playerNode.id + 1; break;      // Add 1 for moving right
     }
-    std::cout << "New Position ID: " << newID << std::endl;
+
+    //std::cout << "New Position ID: " << newID << std::endl;
+
+    if (nodeMap[newID].type == CellType::WALL)
+    {
+        return false;
+    }
 
     // Get neighbours of the current player node
     auto neighbours = getNodeNeighbours(playerNode.id);
-
-    std::cout << "Current Player Node ID: " << playerNode.id << std::endl;
-    std::cout << "Neighbours: ";
-    for (auto neighbor : neighbours) {
-        std::cout << neighbor << " ";
-    }
-    std::cout << std::endl;
 
     // Check if the new position is a valid edge of the current position
     return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
 }
 
-
-void LevelMap::printAdjList()
+//just for debugging
+void LevelMap::printFoodCount()
 {
-    std::cout << "Printing adjacency list...\n";
-    for (auto it = adjacencyList.begin(); it != adjacencyList.end(); it++) {
-        std::cout << "Adjacency list of vertex " << it->first << ": ";
-        for (auto neighbor : it->second) {
-            std::cout << neighbor << " ";
-        }
-        std::cout << std::endl;
-    }
+    std::cout << foodCount;
 }

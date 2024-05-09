@@ -28,7 +28,7 @@ int main() {
 	//int chosenDifficulty = -1;
 
 	Assets::level = Assets::level.createMapFromFile("world1.txt");
-	//Assets::level.printAdjList();
+	Assets::level.printFoodCount();
 
 
 	while (Assets::window.isOpen()) {
