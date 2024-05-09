@@ -103,9 +103,9 @@ void Motion::handleCollision(Object& o) {
 
 void Motion::changeState(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	// check if in game bounds or in collision
-	if (!checkBound(o) || checkCollision(o)) {
+	/*if (!checkBound(o) || checkCollision(o)) {
 		o.state = 'i';
-	}
+	}*/
 
 	// make sure both positions are synced
 	if (o.getPos() != o.getSprite().getPosition()) {
@@ -166,7 +166,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 	if (o.getType() == Object::Type::PLAYER) {
 		Motion::changeState(o, buf);
-		if (Frames::framecounter() % 30 == 0)
+		if (Frames::framecounter() % 60 == 0)
 		{
 			Assets::level.updatePlayerPosition();
 		}
