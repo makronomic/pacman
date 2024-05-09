@@ -95,25 +95,25 @@ MainMenu::MainMenu(int width, int height) : MainMenu(NUM_OF_BUTTONS_MAINMENU) {
 	//CHOOSE LEVEL BUTTON
 	menuButton[0].setFillColor(sf::Color::Blue);
 	menuButton[0].setString("CHOOSE LEVEL");
-	menuButton[0].setPosition(sf::Vector2f((width / 1.6), (height / 2)));
+	menuButton[0].setPosition(sf::Vector2f((width / 3.3), (height / 3)));
 	menuButton[0].setScale(1.3, 1.3);
 
 	//SHOW LEADERBOARD BUTTON
 	menuButton[1].setFillColor(sf::Color::Yellow);
 	menuButton[1].setString("SHOW LEADERBOARD");
-	menuButton[1].setPosition(sf::Vector2f((width / 1.6), (height / 1.7)));
+	menuButton[1].setPosition(sf::Vector2f((width / 3.3), (height / 2.3)));
 	menuButton[1].setScale(1.3, 1.3);
 
 	//SETTINGS BUTTON
 	menuButton[2].setFillColor(sf::Color::Blue);
 	menuButton[2].setString("SETTINGS");
-	menuButton[2].setPosition(sf::Vector2f((width / 1.6), (height / 1.48)));
+	menuButton[2].setPosition(sf::Vector2f((width / 3.3), (height / 1.85)));
 	menuButton[2].setScale(1.3, 1.3);
 
 	//EXIT BUTTON
 	menuButton[3].setFillColor(sf::Color::Yellow);
 	menuButton[3].setString("EXIT");
-	menuButton[3].setPosition(sf::Vector2f((width / 1.6), (height / 1.3)));
+	menuButton[3].setPosition(sf::Vector2f((width / 3.3), (height / 1.5)));
 	menuButton[3].setScale(1.3, 1.3);
 }
 
@@ -158,7 +158,7 @@ void MainMenu::drawLevelSelectionMenu(sf::RenderWindow& window, int width, int h
 	levelText.setFillColor(sf::Color::White);
 	levelText.setScale(1.5, 1.5);
 	levelText.setString("Select a level:");
-	levelText.setPosition(width / 3, height / 4);
+	levelText.setPosition(width / 3.3, height / 4);
 
 	//RETURN TEXT
 	sf::Text returnText;
@@ -166,7 +166,7 @@ void MainMenu::drawLevelSelectionMenu(sf::RenderWindow& window, int width, int h
 	returnText.setFillColor(sf::Color::White);
 	returnText.setScale(1.5, 1.5);
 	returnText.setString("Return");
-	returnText.setPosition(width / 3, height - height / 3);
+	returnText.setPosition(width / 3.3, height - height / 3);
 
 	window.draw(levelText);
 	window.draw(returnText);
@@ -178,7 +178,7 @@ void MainMenu::drawLevelSelectionMenu(sf::RenderWindow& window, int width, int h
 		levelButton[i].setFont(menuFont);
 		levelButton[i].setScale(1.5, 1.5);
 		levelButton[i].setString("Level " + std::to_string(i + 1));
-		levelButton[i].setPosition(sf::Vector2f(width / 2.5, height / 2.8 + i * 70));
+		levelButton[i].setPosition(sf::Vector2f(width / 2.8, height / 2.8 + i * 70));
 
 		//alternating colour (just for taste)
 		if (i % 2 == 0)
@@ -235,7 +235,7 @@ void MainMenu::drawDifficultySelectionMenu(sf::RenderWindow& window, int width, 
 	difficultyText.setFillColor(sf::Color::White);
 	difficultyText.setScale(1.5, 1.5);
 	difficultyText.setString("Select Difficulty: ");
-	difficultyText.setPosition(width / 3, height / 4);
+	difficultyText.setPosition(width / 3.3, height / 4);
 
 	//RETURN TEXT
 	sf::Text returnText;
@@ -243,7 +243,7 @@ void MainMenu::drawDifficultySelectionMenu(sf::RenderWindow& window, int width, 
 	returnText.setFillColor(sf::Color::White);
 	returnText.setScale(1.5, 1.5);
 	returnText.setString("Return");
-	returnText.setPosition(width / 3, height - height / 3);
+	returnText.setPosition(width / 3.3, height - height / 3);
 
 	window.draw(difficultyText);
 	window.draw(returnText);
@@ -265,7 +265,7 @@ void MainMenu::drawDifficultySelectionMenu(sf::RenderWindow& window, int width, 
 		difficultyOption[i].setFont(menuFont);
 		difficultyOption[i].setScale(1.5, 1.5);
 
-		difficultyOption[i].setPosition(sf::Vector2f(width / 2.5, height / 2.8 + i * 70));
+		difficultyOption[i].setPosition(sf::Vector2f(width / 2.8, height / 2.8 + i * 70));
 
 
 		window.draw(difficultyOption[i]);
@@ -312,6 +312,9 @@ void MainMenu::handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf
 void MainMenu::showHighScores(sf::RenderWindow& window) {
 	std::map<int, std::string> scores;
 
+	int width = window.getSize().x;
+	int height = window.getSize().y;
+
 	std::ifstream scoresFile("resources/scores.txt");
 	std::string name;
 	int scoreInFile; //our key
@@ -333,7 +336,7 @@ void MainMenu::showHighScores(sf::RenderWindow& window) {
 	highScoresText.setScale(1.8, 1.8);
 	highScoresText.setString("TOP 3 SCORES:");
 	highScoresText.setFillColor(sf::Color::White);
-	highScoresText.setPosition(425, 170);
+	highScoresText.setPosition(width/5, 170);
 	window.draw(highScoresText);
 
 	//RETURN TEXT
@@ -342,7 +345,7 @@ void MainMenu::showHighScores(sf::RenderWindow& window) {
 	returnText.setFillColor(sf::Color::White);
 	returnText.setScale(1.5, 1.5);
 	returnText.setString("Return");
-	returnText.setPosition(425, 480);
+	returnText.setPosition(width / 5, 480);
 	window.draw(returnText);
 
 	//SCORES (DESCENDING)
@@ -357,7 +360,7 @@ void MainMenu::showHighScores(sf::RenderWindow& window) {
 	for (auto it = scores.rbegin(); it != scores.rend() && count < 3; ++it) {
 
 		scoreText.setString(std::to_string(count + 1) + ". " + it->second + " - " + std::to_string(it->first));
-		scoreText.setPosition(425, yPos);
+		scoreText.setPosition(width / 4, yPos);
 		window.draw(scoreText);
 		yPos += 70;
 		count++;
@@ -380,14 +383,14 @@ void MainMenu::showSettings(sf::RenderWindow& window) {
 	settingsText.setFillColor(sf::Color::White);
 	settingsText.setScale(1.5, 1.5);
 	settingsText.setString("SETTINGS:");
-	settingsText.setPosition(950, 360);
+	settingsText.setPosition(250, 200);
 
 	sf::Text musicText;
 	musicText.setFont(menuFont);
 	musicText.setFillColor(isMenuMusicPlaying ? sf::Color::Green : sf::Color::Red);
 	musicText.setScale(1.5, 1.5);
 	musicText.setString(isMenuMusicPlaying ? "MUSIC ON" : "MUSIC OFF");
-	musicText.setPosition(950, 430);
+	musicText.setPosition(300, 300);
 
 	// Check if music text is pressed
 	if (checkIfPressed(window, musicText)) {
@@ -411,7 +414,7 @@ void MainMenu::showSettings(sf::RenderWindow& window) {
 	returnText.setFillColor(sf::Color::White);
 	returnText.setScale(1.5, 1.5);
 	returnText.setString("Return");
-	returnText.setPosition(950, 525);
+	returnText.setPosition(250, 400);
 
 	//return to main menu button check
 	if (checkIfPressed(window, returnText)) {

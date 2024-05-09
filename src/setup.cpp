@@ -51,3 +51,5 @@ void setup() {
 	Assets::objects.push_back(&Assets::player);
 	Assets::objects.push_back(&Assets::enemy);
 }
+
+LevelMap Assets::level;

@@ -6,6 +6,7 @@
 #include <set>
 #include <SFML/Graphics.hpp>
 
+
 class Motion {
 public:
 	static bool checkCollision(Object&, Object&);

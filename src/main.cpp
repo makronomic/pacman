@@ -21,69 +21,71 @@ void mousePos(sf::RenderWindow& window) {
 }
 
 int main() {
-    setup();
+	setup();
 
-    MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
-    int chosenLevel = -1;
-    int chosenDifficulty = -1;
+	MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
+	int chosenlevel = -1;
+	int chosendifficulty = -1;
 
-    while (Assets::window.isOpen()) {
-        // set of input keys in the last frame
-        sf::Event event;
-
-        mousePos(Assets::window);
-        bool stopMainMenu = mainMenu.getChosenDifficulty() != 0 && mainMenu.getChosenLevel() != 0;
-
-        while (Assets::window.pollEvent(event)) {
+	Assets::level = Assets::level.createMapFromFile("world1.txt");
 
 
-            if (event.type == sf::Event::Closed)
-                Assets::window.close();
-            else if (event.type == sf::Event::KeyPressed)
-                Assets::keyBuf.insert(event.key.code);
-            else if (event.type == sf::Event::KeyReleased)
-                Assets::keyBuf.erase(event.key.code);
-        }
+	while (Assets::window.isOpen()) {
+		// set of input keys in the last frame
+		sf::Event event;
+		mousePos(Assets::window);
+		bool stopMainMenu = mainMenu.getChosenDifficulty() != 0 && mainMenu.getChosenLevel() != 0;
+		while (Assets::window.pollEvent(event)) 
+		{
+
+			if (event.type == sf::Event::Closed)
+				Assets::window.close();
+			else if (event.type == sf::Event::KeyPressed)
+				Assets::keyBuf.insert(event.key.code);
+			else if (event.type == sf::Event::KeyReleased)
+				Assets::keyBuf.erase(event.key.code);
+		}
 
 
 
-        Assets::window.clear();
+		/*for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
+			Motion::handleCollision(**it);
+		}*/
 
-        //player chose level and difficulty
-        if (!stopMainMenu)
-        {
-            mainMenu.drawMenu(Assets::window);
+		//if (Frames::framecounter() % 60 == 0) {
+		//	std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
+		//}
 
-        }
-        else if (stopMainMenu) //gameplay
-        {
-            mainMenu.stopMusic();
-            currentMenuState = GameLogicState;
 
-            //game logic
-            Assets::window.draw(Assets::enemy.getSprite());
-            Assets::window.draw(Assets::player.getSprite());
 
-            Animation::motionPicture(Assets::player);
+		Assets::window.clear();
+		//player chose level and difficulty
+		if (!stopMainMenu)
+		{
+			mainMenu.drawMenu(Assets::window);
 
-            for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
-                Motion::handleCollision(**it);
-            }
+		}
+		else
+		{
+			mainMenu.stopMusic();
+			currentMenuState = GameLogicState;
 
-            if (Frames::framecounter() % 60 == 0) {
-                std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
-            }
+			//Game Logic
+			Motion::move(Assets::player, Assets::keyBuf);
+			Animation::motionPicture(Assets::player);
+			Motion::move(Assets::enemy);
+			Assets::level.drawLevel(Assets::window);
+			Assets::window.draw(Assets::enemy.getSprite());
+		}
 
-            Motion::move(Assets::player, Assets::keyBuf);
 
-            Motion::move(Assets::enemy);
-        }
 
-        Assets::window.display();
+		Assets::window.display();
 
-        // clear the input buffer for the next frame
-        Assets::keyBuf.clear();
-    }
+		// clear the input buffer for the next frame
+		Assets::keyBuf.clear();
+	}
 
-    return 0;
+	return 0;
 }
+
