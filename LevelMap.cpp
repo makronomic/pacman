@@ -209,7 +209,6 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
     // Draw player sprite
     Assets::player.getSprite().setPosition(playerNode.position);
     window.draw(Assets::player.getSprite());
-    std::cout << "Remaining Food: " << this->foodCount << std::endl;
 
 
 }
@@ -283,6 +282,7 @@ bool LevelMap::isValidMove(int& newID)
     // Get neighbours of the current player node
     auto neighbours = getNodeNeighbours(playerNode.id);
 
+    
     // Check if the new position is a valid edge of the current position
     return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
 }

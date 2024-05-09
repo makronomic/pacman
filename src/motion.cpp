@@ -102,10 +102,10 @@ void Motion::handleCollision(Object& o) {
 }
 
 void Motion::changeState(Object& o, const std::set<sf::Keyboard::Key>& buf) {
-	// check if in game bounds or in collision
-	/*if (!checkBound(o) || checkCollision(o)) {
+	// check if in game bounds or in collision 
+	if (!checkBound(o) || checkCollision(o)) {
 		o.state = 'i';
-	}*/
+	}
 
 	// make sure both positions are synced
 	if (o.getPos() != o.getSprite().getPosition()) {
@@ -159,6 +159,12 @@ void Motion::changeState(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 }
 
 void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
+	// Calculate the time elapsed since the last frame
+	static sf::Clock clock;
+	static float elapsedTime = 0.0f;
+	float dt = clock.restart().asSeconds(); //deltatime
+	elapsedTime += dt;
+
 	// make sure both positions are synced
 	if (o.getPos() != o.getSprite().getPosition()) {
 		o.getSprite().setPosition(o.getPos());
@@ -166,19 +172,22 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 	if (o.getType() == Object::Type::PLAYER) {
 		Motion::changeState(o, buf);
-		if (Frames::framecounter() % 60 == 0)
-		{
+		// Update player position with the elapsed time
+		while (elapsedTime >= 0.1f) {
 			Assets::level.updatePlayerPosition();
+			elapsedTime -= 0.16f;  //increase to make pacman move slower
 		}
-	} else {
+	}
+	else {
 		Motion::changeState(o);
 	}
+
 
 	switch (o.state) {
 	case 'u':
 		Assets::prevPos[&o] = o.getPos();
 
-		o.setPos(o.getPos().x, o.getPos().y - o.getSpeed());
+		o.setPos(o.getPos().x, o.getPos().y - o.getSpeed() * dt);
 		o.getSprite().setPosition(o.getPos());
 
 		break;
@@ -186,7 +195,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	case 'd':
 		Assets::prevPos[&o] = o.getPos();
 
-		o.setPos(o.getPos().x, o.getPos().y + o.getSpeed());
+		o.setPos(o.getPos().x, o.getPos().y + o.getSpeed() * dt);
 		o.getSprite().setPosition(o.getPos());
 
 		break;
@@ -194,7 +203,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	case 'l':
 		Assets::prevPos[&o] = o.getPos();
 
-		o.setPos(o.getPos().x - o.getSpeed(), o.getPos().y);
+		o.setPos(o.getPos().x - o.getSpeed() * dt, o.getPos().y);
 		o.getSprite().setPosition(o.getPos());
 
 		break;
@@ -202,7 +211,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	case 'r':
 		Assets::prevPos[&o] = o.getPos();
 
-		o.setPos(o.getPos().x + o.getSpeed(), o.getPos().y);
+		o.setPos(o.getPos().x + o.getSpeed() * dt, o.getPos().y);
 		o.getSprite().setPosition(o.getPos());
 
 		break;

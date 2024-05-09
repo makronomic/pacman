@@ -51,9 +51,9 @@ int main() {
 			Motion::handleCollision(**it);
 		}*/
 
-		if (Frames::framecounter() % 60 == 0) {
-			std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
-		}
+		//if (Frames::framecounter() % 60 == 0) {
+		//	std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
+		//}
 
 		Motion::move(Assets::player, Assets::keyBuf);
 
