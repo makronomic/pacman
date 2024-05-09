@@ -27,7 +27,7 @@ int main() {
 	int chosenlevel = -1;
 	int chosendifficulty = -1;
 
-	Assets::level = Assets::level.createMapFromFile("world1.txt");
+	//Assets::level = Assets::level.createMapFromFile("world1.txt");
 
 
 	while (Assets::window.isOpen()) {
@@ -63,19 +63,37 @@ int main() {
 		if (!stopMainMenu)
 		{
 			mainMenu.drawMenu(Assets::window);
+			switch (mainMenu.getChosenLevel())
+			{
+			case 1:
+				Assets::level = Assets::level.createMapFromFile("world1.txt");
+				break;
+			case 2:
+				Assets::level = Assets::level.createMapFromFile("world2.txt");
+				break;
+			case 3:
+				Assets::level = Assets::level.createMapFromFile("world3.txt");
+				break;
+			default:
+				break;
+			}
+			
 
-		}
-		else
+		}		
+		else if(Assets::level.getFoodCount() != 0) //check winning case
 		{
-			mainMenu.stopMusic();
-			currentMenuState = GameLogicState;
+			if (!Assets::level.isGameOver())
+			{
+				mainMenu.stopMusic();
+				currentMenuState = GameLogicState;
 
-			//Game Logic
-			Motion::move(Assets::player, Assets::keyBuf);
-			Animation::motionPicture(Assets::player);
-			//Motion::move(Assets::enemy);
-			Assets::level.drawLevel(Assets::window);
-			//Assets::window.draw(Assets::enemy.getSprite());
+				//Game Logic
+				Motion::move(Assets::player, Assets::keyBuf);
+				Animation::motionPicture(Assets::player);
+				//Motion::move(Assets::enemy);
+				Assets::level.drawLevel(Assets::window);
+				//Assets::window.draw(Assets::enemy.getSprite());
+			}
 		}
 
 

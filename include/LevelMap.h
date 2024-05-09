@@ -29,14 +29,16 @@ class LevelMap
     std::unordered_map<int, MapNode> nodeMap; //stores info about each node
     int totalNumOfNodes;
     MapNode playerNode;
+    MapNode enemyNode;
+    bool gameOver;
     int height;
     int width;
     int foodCount;
+    int score;
 
 public:
     LevelMap();
 
-    void getFoodCount();
 
     void addNode(int id, MapNode node);
     void addEdge(int source, int destination);
@@ -58,5 +60,11 @@ public:
      int getPlayerNodeID(const sf::Vector2f& playerPosition);  // Function to get the player node ID based on its position
      bool isValidMove(int& newID);
 
+     //losing case
+     bool isGameOver();
+
+     //winning case (food count == 0)
+     int getFoodCount();
+    
 };
 

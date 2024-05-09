@@ -11,11 +11,20 @@ LevelMap::LevelMap()
 {
     totalNumOfNodes = 0;
     foodCount = 0;
+    score = 0;
+    height = 0;
+    width = 0;
+    gameOver = false;
 }
 
-void LevelMap::getFoodCount()
+int LevelMap::getFoodCount()
 {
-    std::cout << foodCount;
+    return foodCount;
+}
+
+bool LevelMap::isGameOver()
+{
+    return gameOver;
 }
 
 
@@ -107,6 +116,11 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
             case ' ':
                 cell.type = CellType::EMPTY;
                 break;
+            case 'E':
+                cell.type = CellType::ENEMY;
+                level.enemyNode = cell;
+                level.enemyNode.id = nodeID;
+                break;
             }
             level.addNode(nodeID, cell);
             nodeID++;
@@ -117,6 +131,7 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
     }
     level.height = currentRow;
     level.width = currentColumn;
+
     //connect the edges
     createEdges(level);
 
@@ -181,18 +196,20 @@ void LevelMap::createEdges(LevelMap& level)
 
 void LevelMap::drawLevel(sf::RenderWindow& window)
 {
-
+       
     for (int i = 0; i < nodeMap.size(); ++i)
     {
+
         sf::RectangleShape shape(sf::Vector2f(TILE_HEIGHT, TILE_HEIGHT));
         shape.setFillColor(sf::Color::Transparent);
         shape.setPosition(nodeMap[i].position);
 
-        sf::CircleShape food(3.0f); 
+        sf::CircleShape food(3.0f);
         sf::Vector2f foodPos;
 
         switch (nodeMap[i].type)
         {
+
         case CellType::WALL:
             shape.setOutlineColor(sf::Color::Color(0, 0, 148));
             shape.setOutlineThickness(2.0f);
@@ -205,7 +222,7 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
             foodPos = nodeMap[i].position + sf::Vector2f(TILE_HEIGHT / 2.0f, TILE_HEIGHT / 2.0f); //position circle in half of tile
             food.setOrigin(food.getRadius(), food.getRadius()); // set the origin to the center
             food.setPosition(foodPos);
-            window.draw(food); 
+            window.draw(food);
             break;
 
 
@@ -214,13 +231,29 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
             shape.setFillColor(sf::Color::Transparent); //empty
             break;
         }
-
         window.draw(shape); // Draw the tile
+
     }
 
-    // Draw player sprite
-    Assets::player.getSprite().setPosition(playerNode.position);
-    window.draw(Assets::player.getSprite());
+        // Draw player and enemy sprite
+        Assets::player.getSprite().setPosition(playerNode.position);
+        Assets::window.draw(Assets::enemy.getSprite());
+        window.draw(Assets::player.getSprite());
+    
+
+        // Draw score
+        sf::Font font;
+        if (!font.loadFromFile("resources/fonts/Crackman_Front.OTF")) 
+        {
+            std::cout << "ERROR LOADING FONT!";
+        }
+        sf::Text scoreText;
+        scoreText.setFont(font);
+        scoreText.setString("Score: " + std::to_string(score));
+        scoreText.setCharacterSize(35);
+        scoreText.setFillColor(sf::Color::White);
+        scoreText.setPosition(0, -10);
+        window.draw(scoreText);
 }
 
 
@@ -235,7 +268,7 @@ void LevelMap::updatePlayerPosition()
         return;
     }
 
-    std::cout << newID << std::endl;
+    //std::cout << newID << std::endl;
 
 
 
@@ -249,7 +282,13 @@ void LevelMap::updatePlayerPosition()
     if (nodeMap[newID].type == CellType::FOOD)
     {
         foodCount--;
+        score += 10;
         nodeMap[prevID].type = CellType::EMPTY;
+    }
+    else if (nodeMap[newID].type == CellType::ENEMY)
+    {
+        gameOver = true;
+        std::cout << "is Game Over? " << gameOver << std::endl;
     }
     // Update player node in the node map
     nodeMap[playerNode.id] = playerNode;
