@@ -29,6 +29,7 @@ class LevelMap
     std::unordered_map<int, MapNode> nodeMap; //stores info about each node
     int totalNumOfNodes;
     MapNode playerNode;
+    sf::Vector2f initialPlayerPos;
     MapNode enemyNode;
     bool gameOver;
     int height;
@@ -54,6 +55,7 @@ public:
 
     //draw map
      void drawLevel(sf::RenderWindow& window);
+
 
     //tracking player
      void updatePlayerPosition();

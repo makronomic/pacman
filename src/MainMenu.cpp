@@ -46,6 +46,13 @@ int MainMenu::getChosenLevel() {
 	return chosenLevel;
 }
 
+bool MainMenu::isMenuFinished()
+{
+	
+	return chosenDifficulty != 0 && chosenLevel != 0; //once level and difficulty isnt equal to 0, run the game
+
+}
+
 void MainMenu::stopMusic() {
 	menuMusic.stop();
 	isMenuMusicPlaying = false;

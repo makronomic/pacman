@@ -20,90 +20,90 @@ void mousePos(sf::RenderWindow& window) {
 	}
 }
 
-int main() {
-	setup();
+int main() 
+{
+    // Perform initial setup
+    setup();
 
-	MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
-	int chosenlevel = -1;
-	int chosendifficulty = -1;
+    // Create the main menu
+    MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
+    std::string fileName; //for loading level
 
-	//Assets::level = Assets::level.createMapFromFile("world1.txt");
+    // Main game loop
+    while (Assets::window.isOpen()) 
+    {
+        // Handle events
+        sf::Event event;
+        mousePos(Assets::window);
+        while (Assets::window.pollEvent(event)) {
+            switch (event.type) {
+            case sf::Event::Closed:
+                // Close the window if the close button is pressed
+                Assets::window.close();
+                break;
+            case sf::Event::KeyPressed:
+                // Store pressed keys
+                Assets::keyBuf.insert(event.key.code);
+                break;
+            case sf::Event::KeyReleased:
+                // Remove released keys
+                Assets::keyBuf.erase(event.key.code);
+                break;
+            default:
+                break;
+            }
+        }
 
+        // Clear the window
+        Assets::window.clear();
 
-	while (Assets::window.isOpen()) {
-		// set of input keys in the last frame
-		sf::Event event;
-		mousePos(Assets::window);
-		bool stopMainMenu = mainMenu.getChosenDifficulty() != 0 && mainMenu.getChosenLevel() != 0;
-		while (Assets::window.pollEvent(event)) 
-		{
+        // If the main menu is still active
+        if (!mainMenu.isMenuFinished()) 
+        {
+            // Draw the main menu and handle level selection
+            mainMenu.drawMenu(Assets::window);
+            int chosenLevel = mainMenu.getChosenLevel();
+            if (chosenLevel >= 1 && chosenLevel <= 3) 
+            {
+                fileName = "world" + std::to_string(chosenLevel) + ".txt";
+                Assets::level = Assets::level.createMapFromFile(fileName);
+            }
+        }
+        // If the game is running
+        else 
+        {
+            if (!Assets::level.isGameOver()) 
+            {
+                // Stop the main menu music and switch to game logic state
+                mainMenu.stopMusic();
+                currentMenuState = GameLogicState;
 
-			if (event.type == sf::Event::Closed)
-				Assets::window.close();
-			else if (event.type == sf::Event::KeyPressed)
-				Assets::keyBuf.insert(event.key.code);
-			else if (event.type == sf::Event::KeyReleased)
-				Assets::keyBuf.erase(event.key.code);
-		}
+                // Update game logic
+                Motion::move(Assets::player, Assets::keyBuf);
+                Animation::motionPicture(Assets::player);
+                Assets::level.drawLevel(Assets::window);
+            }
+            else 
+            {
+                // Game over, check for replay or return to main menu
+                if (Assets::keyBuf.count(sf::Keyboard::R))
+                {
+                    std::cout << "REPLAY"; //handle replay logic
+                }
+                else if (Assets::keyBuf.count(sf::Keyboard::E)) 
+                {
+                    std::cout << "MAIN MENU";
+                }
+            }
+        }
 
+        // Display the window
+        Assets::window.display();
 
+        // Clear the input buffer for the next frame
+        Assets::keyBuf.clear();
+    }
 
-		/*for (auto it = Assets::objects.begin(); it != Assets::objects.end(); it++) {
-			Motion::handleCollision(**it);
-		}*/
-
-		//if (Frames::framecounter() % 60 == 0) {
-		//	std::cout << "Last frame pos: (" << Assets::prevPos[&Assets::player].x << ", " << Assets::prevPos[&Assets::player].y << ")\n";
-		//}
-
-
-
-		Assets::window.clear();
-		//player chose level and difficulty
-		if (!stopMainMenu)
-		{
-			mainMenu.drawMenu(Assets::window);
-			switch (mainMenu.getChosenLevel())
-			{
-			case 1:
-				Assets::level = Assets::level.createMapFromFile("world1.txt");
-				break;
-			case 2:
-				Assets::level = Assets::level.createMapFromFile("world2.txt");
-				break;
-			case 3:
-				Assets::level = Assets::level.createMapFromFile("world3.txt");
-				break;
-			default:
-				break;
-			}
-			
-
-		}		
-		else if(Assets::level.getFoodCount() != 0) //check winning case
-		{
-			if (!Assets::level.isGameOver())
-			{
-				mainMenu.stopMusic();
-				currentMenuState = GameLogicState;
-
-				//Game Logic
-				Motion::move(Assets::player, Assets::keyBuf);
-				Animation::motionPicture(Assets::player);
-				//Motion::move(Assets::enemy);
-				Assets::level.drawLevel(Assets::window);
-				//Assets::window.draw(Assets::enemy.getSprite());
-			}
-		}
-
-
-
-		Assets::window.display();
-
-		// clear the input buffer for the next frame
-		Assets::keyBuf.clear();
-	}
-
-	return 0;
+    return 0;
 }
 

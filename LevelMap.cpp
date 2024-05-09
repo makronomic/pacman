@@ -28,6 +28,7 @@ bool LevelMap::isGameOver()
 }
 
 
+
 void LevelMap::addNode(int id, MapNode node)
 {
     nodeMap[id] = node;
@@ -112,6 +113,7 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
                 cell.type = CellType::PLAYER;
                 level.playerNode = cell;
                 level.playerNode.id = nodeID;
+                level.initialPlayerPos = cell.position;
                 break;
             case ' ':
                 cell.type = CellType::EMPTY;
@@ -288,7 +290,7 @@ void LevelMap::updatePlayerPosition()
     else if (nodeMap[newID].type == CellType::ENEMY)
     {
         gameOver = true;
-        std::cout << "is Game Over? " << gameOver << std::endl;
+        //std::cout << "is Game Over? " << gameOver << std::endl;
     }
     // Update player node in the node map
     nodeMap[playerNode.id] = playerNode;

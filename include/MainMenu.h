@@ -26,8 +26,8 @@ class MainMenu
 {
 
 private:
-    int chosenLevel;
-    int chosenDifficulty;
+    int chosenLevel = 0;
+    int chosenDifficulty = 0;
     int selectedButton = 0;
     bool isMenuMusicPlaying;
 
@@ -40,6 +40,7 @@ private:
     sf::Sound clickSound;
 
     sf::Music menuMusic;
+
 
     int getSelectedButton(sf::RenderWindow& window, const sf::Text& button, int index);
     bool checkIfPressed(sf::RenderWindow& window, const sf::Text& menuButton);
@@ -60,6 +61,7 @@ private:
 
 public:
 
+    bool isMenuFinished();
     int getChosenLevel();
     int getChosenDifficulty();
     void drawMenu(sf::RenderWindow& window);
