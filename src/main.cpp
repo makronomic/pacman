@@ -73,9 +73,9 @@ int main() {
 			//Game Logic
 			Motion::move(Assets::player, Assets::keyBuf);
 			Animation::motionPicture(Assets::player);
-			Motion::move(Assets::enemy);
+			//Motion::move(Assets::enemy);
 			Assets::level.drawLevel(Assets::window);
-			Assets::window.draw(Assets::enemy.getSprite());
+			//Assets::window.draw(Assets::enemy.getSprite());
 		}
 
 

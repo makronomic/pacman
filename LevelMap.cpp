@@ -182,21 +182,33 @@ void LevelMap::createEdges(LevelMap& level)
 void LevelMap::drawLevel(sf::RenderWindow& window)
 {
 
-    // Draw other tiles
     for (int i = 0; i < nodeMap.size(); ++i)
     {
-
         sf::RectangleShape shape(sf::Vector2f(TILE_HEIGHT, TILE_HEIGHT));
+        shape.setFillColor(sf::Color::Transparent);
         shape.setPosition(nodeMap[i].position);
+
+        sf::CircleShape food(3.0f); 
+        sf::Vector2f foodPos;
 
         switch (nodeMap[i].type)
         {
         case CellType::WALL:
-            shape.setFillColor(sf::Color::Blue);
+            shape.setOutlineColor(sf::Color::Color(0, 0, 148));
+            shape.setOutlineThickness(2.0f);
+            shape.setFillColor(sf::Color::Color(0, 0, 0));
             break;
+
+
         case CellType::FOOD:
-            shape.setFillColor(sf::Color::Magenta);
+            food.setFillColor(sf::Color::Yellow);
+            foodPos = nodeMap[i].position + sf::Vector2f(TILE_HEIGHT / 2.0f, TILE_HEIGHT / 2.0f); //position circle in half of tile
+            food.setOrigin(food.getRadius(), food.getRadius()); // set the origin to the center
+            food.setPosition(foodPos);
+            window.draw(food); 
             break;
+
+
         case CellType::EMPTY:
         default:
             shape.setFillColor(sf::Color::Black); //empty
@@ -209,9 +221,8 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
     // Draw player sprite
     Assets::player.getSprite().setPosition(playerNode.position);
     window.draw(Assets::player.getSprite());
-
-
 }
+
 
 
 
