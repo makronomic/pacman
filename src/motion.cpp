@@ -166,6 +166,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	if (o.getType() == Object::Type::PLAYER) {
 		Motion::changeState(o, buf);
 		Assets::level.updatePlayerPosition(o.getPos());
+
 	} else {
 		Motion::changeState(o);
 	}
@@ -176,6 +177,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 		o.setPos(o.getPos().x, o.getPos().y - o.getSpeed());
 		o.getSprite().setPosition(o.getPos());
+		//Assets::level.updatePlayerPosition(o.getPos());
 
 		break;
 
@@ -184,6 +186,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 		o.setPos(o.getPos().x, o.getPos().y + o.getSpeed());
 		o.getSprite().setPosition(o.getPos());
+		//Assets::level.updatePlayerPosition(o.getPos());
 
 		break;
 
@@ -192,6 +195,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 		o.setPos(o.getPos().x - o.getSpeed(), o.getPos().y);
 		o.getSprite().setPosition(o.getPos());
+		//Assets::level.updatePlayerPosition(o.getPos());
 
 		break;
 
@@ -200,6 +204,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 		o.setPos(o.getPos().x + o.getSpeed(), o.getPos().y);
 		o.getSprite().setPosition(o.getPos());
+		//Assets::level.updatePlayerPosition(o.getPos());
 
 		break;
 

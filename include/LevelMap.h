@@ -37,6 +37,7 @@ public:
 
     void addNode(int id, MapNode node);
     void addEdge(int source, int destination);
+    bool edgeExists(int source, int destination);
     MapNode getNode(int id);
     std::vector<int> getNodeNeighbours(int id);
     int getTotalNumOfNodes();
@@ -52,7 +53,10 @@ public:
     //tracking player
      void updatePlayerPosition(const sf::Vector2f& newPosition);
      int getPlayerNodeID(const sf::Vector2f& playerPosition);  // Function to get the player node ID based on its position
+     bool isValidMove(const sf::Vector2f& newPosition);
 
 
+     //debug
+     void printAdjList();
 };
 
