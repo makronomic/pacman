@@ -13,6 +13,12 @@ LevelMap::LevelMap()
     foodCount = 0;
 }
 
+void LevelMap::getFoodCount()
+{
+    std::cout << foodCount;
+}
+
+
 void LevelMap::addNode(int id, MapNode node)
 {
     nodeMap[id] = node;
@@ -264,7 +270,7 @@ bool LevelMap::isValidMove(int& newID)
     case 'r': newID = playerNode.id + 1; break;      // Add 1 for moving right
     }
 
-        // Check if the newID is out of bounds
+        // Check if the newID is out of bounds to avoid game crashing :)
     if (newID < 0 || newID >= nodeMap.size()) {
         return false;
     }
@@ -281,8 +287,3 @@ bool LevelMap::isValidMove(int& newID)
     return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
 }
 
-//just for debugging
-void LevelMap::printFoodCount()
-{
-    std::cout << foodCount;
-}

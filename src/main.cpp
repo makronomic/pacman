@@ -28,7 +28,6 @@ int main() {
 	//int chosenDifficulty = -1;
 
 	Assets::level = Assets::level.createMapFromFile("world1.txt");
-	Assets::level.printFoodCount();
 
 
 	while (Assets::window.isOpen()) {
@@ -62,7 +61,6 @@ int main() {
 
 		Assets::window.clear();
 		Assets::level.drawLevel(Assets::window);
-		Assets::window.draw(Assets::enemy.getSprite());
 		Assets::window.display();
 
 		// clear the input buffer for the next frame

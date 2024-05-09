@@ -36,6 +36,8 @@ class LevelMap
 public:
     LevelMap();
 
+    void getFoodCount();
+
     void addNode(int id, MapNode node);
     void addEdge(int source, int destination);
     bool edgeExists(int source, int destination);
@@ -56,8 +58,5 @@ public:
      int getPlayerNodeID(const sf::Vector2f& playerPosition);  // Function to get the player node ID based on its position
      bool isValidMove(int& newID);
 
-
-     //debug
-     void printFoodCount();
 };
 

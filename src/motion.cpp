@@ -1,5 +1,6 @@
 #include "Animation.h"
 #include "motion.h"
+#include "Frames.h"
 
 bool Motion::checkCollision(Object& x, Object& y) {
 	// make sure both positions are synced
@@ -165,8 +166,10 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 
 	if (o.getType() == Object::Type::PLAYER) {
 		Motion::changeState(o, buf);
-		Assets::level.updatePlayerPosition();
-
+		if (Frames::framecounter() % 30 == 0)
+		{
+			Assets::level.updatePlayerPosition();
+		}
 	} else {
 		Motion::changeState(o);
 	}
