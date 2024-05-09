@@ -186,7 +186,6 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
         switch (nodeMap[i].type)
         {
         case CellType::WALL:
-            //std::cout << "DRAWING A WALL\n";
             shape.setFillColor(sf::Color::Blue);
             break;
         case CellType::FOOD:
@@ -265,7 +264,10 @@ bool LevelMap::isValidMove(int& newID)
     case 'r': newID = playerNode.id + 1; break;      // Add 1 for moving right
     }
 
-    //std::cout << "New Position ID: " << newID << std::endl;
+        // Check if the newID is out of bounds
+    if (newID < 0 || newID >= nodeMap.size()) {
+        return false;
+    }
 
     if (nodeMap[newID].type == CellType::WALL)
     {
