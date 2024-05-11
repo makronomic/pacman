@@ -54,6 +54,9 @@ int main()
             }
         }
 
+        int chosenLevel = mainMenu.getChosenLevel();
+
+
         // Clear the window
         Assets::window.clear();
 
@@ -62,12 +65,10 @@ int main()
         {
             // Draw the main menu and handle level selection
             mainMenu.drawMenu(Assets::window);
-            int chosenLevel = mainMenu.getChosenLevel();
-            if (chosenLevel >= 1 && chosenLevel <= 3) 
-            {
-                fileName = "world" + std::to_string(chosenLevel) + ".txt";
-                Assets::level = Assets::level.createMapFromFile(fileName);
-            }
+            
+            fileName = "world" + std::to_string(chosenLevel) + ".txt";
+            Assets::level = Assets::level.createMapFromFile(fileName);
+            
         }
         // If the game is running
         else 
@@ -79,20 +80,28 @@ int main()
                 currentMenuState = GameLogicState;
 
                 // Update game logic
+ 
                 Motion::move(Assets::player, Assets::keyBuf);
                 Animation::motionPicture(Assets::player);
                 Assets::level.drawLevel(Assets::window);
+
+                if (Assets::keyBuf.count(sf::Keyboard::G)) //simulate game over during development just for testing
+                {
+                    Assets::level.gameOver = true;
+                }
             }
-            else 
+            else //LOSING CASE
             {
                 // Game over, check for replay or return to main menu
-                if (Assets::keyBuf.count(sf::Keyboard::R))
+                if (Assets::keyBuf.count(sf::Keyboard::R)) //RESTART
                 {
-                    std::cout << "REPLAY"; //handle replay logic
+                    Assets::player.state = 'i';
+                    fileName = "world" + std::to_string(chosenLevel) + ".txt";
+                    Assets::level = Assets::level.createMapFromFile(fileName);
                 }
                 else if (Assets::keyBuf.count(sf::Keyboard::E)) 
                 {
-                    std::cout << "MAIN MENU";
+                    mainMenu.returnToMenu();
                 }
             }
         }

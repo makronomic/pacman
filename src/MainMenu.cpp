@@ -6,6 +6,8 @@
 #include <thread>
 #include <vector>
 
+
+
 //HELPER FUNCTIONS SECTION
 int MainMenu::getSelectedButton(sf::RenderWindow& window, const sf::Text& button, int index) {
 
@@ -49,8 +51,18 @@ int MainMenu::getChosenLevel() {
 bool MainMenu::isMenuFinished()
 {
 	
-	return chosenDifficulty != 0 && chosenLevel != 0; //once level and difficulty isnt equal to 0, run the game
+	return menuFinished; //once level and difficulty isnt equal to 0, run the game
 
+}
+
+void MainMenu::returnToMenu()
+{
+	menuFinished = false;
+	chosenDifficulty = 0;
+	chosenLevel = 0;
+	std::cout << chosenLevel << " "<< chosenDifficulty;
+	playMusic();
+	currentMenuState = MainMenuState;
 }
 
 void MainMenu::stopMusic() {
@@ -310,7 +322,8 @@ void MainMenu::handleDifficultyMenuEvent(sf::RenderWindow& window, int index, sf
 	if (chosenDifficulty != 0) {
 		std::cout << "READY TO PLAY! LEVEL: " << chosenLevel << " DIFFICULTY: " <<
 			chosenDifficulty << std::endl;
-		currentMenuState = GameLogicState;
+		menuFinished = true;
+
 	}
 
 }
@@ -443,38 +456,41 @@ void MainMenu::showSettings(sf::RenderWindow& window) {
 
 //FUNCTION THAT HANDLES DRAWING OF MENUS ACCORDING TO WHAT THE USER PRESSED
 void MainMenu::drawMenu(sf::RenderWindow& window) {
+	if (currentMenuState != GameLogicState)
+	{
 
-	switch (currentMenuState) {
-	case MainMenuState:
-		window.draw(menuBackground);
+		switch (currentMenuState) {
+		case MainMenuState:
+			window.draw(menuBackground);
 
-		for (int i = 0; i < NUM_OF_BUTTONS_MAINMENU; i++) {
-			if (checkIfPressed(window, menuButton[i])) {
-				handleMainMenuEvent(window, i);
+			for (int i = 0; i < NUM_OF_BUTTONS_MAINMENU; i++) {
+				if (checkIfPressed(window, menuButton[i])) {
+					handleMainMenuEvent(window, i);
+				}
+				window.draw(menuButton[i]);
 			}
-			window.draw(menuButton[i]);
+			break;
+		case LevelSelectionMenuState:
+			window.draw(menuBackground);
+			drawLevelSelectionMenu(window, window.getSize().x, window.getSize().y);
+
+			break;
+		case DifficultySelectionMenuState:
+			window.draw(menuBackground);
+			drawDifficultySelectionMenu(window, window.getSize().x, window.getSize().y);
+			break;
+		case LeaderboardMenuState:
+			window.draw(menuBackground);
+			showHighScores(window);
+
+			break;
+		case SettingsMenuState:
+			window.draw(menuBackground);
+			showSettings(window);
+
+			break;
+
 		}
-		break;
-	case LevelSelectionMenuState:
-		window.draw(menuBackground);
-		drawLevelSelectionMenu(window, window.getSize().x, window.getSize().y);
-
-		break;
-	case DifficultySelectionMenuState:
-		window.draw(menuBackground);
-		drawDifficultySelectionMenu(window, window.getSize().x, window.getSize().y);
-		break;
-	case LeaderboardMenuState:
-		window.draw(menuBackground);
-		showHighScores(window);
-
-		break;
-	case SettingsMenuState:
-		window.draw(menuBackground);
-		showSettings(window);
-
-		break;
-
 	}
 }
 

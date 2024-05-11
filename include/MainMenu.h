@@ -30,6 +30,7 @@ private:
     int chosenDifficulty = 0;
     int selectedButton = 0;
     bool isMenuMusicPlaying;
+    bool menuFinished = chosenDifficulty != 0 && chosenLevel != 0;
 
     sf::Texture menuBackgroundTexture;
     sf::Sprite menuBackground;
@@ -62,6 +63,7 @@ private:
 public:
 
     bool isMenuFinished();
+    void returnToMenu();
     int getChosenLevel();
     int getChosenDifficulty();
     void drawMenu(sf::RenderWindow& window);

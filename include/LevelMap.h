@@ -31,7 +31,7 @@ class LevelMap
     MapNode playerNode;
     sf::Vector2f initialPlayerPos;
     MapNode enemyNode;
-    bool gameOver;
+
     int height;
     int width;
     int foodCount;
@@ -39,7 +39,7 @@ class LevelMap
 
 public:
     LevelMap();
-
+    bool gameOver;
 
     void addNode(int id, MapNode node);
     void addEdge(int source, int destination);

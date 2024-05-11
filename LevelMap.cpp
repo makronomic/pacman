@@ -289,6 +289,8 @@ void LevelMap::updatePlayerPosition()
     }
     else if (nodeMap[newID].type == CellType::ENEMY)
     {
+        nodeMap[playerNode.id].position = initialPlayerPos;
+        playerNode.position = initialPlayerPos;
         gameOver = true;
         //std::cout << "is Game Over? " << gameOver << std::endl;
     }
