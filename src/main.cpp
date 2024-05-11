@@ -95,12 +95,13 @@ int main()
                 // Game over, check for replay or return to main menu
                 if (Assets::keyBuf.count(sf::Keyboard::R)) //RESTART
                 {
-                    Assets::player.state = 'i';
+                    Assets::player.state = 'i'; //to stop player from moving immediately after the game restarts
                     fileName = "world" + std::to_string(chosenLevel) + ".txt";
                     Assets::level = Assets::level.createMapFromFile(fileName);
                 }
                 else if (Assets::keyBuf.count(sf::Keyboard::E)) 
                 {
+                    Assets::player.state = 'i';
                     mainMenu.returnToMenu();
                 }
             }
