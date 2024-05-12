@@ -20,15 +20,15 @@ Object Assets::enemy(
 
 void setup() {
 
-	
+
 	Assets::window.setFramerateLimit(60);
 
 	Assets::player.setSpriteSheet("resources/pacman.png");
 	Assets::player.getSprite().setTexture(Assets::player.getSpriteSheet());
 	Assets::player.getSprite().setTextureRect(sf::IntRect(
-		0, 
-		0, 
-		32, 
+		0,
+		0,
+		32,
 		32
 	));
 
@@ -44,8 +44,8 @@ void setup() {
 	));
 	Assets::enemy.framechange = 13;
 	Assets::enemy.getSprite().setPosition(Assets::enemy.getPos());
-	Assets::enemy.getSprite().setScale(5,5);
-	
+	Assets::enemy.getSprite().setScale(5, 5);
+
 
 
 }

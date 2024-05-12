@@ -21,13 +21,13 @@ private:
 public:
 	Object(const sf::Vector2f& pPos = { 0.f, 0.f }, float pSpd = 1.f, const Type& pType = Type::TYPE_MAX);
 
-	int currentframe=0;
+	int currentframe = 0;
 
-	char state='r';
-	
-	int framechange=5;
-		
-	
+	bool alive = true;
+
+	char state = 'r';
+
+	int framechange = 5;
 
 	void setPos(float, float);
 
@@ -39,7 +39,7 @@ public:
 
 	int maxframe();
 
-	
+
 
 	Type getType() const;
 

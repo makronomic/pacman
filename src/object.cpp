@@ -24,7 +24,7 @@ float Object::getSpeed() const {
 }
 
 int Object::maxframe() {
-	return 7;
+	return 6;
 }
 
 
