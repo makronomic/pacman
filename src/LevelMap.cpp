@@ -1,6 +1,7 @@
 #include "LevelMap.h"
 #include <iostream>
 #include "assets.h"
+#include "Enemies_Movement.h"
 #include <thread>
 
 
@@ -196,7 +197,7 @@ void LevelMap::createEdges(LevelMap& level)
 
 
 
-void LevelMap::drawLevel(sf::RenderWindow& window)
+void LevelMap::drawLevel()
 {
        
     for (int i = 0; i < nodeMap.size(); ++i)
@@ -224,7 +225,7 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
             foodPos = nodeMap[i].position + sf::Vector2f(TILE_HEIGHT / 2.0f, TILE_HEIGHT / 2.0f); //position circle in half of tile
             food.setOrigin(food.getRadius(), food.getRadius()); // set the origin to the center
             food.setPosition(foodPos);
-            window.draw(food);
+            Assets::window.draw(food);
             break;
 
 
@@ -233,14 +234,15 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
             shape.setFillColor(sf::Color::Transparent); //empty
             break;
         }
-        window.draw(shape); // Draw the tile
+        Assets::window.draw(shape); // Draw the tile
 
     }
 
         // Draw player and enemy sprite
         Assets::player.getSprite().setPosition(playerNode.position);
-        Assets::window.draw(Assets::enemy.getSprite());
-        window.draw(Assets::player.getSprite());
+        ghost.getSprite().setPosition(enemyNode.position);
+        Assets::window.draw(ghost.getSprite());
+        Assets::window.draw(Assets::player.getSprite());
     
 
         // Draw score
@@ -255,7 +257,7 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
         scoreText.setCharacterSize(35);
         scoreText.setFillColor(sf::Color::White);
         scoreText.setPosition(0, -10);
-        window.draw(scoreText);
+        Assets::window.draw(scoreText);
 }
 
 
@@ -265,7 +267,9 @@ void LevelMap::drawLevel(sf::RenderWindow& window)
 void LevelMap::updatePlayerPosition()
 {
     int newID;
-    if (!isValidMove(newID))
+    int prevID = playerNode.id;
+
+    if (!isValidMove(newID, prevID))
     {
         return;
     }
@@ -276,7 +280,6 @@ void LevelMap::updatePlayerPosition()
 
     // Update player position
     playerNode.position = nodeMap[newID].position;
-    int prevID = playerNode.id;
     // Update player node ID
     playerNode.id = newID;
 
@@ -299,34 +302,68 @@ void LevelMap::updatePlayerPosition()
 
 }
 
-
-bool LevelMap::isValidMove(int& newID)
+void LevelMap::updateEnemyPosition()
 {
+    int newID;
+    int prevID = enemyNode.id;
 
-    // Get the possible node IDs of the new position based on the player state
-    switch (Assets::player.state)
+    if (!isValidMove(newID, prevID))
     {
-    case 'u': newID = playerNode.id - width; break;  // Subtract width for moving up
-    case 'd': newID = playerNode.id + width; break;  // Add width for moving down
-    case 'l': newID = playerNode.id - 1; break;      // Subtract 1 for moving left
-    case 'r': newID = playerNode.id + 1; break;      // Add 1 for moving right
+        std::cout << "here";
+        return;
     }
 
-        // Check if the newID is out of bounds to avoid game crashing :)
-    if (newID < 0 || newID >= nodeMap.size()) {
+
+    // Update enemy position
+    enemyNode.position = nodeMap[newID].position;
+    // Update enemy node ID
+    enemyNode.id = newID;
+
+    // Update player node in the node map
+    nodeMap[enemyNode.id] = enemyNode;
+
+}
+
+
+
+
+bool LevelMap::isValidMove(int& newID,int prevID)
+{
+
+    char entityState = 'i';
+    if (nodeMap[prevID].type == CellType::PLAYER) 
+    {
+        entityState = Assets::player.state;  //get player state
+    }
+    else 
+    {
+       // entityState = enemyState           //get enemy state
+    }
+
+    // Get the possible node IDs of the new position based on the entity's state
+    switch (entityState)
+    {
+    case 'u': newID = nodeMap[prevID].id - width; break;  // Subtract width for moving up
+    case 'd': newID = nodeMap[prevID].id + width; break;  // Add width for moving down
+    case 'l': newID = nodeMap[prevID].id - 1; break;      // Subtract 1 for moving left
+    case 'r': newID = nodeMap[prevID].id + 1; break;      // Add 1 for moving right
+    }
+
+    // Check if the newID is out of bounds
+    if (newID < 0 || newID >= nodeMap.size()) 
+    {
         return false;
     }
 
+    // Check if the new position is a wall
     if (nodeMap[newID].type == CellType::WALL)
     {
         return false;
     }
 
-    // Get neighbours of the current player node
-    auto neighbours = getNodeNeighbours(playerNode.id);
+    // Get neighbours of the current entity node
+    auto neighbours = getNodeNeighbours(nodeMap[prevID].id);
 
-    
     // Check if the new position is a valid edge of the current position
     return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
 }
-

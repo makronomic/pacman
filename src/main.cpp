@@ -26,6 +26,10 @@ int main()
     // Perform initial setup
     setup();
 
+    dummyGhostSpawn();
+
+    srand(static_cast<unsigned>(time(nullptr)));
+
     // Create the main menu
     MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
     std::string fileName; //for loading level
@@ -82,8 +86,10 @@ int main()
                 // Update game logic
 
                 Motion::move(Assets::player, Assets::keyBuf);
+                updateGhost(ghost);
+
                 Animation::motionPicture(Assets::player);
-                Assets::level.drawLevel(Assets::window);
+                Assets::level.drawLevel();
 
                 if (Assets::keyBuf.count(sf::Keyboard::G)) //simulate game over during development just for testing
                 {

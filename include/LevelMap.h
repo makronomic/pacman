@@ -54,12 +54,15 @@ public:
     void createEdges(LevelMap& level);
 
     //draw map
-     void drawLevel(sf::RenderWindow& window);
+     void drawLevel();
 
 
     //tracking player
      void updatePlayerPosition();
-     bool isValidMove(int& newID);
+     bool isValidMove(int& newID, int prevID);
+
+     void updateEnemyPosition();
+
 
      //losing case
      bool isGameOver();

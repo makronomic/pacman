@@ -99,6 +99,7 @@ Direction chooseNewDirection(Object& ghost, Direction currentDirection) {
 
 
 void updateGhost(Object& ghost) {
+
     Direction currentDirection = convertStateToDirection(ghost.state);
     Direction newDirection = chooseNewDirection(ghost, currentDirection);
     ghost.state = convertDirectionToState(newDirection);
