@@ -1,5 +1,4 @@
 #include "Enemies_Movement.h"
-#include "Enemies_Movement.h"
 
 
 Object ghost(

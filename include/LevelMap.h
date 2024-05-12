@@ -19,6 +19,7 @@ public:
     int id;
     sf::Vector2f position;
     CellType type;
+    bool has_food = false;
     bool visited = false; //for BFS
 };
 
@@ -63,6 +64,7 @@ public:
 
      void updateEnemyPosition();
 
+     void updateEmptyNodes(); //to avoid empty nodes having type player or enemy when they are moved on
 
      //losing case
      bool isGameOver();
