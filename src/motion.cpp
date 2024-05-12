@@ -173,7 +173,8 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 	if (o.getType() == Object::Type::PLAYER) {
 		Motion::changeState(o, buf);
 		// Update player position with the elapsed time
-		while (elapsedTime >= 0.1f) {
+		while (elapsedTime >= 0.1f) 
+		{
 			Assets::level.updatePlayerPosition();
 			elapsedTime -= 0.16f;  //increase to make pacman move slower
 		}

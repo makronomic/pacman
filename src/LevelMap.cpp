@@ -289,6 +289,10 @@ void LevelMap::updatePlayerPosition()
         foodCount--;
         score += 10;
         nodeMap[prevID].type = CellType::EMPTY;
+        if (foodCount == 0)
+        {
+            gameOver = true;
+        }
     }
     else if (nodeMap[newID].type == CellType::ENEMY)
     {
