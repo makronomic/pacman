@@ -173,7 +173,6 @@
     <ClInclude Include="include\setup.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\ghost.png" />
     <Image Include="resources\ghosts.png" />
     <Image Include="resources\pacman.png" />
     <ClInclude Include="include\MainMenu.h" />

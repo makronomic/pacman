@@ -4,9 +4,7 @@ Object::Object(const sf::Vector2f& pPos, float pSpd, const Type& pType) : pos { 
 
 }
 
-int currentframe = 0;
 
-char state = 'r';
 
 void Object::setPos(float x, float y) {
 	pos.x = x;
@@ -26,12 +24,10 @@ float Object::getSpeed() const {
 }
 
 int Object::maxframe() {
-	return 7;
+	return 6;
 }
 
-int Object::framechange() {
-	return 5;
-}
+
 
 Object::Type Object::getType() const {
 	return type;
