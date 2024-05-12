@@ -300,17 +300,6 @@ void LevelMap::updatePlayerPosition()
 }
 
 
-
-
-int LevelMap::getPlayerNodeID(const sf::Vector2f& playerPosition) 
-{
-    // Calculate the node ID based on the player's position
-    int column = static_cast<int>(playerPosition.x) / TILE_WIDTH;
-    int row = static_cast<int>(playerPosition.y) / TILE_HEIGHT;
-
-    return row * width + column;
-}
-
 bool LevelMap::isValidMove(int& newID)
 {
 

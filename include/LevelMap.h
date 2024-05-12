@@ -59,7 +59,6 @@ public:
 
     //tracking player
      void updatePlayerPosition();
-     int getPlayerNodeID(const sf::Vector2f& playerPosition);  // Function to get the player node ID based on its position
      bool isValidMove(int& newID);
 
      //losing case
