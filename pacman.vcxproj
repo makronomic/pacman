@@ -147,10 +147,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LevelMap.cpp" />
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\check_bound.cpp" />
+    <ClCompile Include="src\Enemies_Movement.cpp" />
     <ClCompile Include="src\Frames.cpp" />
+    <ClCompile Include="src\LevelMap.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\motion.cpp" />
     <ClCompile Include="src\Object.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="include\assets.h" />
     <ClInclude Include="include\check_bound.h" />
+    <ClInclude Include="include\Enemies_Movement.h" />
     <ClInclude Include="include\Frames.h" />
     <ClCompile Include="src\MainMenu.cpp" />
   </ItemGroup>

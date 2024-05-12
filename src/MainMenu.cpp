@@ -228,6 +228,7 @@ void MainMenu::drawLevelSelectionMenu(sf::RenderWindow& window, int width, int h
 
 	//return to main menu button check
 	if (checkIfPressed(window, returnText)) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
 		std::cout << "PRESSED ON RETURN IN LEVEL SELECTION";
 		currentMenuState = MainMenuState;
