@@ -65,6 +65,7 @@ public:
     bool isMenuFinished();
     void returnToMenu();
     int getChosenLevel();
+    void setChosenLevel(int value);
     int getChosenDifficulty();
     void drawMenu(sf::RenderWindow& window);
     void stopMusic();

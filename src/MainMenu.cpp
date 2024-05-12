@@ -48,6 +48,18 @@ int MainMenu::getChosenLevel() {
 	return chosenLevel;
 }
 
+void MainMenu::setChosenLevel(int value)
+{
+	if (value > 3 || value <= 0)
+	{
+		chosenLevel = 1;
+	}
+	else
+	{
+		chosenLevel = value;
+	}
+}
+
 bool MainMenu::isMenuFinished()
 {
 	

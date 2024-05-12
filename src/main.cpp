@@ -55,7 +55,7 @@ int main()
         }
 
         int chosenLevel = mainMenu.getChosenLevel();
-
+        
 
         // Clear the window
         Assets::window.clear();
@@ -65,7 +65,6 @@ int main()
         {
             // Draw the main menu and handle level selection
             mainMenu.drawMenu(Assets::window);
-            
             fileName = "world" + std::to_string(chosenLevel) + ".txt";
             Assets::level = Assets::level.createMapFromFile(fileName);
             
@@ -73,14 +72,14 @@ int main()
         // If the game is running
         else 
         {
-            if (!Assets::level.isGameOver()) 
+            if (!Assets::level.isGameOver())
             {
                 // Stop the main menu music and switch to game logic state
                 mainMenu.stopMusic();
                 currentMenuState = GameLogicState;
 
                 // Update game logic
- 
+
                 Motion::move(Assets::player, Assets::keyBuf);
                 Animation::motionPicture(Assets::player);
                 Assets::level.drawLevel(Assets::window);
@@ -89,8 +88,14 @@ int main()
                 {
                     Assets::level.gameOver = true;
                 }
+
+                if (Assets::keyBuf.count(sf::Keyboard::W)) //simulate winning during development just for testing
+                {
+                    Assets::level.foodCount = 0;
+                    Assets::level.gameOver = true;
+                }
             }
-            else //LOSING CASE
+            else if(Assets::level.isGameOver() && Assets::level.getFoodCount() > 0)//LOSING CASE
             {
                 // Game over, check for replay or return to main menu
                 if (Assets::keyBuf.count(sf::Keyboard::R)) //RESTART
@@ -100,6 +105,25 @@ int main()
                     Assets::level = Assets::level.createMapFromFile(fileName);
                 }
                 else if (Assets::keyBuf.count(sf::Keyboard::E)) 
+                {
+                    Assets::player.state = 'i';
+                    mainMenu.returnToMenu();
+                }
+            }
+            else if (Assets::level.getFoodCount() == 0 && Assets::level.isGameOver()) //WINNING CASE
+            {
+                std::cout << "YOU WON!";
+
+                if (Assets::keyBuf.count(sf::Keyboard::N)) //NEXT LEVEL, still needs to save in file before going to next level
+                {
+                    Assets::player.state = 'i'; //to stop player from moving immediately after the game restarts
+                    mainMenu.setChosenLevel(mainMenu.getChosenLevel() + 1);
+                    chosenLevel = mainMenu.getChosenLevel();
+                    fileName = "world" + std::to_string(chosenLevel) + ".txt";
+                    Assets::level = Assets::level.createMapFromFile(fileName);
+                }
+
+                if (Assets::keyBuf.count(sf::Keyboard::E)) //return to main menu, should add save in file function
                 {
                     Assets::player.state = 'i';
                     mainMenu.returnToMenu();

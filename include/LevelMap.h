@@ -34,13 +34,13 @@ class LevelMap
 
     int height;
     int width;
-    int foodCount;
+    
     int score;
 
 public:
     LevelMap();
     bool gameOver;
-
+    int foodCount;
     void addNode(int id, MapNode node);
     void addEdge(int source, int destination);
     bool edgeExists(int source, int destination);
