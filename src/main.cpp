@@ -1,43 +1,152 @@
+#include "Animation.h"
+#include "Enemies_Movement.h"
+#include "Frames.h"
+#include "MainMenu.h"
+#include "Object.h"
 #include "assets.h"
 #include "check_bound.h"
 #include "motion.h"
 #include "setup.h"
-#include "Animation.h"
-#include <iostream>
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <set>
+
+// helper function during development, returns mouse position in the window when
+// you click anywhere
+void mousePos(sf::RenderWindow &window) {
+  if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+    std::cout << "X: " << mousePosition.x << " Y: " << mousePosition.y
+              << std::endl;
+  }
+}
 
 int main() {
-	setup();
+  // Perform initial setup
+  setup();
 
-	while (Assets::window.isOpen()) {
-		// set of input keys in the last frame
-		sf::Event event;
-		while (Assets::window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				Assets::window.close();
-			else if (event.type == sf::Event::KeyPressed)
-				Assets::keyBuf.insert(event.key.code);
-			else if (event.type == sf::Event::KeyReleased)
-				Assets::keyBuf.erase(event.key.code);
-		}
+  dummyGhostSpawn();
 
-		Animation::motionPicture(Assets::player);
-		
-		//next line is an enemy try
-		Animation::motionPicture(Assets::enemy);
+  srand(static_cast<unsigned>(time(nullptr)));
 
-		move(Assets::player, Assets::keyBuf);
+  // Create the main menu
+  MainMenu mainMenu(Assets::window.getSize().x, Assets::window.getSize().y);
+  std::string fileName; // for loading level
 
-		move(Assets::enemy);
+  // Main game loop
+  while (Assets::window.isOpen()) {
+    // Handle events
+    sf::Event event;
+    mousePos(Assets::window);
+    while (Assets::window.pollEvent(event)) {
+      switch (event.type) {
+      case sf::Event::Closed:
+        // Close the window if the close button is pressed
+        Assets::window.close();
+        break;
+      case sf::Event::KeyPressed:
+        // Store pressed keys
+        Assets::keyBuf.insert(event.key.code);
+        break;
+      case sf::Event::KeyReleased:
+        // Remove released keys
+        Assets::keyBuf.erase(event.key.code);
+        break;
+      default:
+        break;
+      }
+    }
 
-		Assets::window.clear();
-		Assets::window.draw(Assets::enemy.getSprite());
-		Assets::window.draw(Assets::player.getSprite());
-		Assets::window.display();
+    int chosenLevel = mainMenu.getChosenLevel();
+    int chosenDifficulty = mainMenu.getChosenDifficulty();
 
-		// clear the input buffer for the next frame
-		Assets::keyBuf.clear();
-	}
+    // Clear the window
+    Assets::window.clear();
 
-	return 0;
+    // If the main menu is still active
+    if (!mainMenu.isMenuFinished()) {
+      // Draw the main menu and handle level selection
+      mainMenu.drawMenu(Assets::window);
+      fileName = "world" + std::to_string(chosenLevel) + ".txt";
+      Assets::level = Assets::level.createMapFromFile(fileName);
+
+    }
+    // If the game is running
+    else {
+      if (!Assets::level.isGameOver()) {
+        // Stop the main menu music and switch to game logic state
+        mainMenu.stopMusic();
+        currentMenuState = GameLogicState;
+
+        // Update game logic
+
+        Motion::move(Assets::player, Assets::keyBuf);
+        updateGhost(chosenDifficulty); // ENEMY MOVEMENT
+        Animation::motionPicture(Assets::player);
+
+        Assets::level.drawLevel();
+
+        if (Assets::keyBuf.count(
+                sf::Keyboard::G)) // simulate game over during development just
+                                  // for testing
+        {
+          Assets::level.gameOver = true;
+        }
+
+        if (Assets::keyBuf.count(
+                sf::Keyboard::W)) // simulate winning during development just
+                                  // for testing
+        {
+          Assets::level.foodCount = 0;
+          Assets::level.gameOver = true;
+        }
+      } else if (Assets::level.isGameOver() &&
+                 Assets::level.getFoodCount() > 0) // LOSING CASE
+      {
+        // Game over, check for replay or return to main menu
+        if (Assets::keyBuf.count(sf::Keyboard::R)) // RESTART
+        {
+          Assets::player.state = 'i'; // to stop player from moving immediately
+                                      // after the game restarts
+          fileName = "world" + std::to_string(chosenLevel) + ".txt";
+          Assets::level = Assets::level.createMapFromFile(fileName);
+        } else if (Assets::keyBuf.count(sf::Keyboard::E)) {
+          Assets::player.state = 'i';
+          mainMenu.returnToMenu();
+        }
+      } else if (Assets::level.getFoodCount() == 0 &&
+                 Assets::level.isGameOver()) // WINNING CASE
+      {
+        std::cout << "YOU WON!";
+
+        if (Assets::keyBuf.count(
+                sf::Keyboard::N)) // NEXT LEVEL, still needs to save in file
+                                  // before going to next level
+        {
+          Assets::player.state = 'i'; // to stop player from moving immediately
+                                      // after the game restarts
+          mainMenu.setChosenLevel(mainMenu.getChosenLevel() + 1);
+          chosenLevel = mainMenu.getChosenLevel();
+          fileName = "world" + std::to_string(chosenLevel) + ".txt";
+          Assets::level = Assets::level.createMapFromFile(fileName);
+        }
+
+        if (Assets::keyBuf.count(
+                sf::Keyboard::E)) // return to main menu, should add save in
+                                  // file function
+        {
+          Assets::player.state = 'i';
+          mainMenu.returnToMenu();
+        }
+      }
+    }
+
+    // Display the window
+    Assets::window.display();
+
+    // Clear the input buffer for the next frame
+    Assets::keyBuf.clear();
+  }
+
+  return 0;
 }

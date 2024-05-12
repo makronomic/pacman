@@ -105,7 +105,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SFML)\lib;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>winmm.lib; opengl32.lib; freetype.lib; sfml-graphics-s.lib; sfml-window-s.lib; sfml-system-s.lib; sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;opengl32.lib;freetype.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -143,13 +143,15 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SFML)\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>winmm.lib; opengl32.lib; freetype.lib; sfml-graphics-s.lib; sfml-window-s.lib; sfml-system-s.lib; sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>winmm.lib;opengl32.lib;freetype.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;sfml-audio.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\check_bound.cpp" />
+    <ClCompile Include="src\Enemies_Movement.cpp" />
     <ClCompile Include="src\Frames.cpp" />
+    <ClCompile Include="src\LevelMap.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\motion.cpp" />
     <ClCompile Include="src\Object.cpp" />
@@ -159,7 +161,12 @@
     <ClInclude Include="include\Animation.h" />
     <ClInclude Include="include\assets.h" />
     <ClInclude Include="include\check_bound.h" />
+    <ClInclude Include="include\Enemies_Movement.h" />
     <ClInclude Include="include\Frames.h" />
+    <ClCompile Include="src\MainMenu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\LevelMap.h" />
     <ClInclude Include="include\motion.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\Random.h" />
@@ -168,6 +175,13 @@
   <ItemGroup>
     <Image Include="resources\ghosts.png" />
     <Image Include="resources\pacman.png" />
+    <ClInclude Include="include\MainMenu.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\scores.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
