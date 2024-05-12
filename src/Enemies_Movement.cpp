@@ -1,25 +1,6 @@
 #include "Enemies_Movement.h"
 
 
-Object ghost(
-    { 700.f, 100.f },
-    2.f,
-    Object::Type::ENEMY
-);
-
-
-void dummyGhostSpawn() {
-    ghost.setSpriteSheet("resources/ghosts.png");
-    ghost.getSprite().setTexture(ghost.getSpriteSheet());
-    ghost.getSprite().setTextureRect(sf::IntRect(
-        0,
-        0,
-        16,
-        16
-    ));
-    ghost.getSprite().setScale(2, 2);
-}
-
 
 
 //// Convert character state to Direction enum
@@ -97,46 +78,42 @@ void dummyGhostSpawn() {
 //}
 
 
-void moveRandomly()
-{
-    int randDir = rand() % 4; // Random number between 0 and 3
-    switch (randDir)
-    {
-    case 0: ghost.state = 'u'; break; // Up
-    case 1: ghost.state = 'd'; break; // Down
-    case 2: ghost.state = 'l'; break; // Left
-    case 3: ghost.state = 'r'; break; // Right
-    }
+void moveRandomly(Object* o) {
+	int randDir = Random::get(0, 3); // Random number between 0 and 3
+	switch (randDir) {
+	case 0: o->state = 'u'; break; // Up
+	case 1: o->state = 'd'; break; // Down
+	case 2: o->state = 'l'; break; // Left
+	case 3: o->state = 'r'; break; // Right
+	}
 
-    Assets::level.updateEnemyPosition();
+	// enemyIndex is behind object.id by one because of pacman
+	Assets::level.updateEnemyPosition(static_cast<int>(o->getId()) - 1);
 }
 
 void updateGhost(int difficulty) {
 
-    static sf::Clock clock;
-    static float elapsedTime = 0.0f;
-    float dt = clock.restart().asSeconds(); //deltatime
-    elapsedTime += dt;
+	static sf::Clock clock;
+	static float elapsedTime = 0.0f;
+	float dt = clock.restart().asSeconds(); //deltatime
+	elapsedTime += dt;
 
-    while (elapsedTime >= 0.1f)
-    {
-
-
-        switch (difficulty)
-        {
-        case 1:
-            moveRandomly();
-            elapsedTime -= 0.16f;
-            break;
-        case 2:
-            moveRandomly();
-            elapsedTime -= 0.1f;
-            break;
-        default:
-            break;
-        }
-
-
-
-    }
+	while (elapsedTime >= 0.1f) {
+		switch (difficulty) {
+		case 1:
+			for (int i = 1; i < 5; i++) {
+				moveRandomly(Assets::objects[i]);
+			}
+			elapsedTime -= 0.16f;
+			break;
+		case 2:
+			for (int i = 1; i < 5; i++) {
+				moveRandomly(Assets::objects[i]);
+			}
+			elapsedTime -= 0.1f;
+			break;
+		default:
+			break;
+		}
+	}
 }

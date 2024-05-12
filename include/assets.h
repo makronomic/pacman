@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Object.h"
 #include "LevelMap.h"
+#include "Object.h"
 #include <set>
 #include <SFML/Graphics.hpp>
 
@@ -12,6 +12,9 @@ extern std::set<sf::Keyboard::Key> keyBuf;
 extern std::map<Object*, sf::Vector2f> prevPos;
 extern std::vector<Object*> objects;
 extern Object player;
-extern Object enemy;
+extern Object enemyRed;
+extern Object enemyPink;
+extern Object enemyBlue;
+extern Object enemyOrange;
 extern LevelMap level;
 }

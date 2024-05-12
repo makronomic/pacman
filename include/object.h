@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <SFML/Graphics.hpp>
 
 class Object {
@@ -11,14 +12,28 @@ public:
 		TYPE_MAX,
 	};
 
+	enum class ID {
+		PACMAN,
+		GHOST_R,
+		GHOST_P,
+		GHOST_B,
+		GHOST_O,
+
+		ID_MAX,
+	};
 private:
 	sf::Vector2f pos;
 	float spd;
 	Type type;
+	ID id;
 	sf::Sprite spr;
 	sf::Texture ss;
 
 public:
+	// to create only one ghost of each color
+	static std::map<ID, bool> existingGhosts;
+	static std::map<ID, bool> loadedGhosts;
+
 	Object(const sf::Vector2f& pPos = { 0.f, 0.f }, float pSpd = 1.f, const Type& pType = Type::TYPE_MAX);
 
 	int currentframe = 0;
@@ -36,6 +51,8 @@ public:
 	void setSpriteSheet(std::string_view);
 
 	float getSpeed() const;
+
+	ID getId() const;
 
 	int maxframe();
 

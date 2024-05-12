@@ -24,9 +24,6 @@ void mousePos(sf::RenderWindow& window) {
 int main() {
   // Perform initial setup
 	setup();
-
-	dummyGhostSpawn();
-
 	srand(static_cast<unsigned>(time(nullptr)));
 
 	// Create the main menu
@@ -83,9 +80,15 @@ int main() {
 				Motion::move(Assets::player, Assets::keyBuf);
 				updateGhost(chosenDifficulty); // ENEMY MOVEMENT
 				Animation::motionPicture(Assets::player);
+				// use for loop on Assets::objectss
+				Animation::motionPicture(Assets::enemyRed);
+				Animation::motionPicture(Assets::enemyPink);
+				Animation::motionPicture(Assets::enemyBlue);
+				Animation::motionPicture(Assets::enemyOrange);
 
 				Assets::level.drawLevel();
 
+				// DEBUGGING
 				if (Assets::keyBuf.count(
 					sf::Keyboard::G)) // simulate game over during development just
 									  // for testing
@@ -100,6 +103,8 @@ int main() {
 					Assets::level.foodCount = 0;
 					Assets::level.gameOver = true;
 				}
+				// DEBUGGING
+
 			} else if (Assets::level.isGameOver() &&
 					   Assets::level.getFoodCount() > 0) // LOSING CASE
 			{

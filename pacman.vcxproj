@@ -182,6 +182,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\scores.txt" />
+    <Text Include="resources\world1.txt" />
+    <Text Include="resources\world2.txt" />
+    <Text Include="resources\world3.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
