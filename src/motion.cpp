@@ -176,7 +176,7 @@ void Motion::move(Object& o, const std::set<sf::Keyboard::Key>& buf) {
 		while (elapsedTime >= 0.1f) 
 		{
 			Assets::level.updatePlayerPosition();
-			Assets::level.updateEnemyPosition();
+			//Assets::level.updateEnemyPosition();
 			elapsedTime -= 0.16f;  //increase to make pacman move slower
 		}
 	}

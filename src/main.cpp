@@ -86,9 +86,9 @@ int main()
                 // Update game logic
 
                 Motion::move(Assets::player, Assets::keyBuf);
-                Motion::move(ghost, Assets::keyBuf);
+                //Motion::move(ghost, Assets::keyBuf);
 
-                //updateGhost(ghost);
+                updateGhost(2);
                 Animation::motionPicture(Assets::player);
                 Assets::level.drawLevel();
 

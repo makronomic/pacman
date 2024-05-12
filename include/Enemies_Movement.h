@@ -10,19 +10,19 @@
 
 extern Object ghost;
 
-enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-    None  // Handle invalid direction
-};
+//enum Direction {
+//    Up,
+//    Down,
+//    Left,
+//    Right,
+//    None  // Handle invalid direction
+//};
 
 void dummyGhostSpawn();
-Direction convertStateToDirection(char);
-char convertDirectionToState(Direction);
-Direction getOppositeDirection(Direction);
-Direction getOppositeDirection(Direction);
-bool canMoveToPosition(Object&, int, int);
-Direction chooseNewDirection(Object&, Direction);
-void updateGhost(Object&);
+//Direction convertStateToDirection(char);
+//char convertDirectionToState(Direction);
+//Direction getOppositeDirection(Direction);
+//Direction getOppositeDirection(Direction);
+//bool canMoveToPosition(Object&, int, int);
+//Direction chooseNewDirection(Object&, Direction);
+void updateGhost(int difficulty);

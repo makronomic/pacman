@@ -336,14 +336,6 @@ void LevelMap::updateEnemyPosition()
     int newID;
     int prevID = enemyNode.id;
 
-    int randDir = rand() % 4; // Random number between 0 and 3
-    switch (randDir) 
-    {
-    case 0: newID = prevID - width; break; // Up
-    case 1: newID = prevID + width; break; // Down
-    case 2: newID = prevID - 1; break; // Left
-    case 3: newID = prevID + 1; break; // Right
-    }
 
     if (!isValidMove(newID, prevID))
     {
@@ -400,7 +392,7 @@ bool LevelMap::isValidMove(int& newID,int prevID)
     }
     else 
     {
-       // entityState = enemyState           //get enemy state
+        entityState = ghost.state;        //get enemy state
     }
 
     // Get the possible node IDs of the new position based on the entity's state
