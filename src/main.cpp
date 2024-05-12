@@ -60,7 +60,7 @@ int main()
         }
 
         int chosenLevel = mainMenu.getChosenLevel();
-        
+        int chosenDifficulty = mainMenu.getChosenDifficulty();
 
         // Clear the window
         Assets::window.clear();
@@ -86,10 +86,9 @@ int main()
                 // Update game logic
 
                 Motion::move(Assets::player, Assets::keyBuf);
-                //Motion::move(ghost, Assets::keyBuf);
-
-                updateGhost(2);
+                updateGhost(chosenDifficulty);  //ENEMY MOVEMENT
                 Animation::motionPicture(Assets::player);
+
                 Assets::level.drawLevel();
 
                 if (Assets::keyBuf.count(sf::Keyboard::G)) //simulate game over during development just for testing
