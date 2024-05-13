@@ -55,23 +55,23 @@ void Animation::motionPicture(Object& x) {
 	else if (x.getType() == Object::Type::ENEMY) {
 		if (x.alive) {
 			if (x.state == 'u') {
-				enemyState(x, 4, 1, counter);
+				enemyState(x, 4, x.getId(), counter);
 			} else if (x.state == 'l') {
-				enemyState(x, 2, 1, counter);
+				enemyState(x, 2, x.getId(), counter);
 			} else if (x.state == 'd') {
-				enemyState(x, 6, 1, counter);
+				enemyState(x, 6, x.getId(), counter);
 			} else if (x.state == 'r') {
-				enemyState(x, 0, 1, counter);
+				enemyState(x, 0, x.getId(), counter);
 			}
 		} else {
 			if (x.state == 'u') {
-				enemyState(x, 4, 5, counter);
+				enemyState(x, 4, x.getId(), counter);
 			} else if (x.state == 'l') {
-				enemyState(x, 2, 5, counter);
+				enemyState(x, 2, x.getId(), counter);
 			} else if (x.state == 'd') {
-				enemyState(x, 6, 5, counter);
+				enemyState(x, 6, x.getId(), counter);
 			} else if (x.state == 'r') {
-				enemyState(x, 0, 5, counter);
+				enemyState(x, 0, x.getId(), counter);
 			}
 		}
 	}

@@ -31,38 +31,37 @@ void setup() {
 
 	Assets::enemyRed.setSpriteSheet("resources/ghosts.png");
 	Assets::enemyRed.getSprite().setTexture(Assets::enemyRed.getSpriteSheet());
-	Assets::enemyRed.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
+	Assets::enemyRed.setId(0);
+	Assets::enemyRed.getSprite().setTextureRect(sf::IntRect(0, 0 + Assets::enemyRed.getId() * 16, 16, 16));
 	Assets::enemyRed.framechange = 8;
 	Assets::enemyRed.getSprite().setPosition(Assets::enemyRed.getPos());
 	Assets::enemyRed.getSprite().setScale(2, 2);
-	Assets::enemyRed.id = 0;
-
 
 	Assets::enemyPink.setSpriteSheet("resources/ghosts.png");
 	Assets::enemyPink.getSprite().setTexture(Assets::enemyPink.getSpriteSheet());
-	Assets::enemyPink.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
+	Assets::enemyPink.setId(1);
+	Assets::enemyPink.getSprite().setTextureRect(sf::IntRect(0, 0 + Assets::enemyPink.getId() * 16, 16, 16));
 	Assets::enemyPink.framechange = 8;
 	Assets::enemyPink.getSprite().setPosition(Assets::enemyPink.getPos());
 	Assets::enemyPink.getSprite().setScale(2, 2);
-	Assets::enemyPink.id = 1;
 
 
 	Assets::enemyBlue.setSpriteSheet("resources/ghosts.png");
 	Assets::enemyBlue.getSprite().setTexture(Assets::enemyBlue.getSpriteSheet());
-	Assets::enemyBlue.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
+	Assets::enemyBlue.setId(2);
+	Assets::enemyBlue.getSprite().setTextureRect(sf::IntRect(0, 0 + Assets::enemyBlue.getId() * 16, 16, 16));
 	Assets::enemyBlue.framechange = 8;
 	Assets::enemyBlue.getSprite().setPosition(Assets::enemyBlue.getPos());
 	Assets::enemyBlue.getSprite().setScale(2, 2);
-	Assets::enemyBlue.id = 2;
 
 
 	Assets::enemyOrange.setSpriteSheet("resources/ghosts.png");
 	Assets::enemyOrange.getSprite().setTexture(Assets::enemyOrange.getSpriteSheet());
-	Assets::enemyOrange.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
+	Assets::enemyOrange.setId(3);
+	Assets::enemyOrange.getSprite().setTextureRect(sf::IntRect(0, 0 + Assets::enemyOrange.getId() * 16, 16, 16));
 	Assets::enemyOrange.framechange = 8;
 	Assets::enemyOrange.getSprite().setPosition(Assets::enemyOrange.getPos());
 	Assets::enemyOrange.getSprite().setScale(2, 2);
-	Assets::enemyOrange.id = 3;
 
 	Assets::objects.push_back(&Assets::enemyRed);
 	Assets::objects.push_back(&Assets::enemyPink);

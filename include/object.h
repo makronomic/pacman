@@ -11,25 +11,15 @@ public:
 
 		TYPE_MAX,
 	};
-
-	enum class ID {
-		PACMAN,
-		GHOST_R,
-		GHOST_P,
-		GHOST_B,
-		GHOST_O,
-
-		ID_MAX,
-	};
 private:
 	sf::Vector2f pos;
 	float spd;
 	Type type;
-	//ID id;
-	
+
 	sf::Sprite spr;
 	sf::Texture ss;
 
+	int id;
 public:
 	// to create only one ghost of each color
 	//static std::map<ID, bool> existingGhosts;
@@ -38,8 +28,6 @@ public:
 	Object(const sf::Vector2f& pPos = { 0.f, 0.f }, float pSpd = 1.f, const Type& pType = Type::TYPE_MAX);
 
 	int currentframe = 0;
-
-	int id;
 
 	bool alive = true;
 
@@ -55,9 +43,9 @@ public:
 
 	float getSpeed() const;
 
-	//ID getId() const;
+	void setId(int);
 
-	int getId();
+	int getId() const;
 
 	int maxframe();
 

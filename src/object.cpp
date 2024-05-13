@@ -56,11 +56,11 @@ float Object::getSpeed() const {
 	return spd;
 }
 
-//Object::ID Object::getId() const {
-//	return id;
-//}
+void Object::setId(int i) {
+	id = i;
+}
 
-int Object::getId()  {
+int Object::getId() const {
 	return id;
 }
 
