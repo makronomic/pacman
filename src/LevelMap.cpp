@@ -4,6 +4,7 @@
 #include <iostream>
 #include <thread>
 #include <queue>
+#include <stack>
 
 const int TILE_WIDTH = 32;
 const int TILE_HEIGHT = 32;
@@ -404,69 +405,62 @@ bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) {
 	return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
 }
 
-std::vector<char> LevelMap::BFS(int enemyIndex)
-{
-	std::vector<char> path; // Vector to store the path of states for the enemy to move
+std::vector<char> LevelMap::BFS(int enemyIndex) {
+	std::queue<int> q;
+	std::vector<bool> visited(totalNumOfNodes, false);
+	std::vector<char> path(totalNumOfNodes, ' ');
 
-	const MapNode& target = playerNode;
-	const MapNode& start = enemyNode[enemyIndex];
+	// Start BFS from enemy's current position
+	q.push(enemyNode[enemyIndex].id);
+	visited[enemyNode[enemyIndex].id] = true;
 
-	// Initialize all vertices as "unvisited".
-	for (auto& node : nodeMap)
-	{
-		node.second.visited = false;
-	}
+	while (!q.empty()) {
+		int currentNodeID = q.front();
+		q.pop();
 
-	std::queue<int> queue;
+		// Get neighbours of the current node
+		auto neighbours = getNodeNeighbours(currentNodeID);
 
-	// Enqueue the starting node onto the queue and mark it as visited.
-	nodeMap[start.id].visited = true;
-	queue.push(start.id);
+		// Check all the neighbours
+		for (int neighbourID : neighbours) {
+			if (!visited[neighbourID] && nodeMap[neighbourID].type != CellType::WALL) {
+				visited[neighbourID] = true;
+				nodeMap[neighbourID].parent = currentNodeID;
 
-	// Explore nodes using BFS
-	while (!queue.empty())
-	{
-		int currentID = queue.front();
-		queue.pop();
-
-		if (currentID == target.id)
-		{
-			std::cout << "here";
-			// If target is reached, break the loop
-			break;
-		}
-
-		// Explore neighbors of the dequeued node.
-		std::vector<int> neighbors = getNodeNeighbours(currentID);
-		for (int neighborID : neighbors)
-		{
-			if (!nodeMap[neighborID].visited)
-			{
-
-				// Mark the neighbor as visited, enqueue it, and record the direction.
-				nodeMap[neighborID].visited = true;
-				queue.push(neighborID);
-
-				// Determine direction of the move
-				char direction;
-				if (nodeMap[neighborID].position.x < nodeMap[currentID].position.x) {
-					direction = 'l'; // Left
+				// Calculate the direction to move
+				int diff = neighbourID - currentNodeID;
+				if (diff == -width) {
+					path[neighbourID] = 'u'; // Move up
 				}
-				else if (nodeMap[neighborID].position.x > nodeMap[currentID].position.x) {
-					direction = 'r'; // Right
+				else if (diff == width) {
+					path[neighbourID] = 'd'; // Move down
 				}
-				else if (nodeMap[neighborID].position.y < nodeMap[neighborID].position.y) {
-					direction = 'u'; // Up
+				else if (diff == -1) {
+					path[neighbourID] = 'l'; // Move left
 				}
-				else {
-					direction = 'd'; // Down
+				else if (diff == 1) {
+					path[neighbourID] = 'r'; // Move right
 				}
 
-				path.push_back(direction);
+				q.push(neighbourID);
 			}
 		}
 	}
 
+	// Construct the path from player to enemy
+	std::stack<char> reversePath;
+	int currentID = playerNode.id;
+	while (currentID != enemyNode[enemyIndex].id && currentID != -1) {
+		reversePath.push(path[currentID]);
+		currentID = nodeMap[currentID].parent;
+	}
 
-	return path;
+	// Convert stack to vector
+	std::vector<char> finalPath;
+	while (!reversePath.empty()) {
+		finalPath.push_back(reversePath.top());
+		reversePath.pop();
+	}
+
+	return finalPath;
 }

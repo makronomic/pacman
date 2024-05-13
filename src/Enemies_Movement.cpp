@@ -97,58 +97,21 @@ void moveRandomly(Object* o) {
 
 void moveBFS(Object* o, float deltaTime)
 {
-    static float moveTimer = 0.0f;
-    static const float moveDelay = 0.01f; // Adjust the delay as needed
-
-    // Update the move timer
-    moveTimer += 0.01f;
-
+	// Calculate the BFS path
 	std::vector<char> path = Assets::level.BFS(o->getId());
 
-	for (int i = 0; i < path.size(); i++)
+	// If the path is not empty
+	if (!path.empty())
 	{
-		std::cout << path[i] << "  ";
+		// Move the object based on the next state in the path
+		char nextState = path.back();
+		o->state = nextState;
+
+		// Remove the last element from the path vector
+		path.pop_back();
 	}
-
-    // If the move timer exceeds the move delay
-	if (moveTimer >= moveDelay) 
-	{
-
-
-		// Reset the move timer
-		moveTimer = 0.0f;
-        // If the path is not empty
-        if (!path.empty()) 
-		{
-            // Move the object based on the next state in the path
-            char nextState = path.back();
-
-            switch (nextState) {
-            case 'u':
-                o->state = 'u'; // Up
-                break;
-            case 'd':
-                o->state = 'd'; // Down
-                break;
-            case 'l':
-                o->state = 'l'; // Left
-                break;
-            case 'r':
-                o->state = 'r'; // Right
-                break;
-            }
-
-            // Remove the last element from the path vector
-            path.pop_back();
-
-            // Update the enemy position in the level
-            Assets::level.updateEnemyPosition(o->getId());
-        }
-    }
-	else
-	{
-		path.clear();
-	}
+	// Update the object's position
+	Assets::level.updateEnemyPosition(o->getId());
 }
 
 
