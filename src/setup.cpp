@@ -34,7 +34,7 @@ void setup() {
 	Assets::enemyRed.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
 	Assets::enemyRed.framechange = 8;
 	Assets::enemyRed.getSprite().setPosition(Assets::enemyRed.getPos());
-	Assets::enemyRed.getSprite().setScale(5, 5);
+	Assets::enemyRed.getSprite().setScale(2, 2);
 
 
 	Assets::enemyPink.setSpriteSheet("resources/ghosts.png");
@@ -42,7 +42,7 @@ void setup() {
 	Assets::enemyPink.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
 	Assets::enemyPink.framechange = 8;
 	Assets::enemyPink.getSprite().setPosition(Assets::enemyPink.getPos());
-	Assets::enemyPink.getSprite().setScale(5, 5);
+	Assets::enemyPink.getSprite().setScale(2, 2);
 
 
 	Assets::enemyBlue.setSpriteSheet("resources/ghosts.png");
@@ -50,7 +50,7 @@ void setup() {
 	Assets::enemyBlue.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
 	Assets::enemyBlue.framechange = 8;
 	Assets::enemyBlue.getSprite().setPosition(Assets::enemyBlue.getPos());
-	Assets::enemyBlue.getSprite().setScale(5, 5);
+	Assets::enemyBlue.getSprite().setScale(2, 2);
 
 
 	Assets::enemyOrange.setSpriteSheet("resources/ghosts.png");
@@ -58,7 +58,7 @@ void setup() {
 	Assets::enemyOrange.getSprite().setTextureRect(sf::IntRect(0, 0, 16, 16));
 	Assets::enemyOrange.framechange = 8;
 	Assets::enemyOrange.getSprite().setPosition(Assets::enemyOrange.getPos());
-	Assets::enemyOrange.getSprite().setScale(5, 5);
+	Assets::enemyOrange.getSprite().setScale(2, 2);
 
 	Assets::objects.push_back(&Assets::player);
 	Assets::objects.push_back(&Assets::enemyRed);

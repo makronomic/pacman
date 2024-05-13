@@ -65,7 +65,8 @@ int LevelMap::getTotalNumOfNodes() {
 	return totalNumOfNodes;
 }
 
-LevelMap LevelMap::createMapFromFile(const std::string& fileName) {
+LevelMap LevelMap::createMapFromFile(const std::string& fileName)
+{
 	LevelMap level;
 
 	std::ifstream file(fileName);
@@ -76,16 +77,19 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName) {
 	int currentRow = 0;
 
 	//create nodes based on each character from the file.
-	while (std::getline(file, line)) {
+	while (std::getline(file, line))
+	{
 		currentColumn = 0;
+		MapNode cell;
+
 		for (char c : line) {
-			MapNode cell;
 
 			cell.id = nodeID;
 			cell.position.x = currentColumn * TILE_WIDTH;
 			cell.position.y = currentRow * TILE_HEIGHT;
 
-			switch (c) {
+			switch (c) 
+			{
 			case '#':
 				cell.type = CellType::WALL;
 				break;
@@ -108,25 +112,24 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName) {
 				// // for a single enemy
 				// level.enemyNode = cell;
 				// level.enemyNode.id = nodeID;
-				for (auto& pair : Object::loadedGhosts) {
-					// search for the first unloaded ghost and assign them the cell
-					if (!pair.second) {
-						level.enemyNode[static_cast<int>(pair.first) - 1] = cell;
-						level.enemyNode[static_cast<int>(pair.first) - 1].id = nodeID;
+				for (auto& pair : Assets::objects) {
 
-						// set to loaded
-						pair.second = true;
-					}
+					level.enemyNode[static_cast<int>(pair->getId()) - 1] = cell;
+					level.enemyNode[static_cast<int>(pair->getId()) - 1].id = nodeID;
+
+
 				}
 				break;
 			}
 			level.addNode(nodeID, cell);
 			nodeID++;
 			currentColumn++;
-		}
 
+		}
 		currentRow++;
 	}
+
+
 	level.height = currentRow;
 	level.width = currentColumn;
 
@@ -135,6 +138,9 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName) {
 
 	return level;
 }
+
+
+
 
 void LevelMap::createEdges(LevelMap& level) {
 	for (int y = 0; y < level.height; y++) {
