@@ -87,8 +87,8 @@ void moveRandomly(Object* o) {
 	case 3: o->state = 'r'; break; // Right
 	}
 
-	// enemyIndex is behind object.id by one because of pacman
-	Assets::level.updateEnemyPosition(static_cast<int>(o->getId()) - 1);
+
+	Assets::level.updateEnemyPosition(o->getId());
 }
 
 void updateGhost(int difficulty) {
@@ -101,13 +101,14 @@ void updateGhost(int difficulty) {
 	while (elapsedTime >= 0.1f) {
 		switch (difficulty) {
 		case 1:
-			for (int i = 1; i < 5; i++) {
-				moveRandomly(Assets::objects[i]);
+			for (auto enemy : Assets::objects)
+			{
+				moveRandomly(enemy);
 			}
 			elapsedTime -= 0.16f;
 			break;
 		case 2:
-			for (int i = 1; i < 5; i++) {
+			for (int i = 0; i < 4; i++) {
 				moveRandomly(Assets::objects[i]);
 			}
 			elapsedTime -= 0.1f;

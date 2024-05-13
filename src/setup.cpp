@@ -25,7 +25,7 @@ void setup() {
 	Assets::player.setSpriteSheet("resources/pacman.png");
 	Assets::player.getSprite().setTexture(Assets::player.getSpriteSheet());
 	Assets::player.getSprite().setTextureRect(sf::IntRect(0, 0, 32, 32));
-
+	Assets::player.state = 'i';
 	Assets::player.getSprite().setPosition(Assets::player.getPos());
 	Assets::player.framechange = 5;
 
@@ -35,6 +35,7 @@ void setup() {
 	Assets::enemyRed.framechange = 8;
 	Assets::enemyRed.getSprite().setPosition(Assets::enemyRed.getPos());
 	Assets::enemyRed.getSprite().setScale(2, 2);
+	Assets::enemyRed.id = 0;
 
 
 	Assets::enemyPink.setSpriteSheet("resources/ghosts.png");
@@ -43,6 +44,7 @@ void setup() {
 	Assets::enemyPink.framechange = 8;
 	Assets::enemyPink.getSprite().setPosition(Assets::enemyPink.getPos());
 	Assets::enemyPink.getSprite().setScale(2, 2);
+	Assets::enemyPink.id = 1;
 
 
 	Assets::enemyBlue.setSpriteSheet("resources/ghosts.png");
@@ -51,6 +53,7 @@ void setup() {
 	Assets::enemyBlue.framechange = 8;
 	Assets::enemyBlue.getSprite().setPosition(Assets::enemyBlue.getPos());
 	Assets::enemyBlue.getSprite().setScale(2, 2);
+	Assets::enemyBlue.id = 2;
 
 
 	Assets::enemyOrange.setSpriteSheet("resources/ghosts.png");
@@ -59,8 +62,8 @@ void setup() {
 	Assets::enemyOrange.framechange = 8;
 	Assets::enemyOrange.getSprite().setPosition(Assets::enemyOrange.getPos());
 	Assets::enemyOrange.getSprite().setScale(2, 2);
+	Assets::enemyOrange.id = 3;
 
-	Assets::objects.push_back(&Assets::player);
 	Assets::objects.push_back(&Assets::enemyRed);
 	Assets::objects.push_back(&Assets::enemyPink);
 	Assets::objects.push_back(&Assets::enemyBlue);

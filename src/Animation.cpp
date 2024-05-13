@@ -28,8 +28,8 @@ void Animation::motionPicture(Object& x) {
 				sf::IntRect(32 * x.Object::currentframe, 0, 32, 32));
 			x.Object::currentframe++;
 			x.Object::currentframe %= x.maxframe();
-			std::cout << "f: " << x.Object::currentframe << "\n";
-			std::cout << "c: " << counter << "\n";
+			//std::cout << "f: " << x.Object::currentframe << "\n";
+			//std::cout << "c: " << counter << "\n";
 		}
 		if (x.state == 'u') {
 			x.getSprite().setOrigin(x.getSprite().getLocalBounds().height, 0);

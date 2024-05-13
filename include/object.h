@@ -25,18 +25,21 @@ private:
 	sf::Vector2f pos;
 	float spd;
 	Type type;
-	ID id;
+	//ID id;
+	
 	sf::Sprite spr;
 	sf::Texture ss;
 
 public:
 	// to create only one ghost of each color
-	static std::map<ID, bool> existingGhosts;
-	static std::map<ID, bool> loadedGhosts;
+	//static std::map<ID, bool> existingGhosts;
+	//static std::map<ID, bool> loadedGhosts;
 
 	Object(const sf::Vector2f& pPos = { 0.f, 0.f }, float pSpd = 1.f, const Type& pType = Type::TYPE_MAX);
 
 	int currentframe = 0;
+
+	int id;
 
 	bool alive = true;
 
@@ -52,7 +55,9 @@ public:
 
 	float getSpeed() const;
 
-	ID getId() const;
+	//ID getId() const;
+
+	int getId();
 
 	int maxframe();
 

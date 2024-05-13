@@ -30,7 +30,7 @@ class LevelMap {
 	int totalNumOfNodes;
 	MapNode playerNode;
 	sf::Vector2f initialPlayerPos;
-	std::array<MapNode, 4> enemyNode;
+	std::vector<MapNode> enemyNode;
 
 	int height;
 	int width;
@@ -59,7 +59,7 @@ public:
 
    //tracking player
 	void updatePlayerPosition();
-	bool isValidMove(int& newID, int prevID, Object::ID id);
+	bool isValidMove(int& newID, int prevID, int enemyIndex = -1);
 
 	void updateEnemyPosition(int enemyIndex);
 

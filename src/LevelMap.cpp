@@ -109,17 +109,10 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
 				break;
 			case 'E':
 				cell.type = CellType::ENEMY;
-				// // for a single enemy
-				// level.enemyNode = cell;
-				// level.enemyNode.id = nodeID;
-				for (auto& pair : Assets::objects) {
-
-					level.enemyNode[static_cast<int>(pair->getId()) - 1] = cell;
-					level.enemyNode[static_cast<int>(pair->getId()) - 1].id = nodeID;
-
-
-				}
+				level.enemyNode.push_back(cell);
+				level.enemyNode.back().id = nodeID;
 				break;
+
 			}
 			level.addNode(nodeID, cell);
 			nodeID++;
@@ -249,10 +242,12 @@ void LevelMap::drawLevel() {
 	Assets::player.getSprite().setPosition(playerNode.position);
 
 	// enemy indices start from 1 to 4
-	for (int i = 1; i < 5; i++) {
-		Assets::objects[i]->getSprite().setPosition(enemyNode[i - 1].position);
+	for (int i = 0; i < 4; i++) {
+		Assets::objects[i]->getSprite().setPosition(enemyNode[i].position);
 		Assets::window.draw(Assets::objects[i]->getSprite());
+		std::cout << "Enemy Node " << i << " ID: " << enemyNode[i].id << std::endl;
 	}
+
 
 	Assets::window.draw(Assets::player.getSprite());
 
@@ -275,12 +270,9 @@ void LevelMap::updatePlayerPosition() {
 	int newID;
 	int prevID = playerNode.id;
 
-	if (!isValidMove(newID, prevID, Object::ID::PACMAN)) {
+	if (!isValidMove(newID, prevID)) {
 		return;
 	}
-
-	//std::cout << newID << std::endl;
-
 
 
 	// Update player position
@@ -316,8 +308,8 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 
 
 	// ghosts start from 1 not 0 because of pacman
-	if (!isValidMove(newID, prevID, static_cast<Object::ID>(enemyIndex + 1))) {
-		std::cout << "Invalid move";
+	if (!isValidMove(newID, prevID, enemyIndex)) {
+		//std::cout << "Invalid move";
 		return;
 	}
 
@@ -331,7 +323,7 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 
 
 	// Check if the new node has food
-	if (nodeMap[newID].has_food) {
+	if (nodeMap[newID].type == CellType::FOOD) {
 		previousNode = &nodeMap[newID]; // Store the node with food
 	} else if (nodeMap[newID].type == CellType::PLAYER) {
 		nodeMap[playerNode.id].position = initialPlayerPos;
@@ -348,6 +340,7 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 
 	// Update player node in the node map
 	nodeMap[enemyNode[enemyIndex].id] = enemyNode[enemyIndex];
+
 }
 
 
@@ -356,13 +349,13 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 
 
 
-bool LevelMap::isValidMove(int& newID, int prevID, Object::ID id) {
+bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) {
 	char entityState = 'i';
 	if (nodeMap[prevID].type == CellType::PLAYER) {
 		entityState = Assets::player.state;  //get player state
 	} else {
-		// adjusting index?
-		entityState = Assets::objects[static_cast<int>(id)]->state;        //get enemy state
+		if(enemyIndex != -1)
+		entityState = Assets::objects[enemyIndex]->state;        //get enemy state
 	}
 
 	// Get the possible node IDs of the new position based on the entity's state
@@ -372,6 +365,8 @@ bool LevelMap::isValidMove(int& newID, int prevID, Object::ID id) {
 	case 'l': newID = nodeMap[prevID].id - 1; break;      // Subtract 1 for moving left
 	case 'r': newID = nodeMap[prevID].id + 1; break;      // Add 1 for moving right
 	}
+
+	//if (entityState == 'i') return true;
 
 	// Check if the newID is out of bounds
 	if (newID < 0 || newID >= nodeMap.size()) {
