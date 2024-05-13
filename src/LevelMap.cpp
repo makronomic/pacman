@@ -3,7 +3,7 @@
 #include "LevelMap.h"
 #include <iostream>
 #include <thread>
-
+#include <queue>
 
 const int TILE_WIDTH = 32;
 const int TILE_HEIGHT = 32;
@@ -267,7 +267,7 @@ void LevelMap::drawLevel() {
 
 	Assets::window.draw(Assets::player.getSprite());
 
-	std::cout << count <<  " " <<  playercount << std::endl;
+	//std::cout << count <<  " " <<  playercount << std::endl;
 
 	// Draw score
 	sf::Font font;
@@ -350,6 +350,7 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 		nodeMap[playerNode.id].position = initialPlayerPos;
 		playerNode.position = initialPlayerPos;
 		gameOver = true;
+		std::cout << "is Game Over ? " << gameOver << std::endl;
 	}
 
 
@@ -364,9 +365,6 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 	nodeMap[enemyNode[enemyIndex].id] = enemyNode[enemyIndex];
 
 }
-
-
-
 
 
 
@@ -388,7 +386,6 @@ bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) {
 	case 'r': newID = nodeMap[prevID].id + 1; break;      // Add 1 for moving right
 	}
 
-	//if (entityState == 'i') return true;
 
 	// Check if the newID is out of bounds
 	if (newID < 0 || newID >= nodeMap.size()) {
@@ -405,4 +402,71 @@ bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) {
 
 	// Check if the new position is a valid edge of the current position
 	return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
+}
+
+std::vector<char> LevelMap::BFS(int enemyIndex)
+{
+	std::vector<char> path; // Vector to store the path of states for the enemy to move
+
+	const MapNode& target = playerNode;
+	const MapNode& start = enemyNode[enemyIndex];
+
+	// Initialize all vertices as "unvisited".
+	for (auto& node : nodeMap)
+	{
+		node.second.visited = false;
+	}
+
+	std::queue<int> queue;
+
+	// Enqueue the starting node onto the queue and mark it as visited.
+	nodeMap[start.id].visited = true;
+	queue.push(start.id);
+
+	// Explore nodes using BFS
+	while (!queue.empty())
+	{
+		int currentID = queue.front();
+		queue.pop();
+
+		if (currentID == target.id)
+		{
+			std::cout << "here";
+			// If target is reached, break the loop
+			break;
+		}
+
+		// Explore neighbors of the dequeued node.
+		std::vector<int> neighbors = getNodeNeighbours(currentID);
+		for (int neighborID : neighbors)
+		{
+			if (!nodeMap[neighborID].visited)
+			{
+
+				// Mark the neighbor as visited, enqueue it, and record the direction.
+				nodeMap[neighborID].visited = true;
+				queue.push(neighborID);
+
+				// Determine direction of the move
+				char direction;
+				if (nodeMap[neighborID].position.x < nodeMap[currentID].position.x) {
+					direction = 'l'; // Left
+				}
+				else if (nodeMap[neighborID].position.x > nodeMap[currentID].position.x) {
+					direction = 'r'; // Right
+				}
+				else if (nodeMap[neighborID].position.y < nodeMap[neighborID].position.y) {
+					direction = 'u'; // Up
+				}
+				else {
+					direction = 'd'; // Down
+				}
+
+				path.push_back(direction);
+			}
+		}
+	}
+
+
+	return path;
 }

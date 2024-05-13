@@ -19,7 +19,7 @@ public:
 	int id;
 	sf::Vector2f position;
 	CellType type;
-	bool visited = false; //for BFS
+	bool visited; //for BFS
 };
 
 
@@ -69,6 +69,9 @@ public:
 
 	//winning case (food count == 0)
 	int getFoodCount();
+
+	
+	std::vector<char> BFS(int enemyIndex);
 
 };
 

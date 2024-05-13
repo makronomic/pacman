@@ -1,4 +1,6 @@
 #include "Enemies_Movement.h"
+#include <iostream>
+#include <thread>
 
 
 
@@ -91,6 +93,66 @@ void moveRandomly(Object* o) {
 	Assets::level.updateEnemyPosition(o->getId());
 }
 
+#include <chrono>
+
+void moveBFS(Object* o, float deltaTime)
+{
+    static float moveTimer = 0.0f;
+    static const float moveDelay = 0.01f; // Adjust the delay as needed
+
+    // Update the move timer
+    moveTimer += 0.01f;
+
+	std::vector<char> path = Assets::level.BFS(o->getId());
+
+	for (int i = 0; i < path.size(); i++)
+	{
+		std::cout << path[i] << "  ";
+	}
+
+    // If the move timer exceeds the move delay
+	if (moveTimer >= moveDelay) 
+	{
+
+
+		// Reset the move timer
+		moveTimer = 0.0f;
+        // If the path is not empty
+        if (!path.empty()) 
+		{
+            // Move the object based on the next state in the path
+            char nextState = path.back();
+
+            switch (nextState) {
+            case 'u':
+                o->state = 'u'; // Up
+                break;
+            case 'd':
+                o->state = 'd'; // Down
+                break;
+            case 'l':
+                o->state = 'l'; // Left
+                break;
+            case 'r':
+                o->state = 'r'; // Right
+                break;
+            }
+
+            // Remove the last element from the path vector
+            path.pop_back();
+
+            // Update the enemy position in the level
+            Assets::level.updateEnemyPosition(o->getId());
+        }
+    }
+	else
+	{
+		path.clear();
+	}
+}
+
+
+
 
 void updateGhost(int difficulty) {
 
@@ -113,6 +175,15 @@ void updateGhost(int difficulty) {
 				moveRandomly(Assets::objects[i]);
 			}
 			elapsedTime -= 0.1f;
+			break;
+
+		case 3:
+			for (int i = 0; i < 4; i++)
+			{
+				moveBFS(Assets::objects[i],dt);
+				
+			}
+			elapsedTime -= 0.16f;
 			break;
 		default:
 			break;
