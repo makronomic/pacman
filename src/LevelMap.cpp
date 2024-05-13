@@ -411,8 +411,9 @@ std::vector<char> LevelMap::BFS(int enemyIndex) {
 	std::vector<char> path(totalNumOfNodes, ' ');
 
 	// Start BFS from enemy's current position
-	q.push(enemyNode[enemyIndex].id);
-	visited[enemyNode[enemyIndex].id] = true;
+	int startNode = enemyNode[enemyIndex].id;
+	q.push(startNode);
+	visited[startNode] = true;
 
 	while (!q.empty()) {
 		int currentNodeID = q.front();
@@ -447,10 +448,10 @@ std::vector<char> LevelMap::BFS(int enemyIndex) {
 		}
 	}
 
-	// Construct the path from player to enemy
+	// Construct the path from enemy to player
 	std::stack<char> reversePath;
 	int currentID = playerNode.id;
-	while (currentID != enemyNode[enemyIndex].id && currentID != -1) {
+	while (currentID != startNode && currentID != -1) {
 		reversePath.push(path[currentID]);
 		currentID = nodeMap[currentID].parent;
 	}

@@ -95,11 +95,15 @@ void moveRandomly(Object* o) {
 
 #include <chrono>
 
-void moveBFS(Object* o, float deltaTime)
+void moveBFS(Object* o)
 {
 	// Calculate the BFS path
 	std::vector<char> path = Assets::level.BFS(o->getId());
 
+	for (int i = 0; i < path.size(); i++)
+	{
+		std::cout << path[i] << " ";
+	}
 	// If the path is not empty
 	if (!path.empty())
 	{
@@ -137,16 +141,16 @@ void updateGhost(int difficulty) {
 			for (int i = 0; i < 4; i++) {
 				moveRandomly(Assets::objects[i]);
 			}
-			elapsedTime -= 0.1f;
+			elapsedTime -= 0.1f; //more speed
 			break;
 
 		case 3:
 			for (int i = 0; i < 4; i++)
 			{
-				moveBFS(Assets::objects[i],dt);
+				moveBFS(Assets::objects[i]);
 				
 			}
-			elapsedTime -= 0.16f;
+			elapsedTime -= 0.12f;
 			break;
 		default:
 			break;

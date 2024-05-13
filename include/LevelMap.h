@@ -19,7 +19,7 @@ public:
 	int id;
 	sf::Vector2f position;
 	CellType type;
-	//int parent; //for BFS path reconstruction
+	int parent; //for BFS path reconstruction
 };
 
 

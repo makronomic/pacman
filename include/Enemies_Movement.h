@@ -26,3 +26,4 @@ void dummyGhostSpawn();
 //bool canMoveToPosition(Object&, int, int);
 //Direction chooseNewDirection(Object&, Direction);
 void updateGhost(int difficulty);
+void moveBFS(Object* o);
