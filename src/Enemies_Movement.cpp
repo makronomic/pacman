@@ -91,6 +91,7 @@ void moveRandomly(Object* o) {
 	Assets::level.updateEnemyPosition(o->getId());
 }
 
+
 void updateGhost(int difficulty) {
 
 	static sf::Clock clock;

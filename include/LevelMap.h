@@ -19,7 +19,6 @@ public:
 	int id;
 	sf::Vector2f position;
 	CellType type;
-	bool has_food = false;
 	bool visited = false; //for BFS
 };
 

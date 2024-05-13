@@ -93,10 +93,14 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
 			case '#':
 				cell.type = CellType::WALL;
 				break;
+			case 'E':
+				cell.type = CellType::ENEMY;
+				level.enemyNode.push_back(cell);
+				level.enemyNode.back().id = nodeID;
+				break;
 			case '.':
 				cell.type = CellType::FOOD;
 				level.foodCount++;
-				cell.has_food = true;
 				break;
 			case 'P':
 				cell.type = CellType::PLAYER;
@@ -107,11 +111,7 @@ LevelMap LevelMap::createMapFromFile(const std::string& fileName)
 			case ' ':
 				cell.type = CellType::EMPTY;
 				break;
-			case 'E':
-				cell.type = CellType::ENEMY;
-				level.enemyNode.push_back(cell);
-				level.enemyNode.back().id = nodeID;
-				break;
+
 
 			}
 			level.addNode(nodeID, cell);
@@ -182,25 +182,39 @@ void LevelMap::createEdges(LevelMap& level) {
 	}
 }
 
-void LevelMap::updateEmptyNodes() {
-	for (int i = 0; i < nodeMap.size(); i++) {
-		for (int j = 0; j < 4; j++) {
-			// check the enemy condition?
-			if (
-				(nodeMap[i].id != playerNode.id)    //the node isnt a player
-				&& (nodeMap[i].type != WALL)           // the node isnt a wall
-				&& (nodeMap[i].id != enemyNode[j].id)     // the node isnt an enemy (added a for loop for each enemy)
-				&& (!nodeMap[i].has_food))             //the node still has food
+void LevelMap::updateEmptyNodes() 
+{
+	for (int i = 0; i < nodeMap.size(); i++) 
+	{
+
+		bool isEmpty = true; // Flag to track if the node should be empty
+
+		// Check if the node is an enemy
+		for (int j = 0; j < 4; j++) 
+		{
+
+			if (nodeMap[i].id == enemyNode[j].id && nodeMap[i].type == ENEMY) 
 			{
-				nodeMap[i].type = EMPTY;
+				isEmpty = false;
+				
 			}
+
+		}
+
+		// If the node isnt an enemy and it meets other conditions set it to empty
+		if (isEmpty && nodeMap[i].type != WALL && nodeMap[i].type != FOOD && nodeMap[i].id != playerNode.id) 
+		{
+			nodeMap[i].type = EMPTY;
 		}
 	}
-
 }
+
 
 void LevelMap::drawLevel() {
 	updateEmptyNodes();
+
+	int count = 0;
+	int playercount = 0;
 
 	for (int i = 0; i < nodeMap.size(); ++i) {
 
@@ -210,6 +224,9 @@ void LevelMap::drawLevel() {
 
 		sf::CircleShape food(3.0f);
 		sf::Vector2f foodPos;
+
+		if (nodeMap[i].type == ENEMY) count++;
+		if (nodeMap[i].type == PLAYER) playercount++;
 
 		switch (nodeMap[i].type) {
 
@@ -245,12 +262,12 @@ void LevelMap::drawLevel() {
 	for (int i = 0; i < 4; i++) {
 		Assets::objects[i]->getSprite().setPosition(enemyNode[i].position);
 		Assets::window.draw(Assets::objects[i]->getSprite());
-		std::cout << "Enemy Node " << i << " ID: " << enemyNode[i].id << std::endl;
+		//std::cout << "Enemy Node " << i << " ID: " << enemyNode[i].id << std::endl;
 	}
-
 
 	Assets::window.draw(Assets::player.getSprite());
 
+	std::cout << count <<  " " <<  playercount << std::endl;
 
 	// Draw score
 	sf::Font font;
@@ -313,23 +330,28 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 		return;
 	}
 
-	if (previousNode != nullptr) {
-		previousNode->has_food = true; // Food reappears
+	if (previousNode != nullptr)
+	{
+
 		previousNode->type = CellType::FOOD;
 		nodeMap[previousNode->id] = *previousNode; //update node map 
 		previousNode = nullptr; // Reset the pointer
+
 	}
 
 
-
 	// Check if the new node has food
-	if (nodeMap[newID].type == CellType::FOOD) {
+	if (nodeMap[newID].type == CellType::FOOD) 
+	{
 		previousNode = &nodeMap[newID]; // Store the node with food
-	} else if (nodeMap[newID].type == CellType::PLAYER) {
+	}
+	else if (nodeMap[newID].type == CellType::PLAYER)
+	{
 		nodeMap[playerNode.id].position = initialPlayerPos;
 		playerNode.position = initialPlayerPos;
 		gameOver = true;
 	}
+
 
 	// Update enemy position
 	enemyNode[enemyIndex].position = nodeMap[newID].position;
