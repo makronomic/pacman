@@ -105,7 +105,7 @@ void moveBFS(Object* o)
 		std::cout << path[i] << " ";
 	}
 	// If the path is not empty
-	if (!path.empty())
+	while (!path.empty())
 	{
 		// Move the object based on the next state in the path
 		char nextState = path.back();
@@ -150,7 +150,7 @@ void updateGhost(int difficulty) {
 				moveBFS(Assets::objects[i]);
 				
 			}
-			elapsedTime -= 0.12f;
+			elapsedTime -= 0.16f;
 			break;
 		default:
 			break;

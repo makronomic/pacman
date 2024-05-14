@@ -424,7 +424,7 @@ std::vector<char> LevelMap::BFS(int enemyIndex) {
 
 		// Check all the neighbours
 		for (int neighbourID : neighbours) {
-			if (!visited[neighbourID] && nodeMap[neighbourID].type != CellType::WALL) {
+			if (nodeMap[neighbourID].type != CellType::WALL && !visited[neighbourID]) {
 				visited[neighbourID] = true;
 				nodeMap[neighbourID].parent = currentNodeID;
 
@@ -449,19 +449,14 @@ std::vector<char> LevelMap::BFS(int enemyIndex) {
 	}
 
 	// Construct the path from enemy to player
-	std::stack<char> reversePath;
+	std::vector<char> finalPath;
 	int currentID = playerNode.id;
 	while (currentID != startNode && currentID != -1) {
-		reversePath.push(path[currentID]);
+		finalPath.push_back(path[currentID]);
 		currentID = nodeMap[currentID].parent;
 	}
 
-	// Convert stack to vector
-	std::vector<char> finalPath;
-	while (!reversePath.empty()) {
-		finalPath.push_back(reversePath.top());
-		reversePath.pop();
-	}
-
+	std::reverse(finalPath.begin(), finalPath.end());
 	return finalPath;
 }
+
