@@ -18,7 +18,7 @@ enum MenuState {
     LeaderboardMenuState,
     SettingsMenuState,
     GameLogicState,
-    nameEnterMenu,
+    
 };
 
 static MenuState currentMenuState;
@@ -37,7 +37,7 @@ private:
     sf::Texture menuBackgroundTexture;
     sf::Sprite menuBackground;
     sf::Text menuButton[NUM_OF_BUTTONS_MAINMENU];
-    sf::Font menuFont;
+
 
     sf::SoundBuffer clickBuffer; 
     sf::Sound clickSound;
@@ -62,7 +62,9 @@ private:
 
     
 public:
-   
+    void saveTextToFile(sf::RenderWindow&window);
+    bool enterName(sf::Event event, sf::RenderWindow& window);
+    sf::Font menuFont;
     void postGame(sf::RenderWindow& window,bool wining,sf::Event event);
     bool isMenuFinished();
     void returnToMenu();
