@@ -8,6 +8,7 @@ public:
 
     static bool isMenuMusicPlaying;
     static bool isIGMplaying;
+    static bool isWakaWaka;
     static sf::SoundBuffer clickBuffer; 
     static sf::SoundBuffer B_deathSound;
     static sf::SoundBuffer B_wakaWAKA;

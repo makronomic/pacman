@@ -6,6 +6,7 @@ using namespace std;
 
 bool soundSys::isMenuMusicPlaying = true;
 bool soundSys::isIGMplaying = false;
+bool soundSys::isWakaWaka = false;
 
 sf::SoundBuffer soundSys::clickBuffer;
 sf::SoundBuffer soundSys::B_deathSound;
@@ -64,9 +65,13 @@ void soundSys::playsound(int z) {
 		clickSound.play();
 	}
 	else if (z == 2) {
-		menuMusic.setVolume(50);
-		wakaWAKA.play();
-		wakaWAKA.setLoop(true);
+		if (!isWakaWaka)
+		{
+			menuMusic.setVolume(50);
+			wakaWAKA.play();
+			wakaWAKA.setLoop(true);
+			isWakaWaka = true;
+		}
 	}
 	else {
 		deathSound.play();
@@ -78,6 +83,7 @@ void soundSys::stopSound(int w) {
 	}
 	else if (w == 2) {
 		wakaWAKA.stop();
+		isWakaWaka = false;
 	}
 	else {
 		deathSound.stop();
