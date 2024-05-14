@@ -11,6 +11,8 @@
 #include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
+#include<saving.h>
+
 
 // helper function during development, returns mouse position in the window when
 // you click anywhere
@@ -106,6 +108,50 @@ int main() {
 				}
 				// DEBUGGING
 
+				// DEBUGGING
+				if (Assets::keyBuf.count(
+					sf::Keyboard::G)) // simulate game over during development just
+									  // for testing
+				{
+					Assets::level.gameOver = true;
+				}
+
+				if (Assets::keyBuf.count(
+					sf::Keyboard::W)) // simulate winning during development just
+									  // for testing
+				{
+					Assets::level.foodCount = 0;
+					Assets::level.gameOver = true;
+				}
+				// DEBUGGING
+
+			} else if (Assets::level.isGameOver() &&
+					   Assets::level.getFoodCount() > 0) // LOSING CASE
+				
+			{
+				
+				mainMenu.postGame(Assets::window,false,event);
+			  // Game over, check for replay or return to main menu
+				if (Assets::keyBuf.count(sf::Keyboard::R)) // RESTART
+				{
+					Assets::player.state = 'i'; // to stop player from moving immediately
+												// after the game restarts
+					fileName = "resources/world" + std::to_string(chosenLevel) + ".txt";
+					Assets::level = Assets::level.createMapFromFile(fileName);
+				} else if (Assets::keyBuf.count(sf::Keyboard::E)) {
+					Assets::player.state = 'i';
+					mainMenu.returnToMenu();
+				}
+				else if (Assets::keyBuf.count(sf::Keyboard::V)) {
+					Assets::player.state = 'i';
+				
+				}
+			} else if (Assets::level.getFoodCount() == 0 &&
+					   Assets::level.isGameOver()) // WINNING CASE
+			{
+				//testing saving options
+				//x=mainMenu.enterName( event,Assets::window);
+				mainMenu.saveTextToFile(Assets::window);
 			} else if (Assets::level.isGameOver() &&
 					   Assets::level.getFoodCount() > 0) // LOSING CASE
 			{
@@ -130,17 +176,21 @@ int main() {
 				soundSys::playMusic(1);
 				std::cout << "YOU WON!";
 
-				if (Assets::keyBuf.count(
-					sf::Keyboard::N)) // NEXT LEVEL, still needs to save in file
-									  // before going to next level
-				{
-					Assets::player.state = 'i'; // to stop player from moving immediately
-												// after the game restarts
-					mainMenu.setChosenLevel(mainMenu.getChosenLevel() + 1);
-					chosenLevel = mainMenu.getChosenLevel();
-					fileName = "resources/world" + std::to_string(chosenLevel) + ".txt";
-					Assets::level = Assets::level.createMapFromFile(fileName);
-				}
+				//	window after wining or losing the game
+				mainMenu.postGame(Assets::window, true, event);
+					std::cout << "YOU WON!";
+
+					if (Assets::keyBuf.count(
+						sf::Keyboard::N)) // NEXT LEVEL, still needs to save in file
+						// before going to next level
+					{
+						Assets::player.state = 'i'; // to stop player from moving immediately
+						// after the game restarts
+						mainMenu.setChosenLevel(mainMenu.getChosenLevel() + 1);
+						chosenLevel = mainMenu.getChosenLevel();
+						fileName = "resources/world" + std::to_string(chosenLevel) + ".txt";
+						Assets::level = Assets::level.createMapFromFile(fileName);
+					}
 
 				if (Assets::keyBuf.count(
 					sf::Keyboard::E)) // return to main menu, should add save in

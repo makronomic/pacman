@@ -7,6 +7,10 @@
 #include <map>
 #include <thread>
 #include <vector>
+#include <string>
+#include <fstream>
+#include <LevelMap.h>
+
 
 
 //HELPER FUNCTIONS SECTION
@@ -59,6 +63,28 @@ void MainMenu::setChosenLevel(int value)
 	{
 		chosenLevel = value;
 	}
+}
+
+bool MainMenu::isMenuFinished()
+{
+	
+	return menuFinished; //once level and difficulty isnt equal to 0, run the game
+
+}
+
+void MainMenu::returnToMenu()
+{
+	menuFinished = false;
+	chosenDifficulty = 0;
+	chosenLevel = 0;
+	std::cout << chosenLevel << " "<< chosenDifficulty;
+	playMusic();
+	currentMenuState = MainMenuState;
+}
+
+void MainMenu::stopMusic() {
+	menuMusic.stop();
+	isMenuMusicPlaying = false;
 }
 
 bool MainMenu::isMenuFinished()
@@ -448,8 +474,41 @@ void MainMenu::showSettings(sf::RenderWindow& window) {
 }
 
 
+void MainMenu::postGame(sf::RenderWindow& window, bool wining, sf::Event event)
+{
+	sf::Text scores, instructions;
+	window.draw(menuBackground);
+	scores.setString("hold V to view scoreboard");
+	scores.setFont(menuFont);
+	scores.setPosition(200, 250);
+	window.draw(scores);
+
+	if (wining) {
+
+		instructions.setString("congratulations!!\n\n\nPress R to replay\nPress E to exit to main menu\nPress N to go to next level");
+		instructions.setFont(menuFont);
+		instructions.setPosition(200, 350);
+		window.draw(instructions);
+	}
+	else
+	{
+		instructions.setString("Better luck next time\n\n\nPress R to replay\nPress E to exit to main menu");
+		instructions.setFont(menuFont);
+		instructions.setPosition(200, 350);
+		window.draw(instructions);
+	}
+	
 
 
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::V))
+	{
+		window.clear();
+		window.draw(menuBackground);
+		showHighScores(window);
+		
+
+	}
+}
 //FUNCTION THAT HANDLES DRAWING OF MENUS ACCORDING TO WHAT THE USER PRESSED
 void MainMenu::drawMenu(sf::RenderWindow& window) {
 	if (currentMenuState != GameLogicState)
@@ -485,8 +544,91 @@ void MainMenu::drawMenu(sf::RenderWindow& window) {
 			showSettings(window);
 
 			break;
+	
 
 		}
+	}
+}
+
+//a trial to make a textbox (in cas you can use it(also freezes the screen))
+//test using winning case
+bool MainMenu::enterName(sf::Event event,sf::RenderWindow& window) {
+	
+	sf::RectangleShape textBoxBackground;
+	sf::Text textBoxText;
+	textBoxText.setFont(menuFont); // Assuming you have a loaded font
+	textBoxText.setCharacterSize(24);
+	std::string enteredText; // String to store user input
+
+
+	textBoxBackground.setFillColor(sf::Color::White);
+	textBoxBackground.setOutlineThickness(2.f);
+	textBoxBackground.setOutlineColor(sf::Color::Black);
+	textBoxBackground.setSize(sf::Vector2f(200.f, 50.f)); // Adjust size as needed
+
+	// Set initial position for the text box
+	textBoxBackground.setPosition(100.f, 100.f);
+
+
+	
+	     if (event.type == sf::Event::TextEntered && enteredText.length() < 20) {
+			// Limit text box to 20 characters (adjust as needed)
+			if (event.text.unicode > 31 && event.text.unicode < 127) {
+				enteredText += static_cast<char>(event.text.unicode);
+			}
+		}
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Backspace) {
+			// Handle backspace key to delete characters
+			if (!enteredText.empty()) {
+				enteredText.pop_back();
+
+			}
+		}
+	
+		textBoxText.setString(enteredText); // Update text object with entered text
+		
+		window.clear();
+		window.draw(textBoxBackground);
+		window.draw(textBoxBackground);
+		window.draw(textBoxText);
+		window.display();
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
+		{
+			return true;
+
+		}
+		
+	
+
+}
+
+//saving to files and entering name through terminal(crashes and save only last name and score entered and delete the previous(idk why))
+//test using winning case
+std::ofstream file("resources/scores.txt", std::ios::app);
+std::string textToSave; // String containing the text to save
+std::string filename = "resources/scores.txt"; // Change filename as needed
+
+void MainMenu::saveTextToFile(sf::RenderWindow& window) {
+	LevelMap foodCount;
+	sf::Text text("please enter your name",menuFont,20);
+	//std::string score(foodCount);
+	std::cin >> textToSave;
+	//std::cout<< foodCount;
+	//std::cout<< score;
+	window.clear();
+	window.draw(menuBackground);
+	window.draw(text);
+	std::ofstream file(filename);
+	int score = foodCount.foodCount;
+	if (file.is_open()) {
+		
+		file << textToSave<<"/"; // Write the text to the file
+		file << (score); // Write the text to the file
+		file.close();
+	}
+	else {
+		// Handle error opening file for writing (optional)
 	}
 }
 
