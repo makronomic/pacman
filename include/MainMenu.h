@@ -18,6 +18,7 @@ enum MenuState {
     LeaderboardMenuState,
     SettingsMenuState,
     GameLogicState,
+    nameEnterMenu,
 };
 
 static MenuState currentMenuState;
@@ -26,10 +27,12 @@ class MainMenu
 {
 
 private:
-    int chosenLevel;
-    int chosenDifficulty;
+ 
+    int chosenLevel = 0;
+    int chosenDifficulty = 0;
     int selectedButton = 0;
     bool isMenuMusicPlaying;
+    bool menuFinished = chosenDifficulty != 0 && chosenLevel != 0;
 
     sf::Texture menuBackgroundTexture;
     sf::Sprite menuBackground;
@@ -40,6 +43,7 @@ private:
     sf::Sound clickSound;
 
     sf::Music menuMusic;
+
 
     int getSelectedButton(sf::RenderWindow& window, const sf::Text& button, int index);
     bool checkIfPressed(sf::RenderWindow& window, const sf::Text& menuButton);
@@ -57,10 +61,13 @@ private:
     void showSettings(sf::RenderWindow& window);
 
     
-
 public:
-
+   
+    void postGame(sf::RenderWindow& window,bool wining,sf::Event event);
+    bool isMenuFinished();
+    void returnToMenu();
     int getChosenLevel();
+    void setChosenLevel(int value);
     int getChosenDifficulty();
     void drawMenu(sf::RenderWindow& window);
     void stopMusic();
