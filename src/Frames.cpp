@@ -5,6 +5,6 @@ int Frames::frames = 0;
 
 int Frames::framecounter() {
 	frames++;
-	frames %= 3601;
+	frames %= 60;
 	return(frames);
 }

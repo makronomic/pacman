@@ -25,7 +25,13 @@
     <ClCompile Include="src\setup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelMap.cpp">
+    <ClCompile Include="src\Enemies_Movement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LevelMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\soundSys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,18 +66,21 @@
     <ClInclude Include="include\LevelMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Enemies_Movement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\soundSys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\background.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="resources\ghost.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="resources\ghosts.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="resources\pacman.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\ghosts.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -88,6 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\scores.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resources\world1.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resources\world2.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="resources\world3.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

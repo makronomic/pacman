@@ -1,11 +1,12 @@
 #include "MainMenu.h"
+#include "soundSys.h"
+
 #include <chrono>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <thread>
 #include <vector>
-
 
 
 //HELPER FUNCTIONS SECTION
@@ -15,7 +16,6 @@ int MainMenu::getSelectedButton(sf::RenderWindow& window, const sf::Text& button
 		selectedButton = index;
 		return selectedButton;
 	}
-
 	return -1;
 }
 
@@ -31,7 +31,8 @@ bool MainMenu::checkIfPressed(sf::RenderWindow& window, const sf::Text& button) 
 
 	bool pressed = isMouseInBounds && isMouseButtonPressed;
 	if (pressed && !isSoundPlaying) {
-		clickSound.play();
+		soundSys::playsound(1);
+		//clickSound.play();
 		isSoundPlaying = true;
 	} else if (!isMouseButtonPressed) {
 		isSoundPlaying = false; // Reset isSoundPlaying only when the button is not pressed
@@ -73,21 +74,10 @@ void MainMenu::returnToMenu()
 	chosenDifficulty = 0;
 	chosenLevel = 0;
 	std::cout << chosenLevel << " "<< chosenDifficulty;
-	playMusic();
+	soundSys::playMusic(1);
 	currentMenuState = MainMenuState;
 }
 
-void MainMenu::stopMusic() {
-	menuMusic.stop();
-	isMenuMusicPlaying = false;
-}
-
-void MainMenu::playMusic() {
-	menuMusic.setVolume(50);
-	menuMusic.play();
-	menuMusic.setLoop(true);
-	isMenuMusicPlaying = true;
-}
 
 //MAIN MENU SECTION
 MainMenu::MainMenu(int numOfButtons) {
@@ -103,14 +93,7 @@ MainMenu::MainMenu(int numOfButtons) {
 
 	menuBackground.setTexture(menuBackgroundTexture);
 
-
-	if (!clickBuffer.loadFromFile("resources/audio/select.ogg")) {
-		std::cout << "UNABLE TO LOAD CLICK SOUND";
-	}
-	clickSound.setBuffer(clickBuffer);
-
-	menuMusic.openFromFile("resources/audio/theme.ogg");
-	playMusic();
+	soundSys::playMusic(1);
 
 	//set all buttons to same font
 	for (int i = 0; i < numOfButtons; i++) {
@@ -421,23 +404,23 @@ void MainMenu::showSettings(sf::RenderWindow& window) {
 
 	sf::Text musicText;
 	musicText.setFont(menuFont);
-	musicText.setFillColor(isMenuMusicPlaying ? sf::Color::Green : sf::Color::Red);
+	musicText.setFillColor(soundSys::isMenuMusicPlaying ? sf::Color::Green : sf::Color::Red);
 	musicText.setScale(1.5, 1.5);
-	musicText.setString(isMenuMusicPlaying ? "MUSIC ON" : "MUSIC OFF");
+	musicText.setString(soundSys::isMenuMusicPlaying ? "MUSIC ON" : "MUSIC OFF");
 	musicText.setPosition(300, 300);
 
 	// Check if music text is pressed
 	if (checkIfPressed(window, musicText)) {
 		std::this_thread::sleep_for(std::chrono::milliseconds(300));
 
-		if (isMenuMusicPlaying) //disable music
+		if (soundSys::isMenuMusicPlaying) //disable music
 		{
-			stopMusic();
-			isMenuMusicPlaying = false;
+			soundSys::stopMusic(1);
+			soundSys::isMenuMusicPlaying = false;
 		} else //enable music
 		{
-			playMusic();
-			isMenuMusicPlaying = true;
+			soundSys::playMusic(1);
+			soundSys::isMenuMusicPlaying = true;
 		}
 	}
 

@@ -156,6 +156,7 @@
     <ClCompile Include="src\motion.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\setup.cpp" />
+    <ClCompile Include="src\soundSys.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Animation.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="include\Enemies_Movement.h" />
     <ClInclude Include="include\Frames.h" />
     <ClCompile Include="src\MainMenu.cpp" />
+    <ClInclude Include="include\soundSys.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\LevelMap.h" />
