@@ -369,7 +369,9 @@ void LevelMap::updateEnemyPosition(int enemyIndex) {
 
 
 
-bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) {
+bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) 
+{
+
 	char entityState = 'i';
 	if (nodeMap[prevID].type == CellType::PLAYER) {
 		entityState = Assets::player.state;  //get player state
@@ -404,11 +406,18 @@ bool LevelMap::isValidMove(int& newID, int prevID, int enemyIndex) {
 	return std::find(neighbours.begin(), neighbours.end(), newID) != neighbours.end();
 }
 
-std::vector<char> LevelMap::BFS(int enemyIndex) {
+std::vector<char> LevelMap::BFS(int enemyIndex) 
+{
+
+
 	std::queue<int> q;
 	std::vector<bool> visited(totalNumOfNodes, false);
 	std::vector<char> path(totalNumOfNodes, ' ');
 
+	if (playerNode.position == initialPlayerPos)
+	{
+		return path;
+	}
 	// Start BFS from enemy's current position
 	int startNode = enemyNode[enemyIndex].id;
 	q.push(startNode);

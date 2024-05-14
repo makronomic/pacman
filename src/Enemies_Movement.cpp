@@ -120,6 +120,9 @@ void moveBFS(Object* o)
 
 void updateGhost(int difficulty) {
 
+
+
+
 	static sf::Clock clock;
 	static float elapsedTime = 0.0f;
 	float dt = clock.restart().asSeconds(); //deltatime
@@ -145,7 +148,7 @@ void updateGhost(int difficulty) {
 			for (int i = 0; i < 4; i++)
 			{
 				moveBFS(Assets::objects[i]);
-				
+
 			}
 			elapsedTime -= 0.20f;
 			break;
@@ -153,4 +156,5 @@ void updateGhost(int difficulty) {
 			break;
 		}
 	}
+
 }

@@ -141,6 +141,7 @@ int main() {
 				{
 					Assets::player.state = 'i';
 					mainMenu.returnToMenu();
+
 				}
 			}
 		}
