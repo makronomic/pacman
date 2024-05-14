@@ -11,7 +11,6 @@
 #include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
-#include<saving.h>
 
 
 // helper function during development, returns mouse position in the window when
@@ -151,10 +150,11 @@ int main() {
 			{
 				//testing saving options
 				//x=mainMenu.enterName( event,Assets::window);
-				mainMenu.saveTextToFile(Assets::window);
+			//	mainMenu.saveTextToFile(Assets::window);
 			} else if (Assets::level.isGameOver() &&
 					   Assets::level.getFoodCount() > 0) // LOSING CASE
 			{
+				mainMenu.postGame(Assets::window, true, event);
 				soundSys::stopMusic(2);
 				soundSys::stopSound(2);
 				soundSys::playsound(3);

@@ -67,31 +67,8 @@ void MainMenu::setChosenLevel(int value)
 
 bool MainMenu::isMenuFinished()
 {
-	
+
 	return menuFinished; //once level and difficulty isnt equal to 0, run the game
-
-}
-
-void MainMenu::returnToMenu()
-{
-	menuFinished = false;
-	chosenDifficulty = 0;
-	chosenLevel = 0;
-	std::cout << chosenLevel << " "<< chosenDifficulty;
-	playMusic();
-	currentMenuState = MainMenuState;
-}
-
-void MainMenu::stopMusic() {
-	menuMusic.stop();
-	isMenuMusicPlaying = false;
-}
-
-bool MainMenu::isMenuFinished()
-{
-	
-	return menuFinished; //once level and difficulty isnt equal to 0, run the game
-
 }
 
 void MainMenu::returnToMenu()

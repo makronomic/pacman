@@ -1,6 +1,7 @@
 #include "assets.h"
 #include "Enemies_Movement.h"
 #include "LevelMap.h"
+#include "soundSys.h"
 #include <iostream>
 #include <thread>
 #include <queue>
