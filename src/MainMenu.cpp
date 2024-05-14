@@ -6,7 +6,8 @@
 #include <thread>
 #include <vector>
 #include <string>
-#include <fstream> // For file operations
+#include <fstream>
+#include <LevelMap.h>
 
 
 
@@ -490,7 +491,7 @@ void MainMenu::postGame(sf::RenderWindow& window, bool wining, sf::Event event)
 		instructions.setPosition(200, 350);
 		window.draw(instructions);
 	}
-	bool x = false;
+	
 
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::V))
@@ -498,22 +499,7 @@ void MainMenu::postGame(sf::RenderWindow& window, bool wining, sf::Event event)
 		window.clear();
 		window.draw(menuBackground);
 		showHighScores(window);
-		x = true;
-
-
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
-			}
-			else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::V) {
 		
-				window.clear();
-				window.draw(menuBackground);
-				showHighScores(window);
-
-			}
-		}
-
 
 	}
 }
@@ -552,13 +538,91 @@ void MainMenu::drawMenu(sf::RenderWindow& window) {
 			showSettings(window);
 
 			break;
-	/*	case nameEnterMenu:
-			window.draw(menuBackground);
-			enterName();
-			break;
-			*/
+	
 
 		}
+	}
+}
+
+//a trial to make a textbox (in cas you can use it(also freezes the screen))
+//test using winning case
+bool MainMenu::enterName(sf::Event event,sf::RenderWindow& window) {
+	
+	sf::RectangleShape textBoxBackground;
+	sf::Text textBoxText;
+	textBoxText.setFont(menuFont); // Assuming you have a loaded font
+	textBoxText.setCharacterSize(24);
+	std::string enteredText; // String to store user input
+
+
+	textBoxBackground.setFillColor(sf::Color::White);
+	textBoxBackground.setOutlineThickness(2.f);
+	textBoxBackground.setOutlineColor(sf::Color::Black);
+	textBoxBackground.setSize(sf::Vector2f(200.f, 50.f)); // Adjust size as needed
+
+	// Set initial position for the text box
+	textBoxBackground.setPosition(100.f, 100.f);
+
+
+	
+	     if (event.type == sf::Event::TextEntered && enteredText.length() < 20) {
+			// Limit text box to 20 characters (adjust as needed)
+			if (event.text.unicode > 31 && event.text.unicode < 127) {
+				enteredText += static_cast<char>(event.text.unicode);
+			}
+		}
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Backspace) {
+			// Handle backspace key to delete characters
+			if (!enteredText.empty()) {
+				enteredText.pop_back();
+
+			}
+		}
+	
+		textBoxText.setString(enteredText); // Update text object with entered text
+		
+		window.clear();
+		window.draw(textBoxBackground);
+		window.draw(textBoxBackground);
+		window.draw(textBoxText);
+		window.display();
+		
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter))
+		{
+			return true;
+
+		}
+		
+	
+
+}
+
+//saving to files and entering name through terminal(crashes and save only last name and score entered and delete the previous(idk why))
+//test using winning case
+std::ofstream file("resources/scores.txt", std::ios::app);
+std::string textToSave; // String containing the text to save
+std::string filename = "resources/scores.txt"; // Change filename as needed
+
+void MainMenu::saveTextToFile(sf::RenderWindow& window) {
+	LevelMap foodCount;
+	sf::Text text("please enter your name",menuFont,20);
+	//std::string score(foodCount);
+	std::cin >> textToSave;
+	//std::cout<< foodCount;
+	//std::cout<< score;
+	window.clear();
+	window.draw(menuBackground);
+	window.draw(text);
+	std::ofstream file(filename);
+	int score = foodCount.foodCount;
+	if (file.is_open()) {
+		
+		file << textToSave<<"/"; // Write the text to the file
+		file << (score); // Write the text to the file
+		file.close();
+	}
+	else {
+		// Handle error opening file for writing (optional)
 	}
 }
 
