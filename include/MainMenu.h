@@ -29,19 +29,12 @@ private:
     int chosenLevel = 0;
     int chosenDifficulty = 0;
     int selectedButton = 0;
-    bool isMenuMusicPlaying;
     bool menuFinished = chosenDifficulty != 0 && chosenLevel != 0;
 
     sf::Texture menuBackgroundTexture;
     sf::Sprite menuBackground;
     sf::Text menuButton[NUM_OF_BUTTONS_MAINMENU];
     sf::Font menuFont;
-
-    sf::SoundBuffer clickBuffer; 
-    sf::Sound clickSound;
-
-    sf::Music menuMusic;
-
 
     int getSelectedButton(sf::RenderWindow& window, const sf::Text& button, int index);
     bool checkIfPressed(sf::RenderWindow& window, const sf::Text& menuButton);
@@ -68,8 +61,6 @@ public:
     void setChosenLevel(int value);
     int getChosenDifficulty();
     void drawMenu(sf::RenderWindow& window);
-    void stopMusic();
-    void playMusic();
     MainMenu(int numOfButtons);
     MainMenu(int width, int height);
     ~MainMenu();

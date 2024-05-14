@@ -15,6 +15,9 @@
 //		std::make_pair(ID::GHOST_O, false)
 //};
 
+int Object::framechange = 1;
+int Object::maxframe = 6;
+
 Object::Object(const sf::Vector2f& pPos, float pSpd, const Type& pType) : pos { pPos }, spd { pSpd }, type { pType }, spr {}, ss {} {
 	int freeIndex = 1;
 	switch (pType) {
@@ -64,9 +67,9 @@ int Object::getId() const {
 	return id;
 }
 
-int Object::maxframe() {
+/*int Object::maxframe() {
 	return 6;
-}
+}*/
 
 
 

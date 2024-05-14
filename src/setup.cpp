@@ -1,4 +1,5 @@
 #include "setup.h"
+#include "soundSys.h"
 
 // definitions
 int Assets::res = 800;
@@ -67,6 +68,8 @@ void setup() {
 	Assets::objects.push_back(&Assets::enemyPink);
 	Assets::objects.push_back(&Assets::enemyBlue);
 	Assets::objects.push_back(&Assets::enemyOrange);
+
+	soundSys::setup();
 }
 
 LevelMap Assets::level;

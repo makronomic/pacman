@@ -33,7 +33,7 @@ public:
 
 	char state = 'r';
 
-	int framechange = 5;
+	static int framechange;
 
 	void setPos(float, float);
 
@@ -47,7 +47,7 @@ public:
 
 	int getId() const;
 
-	int maxframe();
+	static int maxframe;
 
 
 

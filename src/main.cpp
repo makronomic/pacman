@@ -7,6 +7,7 @@
 #include "motion.h"
 #include "Object.h"
 #include "setup.h"
+#include "soundSys.h"
 #include <iostream>
 #include <set>
 #include <SFML/Graphics.hpp>
@@ -72,7 +73,8 @@ int main() {
 		else {
 			if (!Assets::level.isGameOver()) {
 			  // Stop the main menu music and switch to game logic state
-				mainMenu.stopMusic();
+				soundSys::stopMusic(1);
+				soundSys::playMusic(2);
 				currentMenuState = GameLogicState;
 
 				// Update game logic
@@ -107,6 +109,9 @@ int main() {
 			} else if (Assets::level.isGameOver() &&
 					   Assets::level.getFoodCount() > 0) // LOSING CASE
 			{
+				soundSys::stopMusic(2);
+				soundSys::stopSound(2);
+				soundSys::playsound(3);
 			  // Game over, check for replay or return to main menu
 				if (Assets::keyBuf.count(sf::Keyboard::R)) // RESTART
 				{
@@ -121,6 +126,8 @@ int main() {
 			} else if (Assets::level.getFoodCount() == 0 &&
 					   Assets::level.isGameOver()) // WINNING CASE
 			{
+				soundSys::stopMusic(2);
+				soundSys::playMusic(1);
 				std::cout << "YOU WON!";
 
 				if (Assets::keyBuf.count(

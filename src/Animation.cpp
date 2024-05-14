@@ -2,9 +2,11 @@
 #include "Frames.h"
 #include "motion.h"
 #include "object.h"
+#include "soundSys.h"
 #include <iostream>
 using namespace std;
 
+//int counter = Frames::framecounter();
 // enemydirection enter frame number multiple of 2
 // ghostcolor enter 0 or multiples of 1 to change colors
 
@@ -17,19 +19,28 @@ void Animation::enemyState(Object& x, int enemyDirection, int ghostColor, int& c
 		x.Object::currentframe = (x.Object::currentframe % 2) + enemyDirection;
 	}
 }
-
+int counter;
+int y=0;
 void Animation::motionPicture(Object& x) {
-	int counter = Frames::framecounter();
 
 	if (x.getType() == Object::Type::PLAYER) {
 
-		if (counter % x.framechange == 0) {
-			x.getSprite().setTextureRect(
-				sf::IntRect(32 * x.Object::currentframe, 0, 32, 32));
-			x.Object::currentframe++;
-			x.Object::currentframe %= x.maxframe();
-			//std::cout << "f: " << x.Object::currentframe << "\n";
-			//std::cout << "c: " << counter << "\n";
+		if (x.Object::alive)
+		{
+			soundSys::playMusic(2);           //play in game music  (NOT WORKING)
+			soundSys::playsound(2);			  //play waka waka		(NOT WORKING)
+
+			if (counter % x.Object::framechange == 0)
+			{
+				x.Object::currentframe++;
+				x.currentframe %= x.Object::maxframe;
+				//cout << x.currentframe << "\n";
+				x.getSprite().setTextureRect(
+					sf::IntRect(32 * x.currentframe, 0, 32, 32));
+			}
+			counter++;
+			counter %= 60;
+			cout << counter<<"\n";
 		}
 		if (x.state == 'u') {
 			x.getSprite().setOrigin(x.getSprite().getLocalBounds().height, 0);
