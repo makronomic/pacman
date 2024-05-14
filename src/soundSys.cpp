@@ -50,10 +50,12 @@ void soundSys::playMusic(int y) {
 		isMenuMusicPlaying = true;
 	}
 	else {
-		inGameMusic.setVolume(50);
-		inGameMusic.play();
-		inGameMusic.setLoop(true);
-		isIGMplaying = true;
+		if (!isIGMplaying) {
+			inGameMusic.setVolume(50);
+			inGameMusic.play();
+			inGameMusic.setLoop(true);
+			isIGMplaying = true;
+	}
 	}
 }
 
