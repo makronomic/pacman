@@ -4,7 +4,6 @@
 #include <iostream>
 #include <thread>
 #include <queue>
-#include <stack>
 
 const int TILE_WIDTH = 32;
 const int TILE_HEIGHT = 32;

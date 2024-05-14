@@ -87,7 +87,6 @@ int main() {
 				Animation::motionPicture(Assets::enemyOrange);
 
 				Assets::level.drawLevel();
-
 				// DEBUGGING
 				if (Assets::keyBuf.count(
 					sf::Keyboard::G)) // simulate game over during development just

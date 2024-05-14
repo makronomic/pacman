@@ -100,10 +100,7 @@ void moveBFS(Object* o)
 	// Calculate the BFS path
 	std::vector<char> path = Assets::level.BFS(o->getId());
 
-	for (int i = 0; i < path.size(); i++)
-	{
-		std::cout << path[i] << " ";
-	}
+
 	// If the path is not empty
 	while (!path.empty())
 	{
@@ -150,7 +147,7 @@ void updateGhost(int difficulty) {
 				moveBFS(Assets::objects[i]);
 				
 			}
-			elapsedTime -= 0.16f;
+			elapsedTime -= 0.20f;
 			break;
 		default:
 			break;
